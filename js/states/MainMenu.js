@@ -14,7 +14,10 @@ MainMenu.prototype = {
         game.load.spritesheet('button','button.png', 512, 512);
 
         // Load Character Atlas
-        // Load Character Atlas
+        game.load.atlas('twinLight','twinLight.png','twinLight.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+        game.load.atlas('twinDark','twinDark.png','twinDark.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+
+        // Load Other Atlas
         game.load.atlas('buttons', 'buttons.png', 'buttons.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
         // game.load.atlas('birds', 'birds.png', 'birds.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
         
@@ -37,4 +40,4 @@ MainMenu.prototype = {
             game.state.start('Play');
         }
     }
-}
+};
