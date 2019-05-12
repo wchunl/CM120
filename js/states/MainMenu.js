@@ -4,7 +4,7 @@ var MainMenu = function(game) {};
 MainMenu.prototype = {
     preload: function() {
         game.load.path = 'assets/img/';
-        
+
         // Load Sprites
         game.load.images(['sky','bounds','cloud','diamond'],
         ['sky.png','platform.png','cloud.png','diamond.png']);
@@ -20,6 +20,10 @@ MainMenu.prototype = {
         // Load Other Atlas
         game.load.atlas('buttons', 'buttons.png', 'buttons.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
         // game.load.atlas('birds', 'birds.png', 'birds.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+
+        game.load.path = 'assets/audio/';
+        // Load audio
+        game.load.audio('MainMenuTheme', ['MainMenuTheme.mp3']);
         
         console.log('Assets loaded');
     },
@@ -27,6 +31,8 @@ MainMenu.prototype = {
         // Enable Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
+        this.track = game.add.audio('MainMenuTheme');
+        this.track.play('', 0, 1, false);
         // Display Main Menu Text
         game.add.text(16,16, 'Main Menu', { fontSize: '32px', fill: '#fff' });
         game.add.text(16,56, 'Dodge the clouds! They speed up every 10 seconds.', { fontSize: '32px', fill: '#fff' });
