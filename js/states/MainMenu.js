@@ -43,6 +43,7 @@ MainMenu.prototype = {
         // Switch states if spacebar is pressed
         var spacebar = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         if(spacebar.isDown) {
+        	this.track.pause();
             game.state.start('Play');
         }
     }
