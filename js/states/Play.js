@@ -15,7 +15,7 @@ Play.prototype = {
 
         
         // Create and display the player
-        this.player = new Player(game, 32, game.world.height/2, 'dude');
+        this.player = new Player(game, 32, game.world.height - 96, 'dude');
         game.add.existing(this.player);
         
         // Baddie Quicktime Module
@@ -27,7 +27,7 @@ Play.prototype = {
             baddie.body.gravity.y = 300;
             // Offset baddie collision bounds
             var sizex = 100; var sizey = 100;
-            baddie.body.setSize(sizex,sizey, (sizex*-1) - 30, 32-sizey)
+            baddie.body.setSize(sizex,sizey, (sizex*-1) - 30, 32-sizey);
             // Baddie animations
             baddie.animations.add('left', [0, 1], 10, true);
             baddie.animations.play('left');
@@ -35,7 +35,7 @@ Play.prototype = {
         
         
         // Create and display autopath enemy
-        this.enemy = new Enemy(game, 100, 400, 'dude')
+        this.enemy = new Enemy(game, 100, 400, 'dude');
         game.add.existing(this.enemy);
 
         
@@ -44,12 +44,7 @@ Play.prototype = {
         platforms.enableBody = true;
         
         // Ground
-        createPlatform(0, 440, 2.5, 0.5);
-
-        createPlatform(250,350, 0.5, 0.5);
-
-
-
+        createLevel();
 
     },
     update: function() {
@@ -70,7 +65,7 @@ Play.prototype = {
 }
 
 function createPlatform (pos_x, pos_y, scale_x, scale_y) {
-    var platform = platforms.create(pos_x, pos_y, 'bounds');
+    var platform = platforms.create(pos_x, game.height - pos_y, 'bounds');
     platform.body.immovable = true;
     platform.scale.setTo(scale_x, scale_y);
 }
@@ -85,3 +80,33 @@ function createPlatform (pos_x, pos_y, scale_x, scale_y) {
 //     if (left) baddie.animations.play('left');
 //     else baddie.animations.play('right');
 // }
+
+function createLevel() {
+    console.log('Creating Level...');
+
+    const n = 32;
+    createPlatform(0, 2*n, 4, 2);
+    createPlatform(0,14*n, 0.5, 10);
+
+    createPlatform(10*n,3*n, 0.1, 1);
+    createPlatform(13*n,5*n, 0.1, 3);
+    createPlatform(16*n,7*n, 0.1, 3);
+    createPlatform(19*n,9*n, 0.1, 5);
+    createPlatform(22*n,9*n, 0.1, 7);
+
+    createPlatform(26*n,14*n, 0.3, 3);
+
+    createPlatform(26*n,8*n, 0.3, 3);
+    createPlatform(26*n,14*n, 0.3, 3);
+
+    createPlatform(31*n,5*n, 0.1, 1);
+    createPlatform(31*n,11*n, 0.1, 1);
+
+    createPlatform(20*n,15*n, 0.4, 1);
+
+    createPlatform(16*n,14*n, 0.1, 1);
+    createPlatform(11*n,15*n, 0.1, 1);
+    createPlatform(5*n,14*n, 0.2, 1);
+
+    console.log('Level Created!');
+}
