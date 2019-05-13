@@ -23,7 +23,7 @@ Play.prototype = {
         baddies.enableBody = true;
         for(var i = 1; i <= 2; i++) {
             // Create and display baddie
-            var baddie = baddies.create(400 * i, 350, 'baddie');
+            var baddie = baddies.create(350 * i, 150, 'baddie');
             baddie.body.gravity.y = 300;
             // Offset baddie collision bounds
             var sizex = 100; var sizey = 100;
@@ -62,13 +62,7 @@ Play.prototype = {
         // game.debug.body(this.player);
         // game.debug.body(this.baddie);
     }
-}
-
-function createPlatform (pos_x, pos_y, scale_x, scale_y) {
-    var platform = platforms.create(pos_x, game.height - pos_y, 'bounds');
-    platform.body.immovable = true;
-    platform.scale.setTo(scale_x, scale_y);
-}
+};
 
 // function createBaddie (posx, posy, left) {
 //     // Display baddie at given position
@@ -80,6 +74,12 @@ function createPlatform (pos_x, pos_y, scale_x, scale_y) {
 //     if (left) baddie.animations.play('left');
 //     else baddie.animations.play('right');
 // }
+
+function createPlatform (pos_x, pos_y, scale_x, scale_y) {
+    var platform = platforms.create(pos_x, game.height - pos_y, 'bounds');
+    platform.body.immovable = true;
+    platform.scale.setTo(scale_x, scale_y);
+}
 
 function createLevel() {
     console.log('Creating Level...');
