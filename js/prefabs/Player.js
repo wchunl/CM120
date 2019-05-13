@@ -1,6 +1,7 @@
 // Player prefab
 
 var count = 0;
+
 function Player(game, posx, posy, frame) {
     count = 0;
     // Create an instance of Phaser.Sprite
@@ -84,10 +85,7 @@ Player.prototype.movementManager = function() {
         this.frame = 4;
     }
 
-    // Jump
-    if (game.input.keyboard.justPressed(Phaser.KeyCode.W)) { 
-        this.body.velocity.y = -500;
-    }
+   
 }
 
 

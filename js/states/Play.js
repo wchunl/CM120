@@ -48,14 +48,17 @@ Play.prototype = {
 
     },
     update: function() {
+        var hitPlatform = game.physics.arcade.collide(this.player, platforms);
         if (game.input.activePointer.justPressed()) {
         console.log('Mouse position: ' + game.input.mousePointer.x + ',' + game.input.mousePointer.y);
         }
 
         game.time.slowMotion = 1.0;
         game.physics.arcade.collide(platforms, [this.player, baddies, this.enemy]);
-
-        
+         // Jump
+        if (game.input.keyboard.isDown(Phaser.KeyCode.W)&&this.player.body.touching.down && hitPlatform) { 
+            this.player.body.velocity.y = -500;
+        }
 
     },
     render: function() {
