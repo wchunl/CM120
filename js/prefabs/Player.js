@@ -2,10 +2,10 @@
 
 var count = 0;
 
-function Player(game, posx, posy, frame) {
+function Player(game, posx, posy) {
     count = 0;
     // Create an instance of Phaser.Sprite
-    Phaser.Sprite.call(this, game, posx, posy, frame);
+    Phaser.Sprite.call(this, game, posx, posy, "twinLight", "sprite1");
     
     this.anchor.setTo(.5,.5);
     this.scale.x *= -1;
@@ -14,10 +14,15 @@ function Player(game, posx, posy, frame) {
     game.physics.enable(this);
     this.body.gravity.y = 1000;
     this.body.collideWorldBounds = true;
-    
+
+
     // Add Animations
-    this.animations.add('right', [0, 1, 2, 3], 10, true);
-    this.animations.add('left', [5, 6, 7, 8], 10, true);
+    this.animations.add('moving', ['sprite9','sprite10','sprite11',
+                                'sprite12','sprite13','sprite14',
+                                'sprite15','sprite16'], 12, true);
+    this.animations.add('standing', ['sprite1','sprite2','sprite3','sprite4'], 12, true);
+    this.animations.add('jumping', ['sprite38'], 12, true);
+    this.animations.add('crouching', ['sprite27','sprite28','sprite29','sprite30','sprite31'], 12, true);
 
     // Instance variables
     this.combat = false;
@@ -34,9 +39,6 @@ Player.prototype.update = function () {
     // Reset player velocity
     this.body.velocity.x = 0;
 
-    // console.log(this.x + ', ' + this.y);
-    
-    
     // Collision Manager
     this.collisionManager();
 }
@@ -73,16 +75,27 @@ Player.prototype.destroyCombat = function() {
 
 // Movement Listening
 Player.prototype.movementManager = function() {
+    if (game.input.keyboard.justPressed(Phaser.KeyCode.A))
+        this.scale.x = 1;
+    if (game.input.keyboard.justPressed(Phaser.KeyCode.D))
+        this.scale.x = -1;
+
+    if (!this.body.touching.down)
+        this.animations.play('jumping');
+    
+    
     // Horizontal movement
     if (game.input.keyboard.isDown(Phaser.KeyCode.A)) { 
         this.body.velocity.x = -150;
-        this.animations.play('left');
+        this.animations.play('moving');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.D)) { 
         this.body.velocity.x = 150;
-        this.animations.play('right');
+        this.animations.play('moving');
+    } else if (game.input.keyboard.isDown(Phaser.KeyCode.S) && this.body.touching.down) {
+        this.animations.play('crouching');
     } else { 
-        this.animations.stop();
-        this.frame = 4;
+        this.animations.play('standing');
+        // this.frame = 4;
     }
 
    

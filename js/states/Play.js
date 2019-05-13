@@ -15,7 +15,7 @@ Play.prototype = {
 
         
         // Create and display the player
-        this.player = new Player(game, 32, game.world.height - 96, 'dude');
+        this.player = new Player(game, 32, game.world.height - 96);
         game.add.existing(this.player);
         
         // Baddie Quicktime Module
@@ -55,14 +55,16 @@ Play.prototype = {
 
         game.time.slowMotion = 1.0;
         game.physics.arcade.collide(platforms, [this.player, baddies, this.enemy]);
-         // Jump
+        
+        // Player Jump
         if (game.input.keyboard.isDown(Phaser.KeyCode.W)&&this.player.body.touching.down && hitPlatform) { 
             this.player.body.velocity.y = -500;
         }
 
     },
     render: function() {
-        // game.debug.body(this.player);
+        game.debug.body(this.player);
+        baddies.forEach( game.debug.body, game.debug);
         // game.debug.body(this.baddie);
     }
 };

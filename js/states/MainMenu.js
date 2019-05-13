@@ -33,13 +33,18 @@ MainMenu.prototype = {
 
         this.track = game.add.audio('MainMenuTheme');
         this.track.play('', 0, 1, false);
+
         // Display Main Menu Text
         game.add.text(16,16, 'Main Menu', { fontSize: '32px', fill: '#fff' });
-        game.add.text(16,56, 'Dodge the clouds! They speed up every 10 seconds.', { fontSize: '32px', fill: '#fff' });
-        game.add.text(16,96, 'Use [W] and [S] Keys to Move Up and Down', { fontSize: '32px', fill: '#fff' });
-        game.add.text(16,136, 'Press [Space] to Start', { fontSize: '32px', fill: '#fff' });
+        game.add.text(16,56, 'Catch the enemy!', { fontSize: '32px', fill: '#fff' });
+        game.add.text(16,96, 'Use [W][A][S][D] Keys to Move', { fontSize: '32px', fill: '#fff' });
+        game.add.text(16,136, 'Use [↑][←][↓][→] Keys to fight in combat', { fontSize: '32px', fill: '#fff' });
+        game.add.text(16,176, 'Press [Space] to Start', { fontSize: '32px', fill: '#fff' });
     },
     update: function() {
+
+
+
         // Switch states if spacebar is pressed
         var spacebar = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         if(spacebar.isDown) {
