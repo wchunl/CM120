@@ -1,19 +1,11 @@
 /*
-    Technical Tilt: I learned in class that collision checks
-    between objects can be very expensive the more objects
-    there are on the screen. In my game, I used a simple
-    variation of the broad sweep method mentioned in lecture
-    that checks only collisions between the nearest obstacle
-    to the player instead of all the obstacles at the same time.
-    I reduced collision checks from O(n) checks to O(1) checks
-    per frame in my game, where n is the number of clouds.
-    - Found in states/Play.js line 81-88
-
-    Aesthetic Tilt: I messed around with emitters and learned
-    how to use them via the Phaser API documentation online
-    and created a particle explosion of diamonds on the player
-    everytime a new level is reached.
-    - Found in states/Play.js line 58-60
+    Git repo - https://github.com/wchunl/CM120
+    Team Name - mkim.
+    Team Members - 
+        Atirath Kosireddy
+        Wai Chun Leung 
+        Jason Mamesah
+        Shineng Tang
 */
 
 // Main.js
