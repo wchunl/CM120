@@ -16,13 +16,16 @@ function Player(game, posx, posy) {
     this.body.collideWorldBounds = true;
 
 
-    // Add Animations
-    this.animations.add('moving', ['sprite9','sprite10','sprite11',
-                                'sprite12','sprite13','sprite14',
-                                'sprite15','sprite16'], 12, true);
-    this.animations.add('standing', ['sprite1','sprite2','sprite3','sprite4'], 12, true);
-    this.animations.add('jumping', ['sprite38'], 12, true);
-    this.animations.add('crouching', ['sprite27','sprite28','sprite29','sprite30','sprite31'], 12, true);
+    // Movement Animations
+    this.animations.add('moving', [8,9,10,11,12,13,14,15], 12, true);
+    this.animations.add('standing', [0,1,2,3], 12, true);
+    this.animations.add('jumping', [37], 12, true);
+    this.animations.add('crouching', [27,28,29,30], 12, true);
+    // Combat Animations
+    this.animations.add('stance', [4,5,6,7], 12, true);
+    this.animations.add('block', [16,17,18,19], 12, true);
+    this.animations.add('swing', [20,21,22,23], 12, true);
+    this.animations.add('hurt', [32], 12, true);
 
     // Instance variables
     this.combat = false;
@@ -56,7 +59,7 @@ Player.prototype.collisionManager = function() {
         if (this.enemy != null) {
             // Destroy all combat objects
             this.destroyCombat();
-            game.state.start('GameOver');
+            game.state.start('GameOver', true, false);
         }
     }
 }
@@ -75,16 +78,13 @@ Player.prototype.destroyCombat = function() {
 
 // Movement Listening
 Player.prototype.movementManager = function() {
+    // Changes the facing direction
     if (game.input.keyboard.justPressed(Phaser.KeyCode.A))
         this.scale.x = 1;
     if (game.input.keyboard.justPressed(Phaser.KeyCode.D))
         this.scale.x = -1;
 
-    if (!this.body.touching.down)
-        this.animations.play('jumping');
-    
-    
-    // Horizontal movement
+    // Left/Right movement and crouching/standing
     if (game.input.keyboard.isDown(Phaser.KeyCode.A)) { 
         this.body.velocity.x = -150;
         this.animations.play('moving');
@@ -95,10 +95,19 @@ Player.prototype.movementManager = function() {
         this.animations.play('crouching');
     } else { 
         this.animations.play('standing');
-        // this.frame = 4;
     }
 
-   
+
+    // Jumping
+    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down) { 
+        this.body.velocity.y = -500;
+    }
+
+    // Jumping animation
+    if (!this.body.touching.down) {
+        this.frame = 37;
+    }
+    
 }
 
 
@@ -119,10 +128,11 @@ Player.prototype.createCombat = function(player, enemy) {
     if (count < player.combatButtons.length) {
         // Set current active button
         player.combatButtons[count].active = true;
-        player.combatButtons[count].moveTowards(enemy.x - 20, 470,0.13);
+        player.combatButtons[count].moveTowards(player.x - 32, player.y - 100,0.13);
         
         if (player.combatButtons[count].pressed) {
             console.log(count + ' is pressed');
+            player.animations.play('swing'); // this doesnt work here, check line 146
             player.combatButtons[count].destroy();
             player.combatButtons[count] = null;
             count++;
@@ -133,10 +143,14 @@ Player.prototype.createCombat = function(player, enemy) {
     }
     
     // Force player movement
-    player.animations.play('right');
-    player.body.velocity.x = 100;
+    player.animations.play('stance');
+    player.body.velocity.x = 0;
+    // player.body.velocity.y = 0;
+    // player.body.gravity.y = 0;
+    // this.input.disabled = true;
 
     // Slow motion
-    game.time.slowMotion = 4.0;
-    game.add.text(16,16, 'Debug text', { fontSize: '32px', fill: '#fff' });
+    game.time.slowMotion = 1.0;
+    // game.paused = true;
+    // game.add.text(16,16, 'Debug text', { fontSize: '32px', fill: '#fff' });
 }
