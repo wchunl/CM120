@@ -1,6 +1,6 @@
 /*
     Git repo - https://github.com/wchunl/CM120
-    Team Name - mkim.
+    Team Name - The Kimtastics
     Team Members - 
         Atirath Kosireddy
         Wai Chun Leung 
