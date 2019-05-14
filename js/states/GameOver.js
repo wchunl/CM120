@@ -10,8 +10,8 @@ GameOver.prototype = {
     },
     create: function() {
         // Display Game Over text
-        game.add.text(16,16, 'Game Over!', { fontSize: '32px', fill: '#fff' });
-        game.add.text(16,56, 'Final Score: ' + this.score, { fontSize: '32px', fill: '#fff' });
+        game.add.text(16,16, 'Game Over! You died.', { fontSize: '32px', fill: '#fff' });
+        // game.add.text(16,56, 'Final Score: ' + this.score, { fontSize: '32px', fill: '#fff' });
         game.add.text(16,96, 'Press [Space] to Retry', { fontSize: '32px', fill: '#fff' });
     },
     update: function() {

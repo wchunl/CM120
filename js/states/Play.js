@@ -4,8 +4,12 @@ var level = 1;
 var Play = function(game) {
     // this.score, this.numStars, this.player;
     this.player, this.sky, this.enemy;
+    this.debug = false;
 };
 Play.prototype = {
+    init: function(debug) {
+        this.debug = debug;
+    },
     preload: function() {
         console.log('In Play');
     },
@@ -63,8 +67,10 @@ Play.prototype = {
 
     },
     render: function() {
-        game.debug.body(this.player);
-        baddies.forEach( game.debug.body, game.debug);
+        if (this.debug) {
+            game.debug.body(this.player);
+            baddies.forEach( game.debug.body, game.debug);
+        }
         // game.debug.body(this.baddie);
     }
 };
