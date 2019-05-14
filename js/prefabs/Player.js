@@ -44,7 +44,7 @@ Player.prototype.update = function () {
 }
 
 Player.prototype.collisionManager = function() {
-    if (!game.physics.arcade.overlap(this, baddies, this.createCombat)) {
+    if (!game.physics.arcade.overlap(this, minions, this.createCombat)) {
         // If not colliding box player can move
         this.movementManager();
         // Combat set to false;

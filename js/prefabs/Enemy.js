@@ -1,10 +1,10 @@
 // Enemy prefab
 
 var count = 0;
-function Enemy(game, posx, posy, frame) {
+function Enemy(game, posx, posy) {
     count = 0;
     // Create an instance of Phaser.Sprite
-    Phaser.Sprite.call(this, game, posx, posy, frame);
+    Phaser.Sprite.call(this, game, posx, posy, 'twinDark');
     
     this.anchor.setTo(.5,.5);
     this.scale.x *= -1;
@@ -13,13 +13,15 @@ function Enemy(game, posx, posy, frame) {
     game.physics.enable(this);
     this.body.gravity.y = 1000;
     this.body.collideWorldBounds = true;
-    this.tint = 0xff0000;
+    // this.tint = 0xff0000;
     
     // Add Animations
-    this.animations.add('right', [0, 1, 2, 3], 10, true);
-    this.animations.add('left', [5, 6, 7, 8], 10, true);
-    this.animations.play('right');
-
+    this.animations.add('moving', ['sprite9','sprite10','sprite11',
+                                'sprite12','sprite13','sprite14',
+                                'sprite15','sprite16'], 12, true);
+    this.animations.add('standing', ['sprite1','sprite2','sprite3','sprite4'], 12, true);
+    this.animations.add('jumping', ['sprite38'], 12, true);
+    this.animations.add('crouching', ['sprite27','sprite28','sprite29','sprite30','sprite31'], 12, true);
     // Instance variables
 
 }

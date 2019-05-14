@@ -2,7 +2,7 @@
 var level = 1;
 
 var Play = function(game) {
-    // this.score, this.numStars, this.player;
+    // Variables that need forward declaration
     this.player, this.sky, this.enemy;
     this.debug = false;
 };
@@ -22,69 +22,72 @@ Play.prototype = {
         this.player = new Player(game, 32, game.world.height - 96);
         game.add.existing(this.player);
         
-        // Baddie Quicktime Module
-        baddies = game.add.group();
-        baddies.enableBody = true;
-        for(var i = 1; i <= 2; i++) {
-            // Create and display baddie
-            var baddie = baddies.create(350 * i, 150, 'baddie');
-            baddie.body.gravity.y = 300;
-            // Offset baddie collision bounds
-            var sizex = 100; var sizey = 100;
-            baddie.body.setSize(sizex,sizey, (sizex*-1) - 30, 32-sizey);
-            // Baddie animations
-            baddie.animations.add('left', [0, 1], 10, true);
-            baddie.animations.play('left');
-        }
+        // Create and display minions
+        minions = game.add.group();
+        minions.enableBody = true;
+        createMinion(350, 150, true);
+        createMinion(700, 150, true);
         
         
-        // Create and display autopath enemy
+        // Create and display enemy
         this.enemy = new Enemy(game, 100, 400, 'dude');
         game.add.existing(this.enemy);
 
         
-        // Create and display platform bounds
+        // Create and display platform
         platforms = game.add.group();
         platforms.enableBody = true;
-        
-        // Ground
         createLevel();
 
     },
     update: function() {
-        var hitPlatform = game.physics.arcade.collide(this.player, platforms);
-        if (game.input.activePointer.justPressed()) {
-        console.log('Mouse position: ' + game.input.mousePointer.x + ',' + game.input.mousePointer.y);
-        }
-
+        // Reset time
         game.time.slowMotion = 1.0;
-        game.physics.arcade.collide(platforms, [this.player, baddies, this.enemy]);
+
+        // Collision check between platforms and characters
+        game.physics.arcade.collide(platforms, [this.player, minions, this.enemy]);
+
         
-        // Player Jump
-        if (game.input.keyboard.isDown(Phaser.KeyCode.W)&&this.player.body.touching.down && hitPlatform) { 
+        // Player Jumps if touching ground
+        if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.player.body.touching.down) { 
             this.player.body.velocity.y = -500;
         }
+        
 
+        // Debug mode
+        if (this.debug){
+            // Write mouse pointer current position when pressed
+            if (game.input.activePointer.justPressed())
+                console.log('Mouse position: ' + game.input.mousePointer.x + ',' + game.input.mousePointer.y);
+            
+        }
     },
     render: function() {
+        // Show collisions if debug is on
         if (this.debug) {
             game.debug.body(this.player);
-            baddies.forEach( game.debug.body, game.debug);
+            minions.forEach( game.debug.body, game.debug);
         }
-        // game.debug.body(this.baddie);
     }
 };
 
-// function createBaddie (posx, posy, left) {
-//     // Display baddie at given position
-//     var baddie = baddies.create(posx, posy, 'baddie');
-    
-//     // Enable physics
-//     game.physics.arcade.enable(baddie);
+// Helper functions
 
-//     if (left) baddie.animations.play('left');
-//     else baddie.animations.play('right');
-// }
+
+function createMinion(pos_x, pos_y, faceLeft) {
+    // Create and display minion
+    var minion = minions.create(pos_x, pos_y, 'twinDark');
+    minion.body.gravity.y = 300;
+    minion.tint = 0xff0000;
+    // Offset minion collision bounds
+    // var sizex = 100; var sizey = 200;
+    // minion.body.setSize(sizex,sizey, (sizex*-1) - 30, 48-sizey);
+
+    // Minion animations
+    minion.animations.add('standing', [0, 1, 2, 3], 10, true);
+    if (faceLeft) minion.animations.play('standing');
+    else minion.animations.play('right');
+}
 
 function createPlatform (pos_x, pos_y, scale_x, scale_y) {
     var platform = platforms.create(pos_x, game.height - pos_y, 'bounds');
