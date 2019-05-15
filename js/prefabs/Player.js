@@ -86,16 +86,26 @@ Player.prototype.movementManager = function() {
 
     // Left/Right movement and crouching/standing
     if (game.input.keyboard.isDown(Phaser.KeyCode.A)) { 
-        this.body.velocity.x = -150;
+        if (this.body.acceleration.x > -10000) this.body.acceleration.x -= 500;
+        // this.body.velocity.x = -150;
         this.animations.play('moving');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.D)) { 
-        this.body.velocity.x = 150;
+        if (this.body.acceleration.x < 10000) this.body.acceleration.x += 500;
+        // this.body.velocity.x *= this.body.acceleration.x;
         this.animations.play('moving');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.S) && this.body.touching.down) {
+        if (this.body.acceleration.x > 0) this.body.acceleration.x -= 100;
+        else if (this.body.acceleration.x < 0) this.body.acceleration.x += 100;
         this.animations.play('crouching');
     } else { 
+        if (this.body.acceleration.x > 0) this.body.acceleration.x -= 1000;
+        else if (this.body.acceleration.x < 0) this.body.acceleration.x += 1000;
         this.animations.play('standing');
     }
+
+
+    // console.log(this.body.acceleration.x);
+    // console.log(this.body.velocitsy.x);
 
 
     // Jumping
@@ -115,6 +125,8 @@ Player.prototype.createCombat = function(player, enemy) {
     var numButtons = 3;
     // Run this once at beginning of combat
     if (!player.combat) {
+        // Stop player movement
+        player.body.acceleration.x = 0;
         for (var i = 0; i < numButtons; i++) {
             var button = new Button(game, 1500, 470);
             game.add.existing(button);
