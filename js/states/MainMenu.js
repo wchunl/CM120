@@ -1,4 +1,5 @@
 // MainMenu State object
+var track;
 
 var MainMenu = function(game) {};
 MainMenu.prototype = {
@@ -6,8 +7,8 @@ MainMenu.prototype = {
         game.load.path = 'assets/img/';
 
         // Load Sprites
-        game.load.images(['sky','bounds'],
-        ['sky.png','platform.png']);
+        game.load.images(['sky','bounds','mm_play','mm_debug'],
+        ['sky.png','platform.png','mm_play.png','mm_debug.png']);
 
         game.load.spritesheet('health', 'health.png', 36, 32, 4);
 
@@ -30,54 +31,28 @@ MainMenu.prototype = {
         // Enable Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        this.track = game.add.audio('MainMenuTheme');
-        this.track.play('', 0, 1, false);
+        track = game.add.audio('MainMenuTheme');
+        track.play('', 0, 1, false);
 
         // Display Main Menu Text
         game.add.text(16,16, 'Main Menu', { fontSize: '32px', fill: '#fff' });
         game.add.text(16,56, 'Catch the enemy!', { fontSize: '32px', fill: '#fff' });
         game.add.text(16,96, 'Use [W][A][S][D] Keys to Move', { fontSize: '32px', fill: '#fff' });
         game.add.text(16,136, 'Use [↑][←][↓][→] Keys to fight in combat', { fontSize: '32px', fill: '#fff' });
-        game.add.text(16,176, 'Press [Enter] to Start', { fontSize: '32px', fill: '#fff' });
-
-        // Menu selectors
-        this.playText = game.add.text(16, 240, '[Play]', { fontSize: '32px', fill: '#fff' });
-        this.debugText = game.add.text(16, 280, 'Debug Play', { fontSize: '32px', fill: '#fff' });
-
-        // Selector vars
-        this.selection = 1;
-        this.numOptions = 2;
+        
+        game.add.button(16,186,'mm_play', playPressed);
+        game.add.button(16,246,'mm_debug', debugPressed);
     },
     update: function() {
 
-        // If S or down is pressed and it is currently not the last option,
-        // move the current selection down one
-        if ((game.input.keyboard.justPressed(Phaser.Keyboard.S)
-         || game.input.keyboard.justPressed(Phaser.Keyboard.DOWN))
-         && this.selection < this.numOptions)
-                this.selection++;
-
-        // If W or up is pressed and it is currently not the first option,
-        // move the current selection up one
-        if ((game.input.keyboard.justPressed(Phaser.Keyboard.W)
-         || game.input.keyboard.justPressed(Phaser.Keyboard.UP))
-         && this.selection > 1)
-                this.selection--;
-
-        // Display selection text based on whether or not they are selected currently
-        if (this.selection == 1) this.playText.text = '[Play]'; else this.playText.text = ' Play '
-        if (this.selection == 2) this.debugText.text = '[Debug]'; else this.debugText.text = ' Debug '
-
-
-        // Switch states if enter is pressed
-        if (game.input.keyboard.justPressed(Phaser.Keyboard.ENTER)) {
-            // Pause menu music
-            this.track.pause();
-
-            // If 2 is selected, run in debug mode showing collisions
-            if (this.selection == 2) game.state.start('Play', false, false, true);
-            // Else run normally
-            else game.state.start('Play', false, false, false);
-        }
     }
 };
+
+function playPressed() {
+    track.pause();
+    game.state.start('Play', false, false, false);
+}
+function debugPressed() {
+    track.pause();
+    game.state.start('Play', false, false, true)
+}
