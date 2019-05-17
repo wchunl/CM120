@@ -3,9 +3,7 @@ var level = 1;
 var tween;
 var Play = function(game) {
     // Variables that need forward declaration
-    this.placeholder = false;
-    this.enemy;
-    this.debug = false;
+    this.debug;
 };
 Play.prototype = {
     init: function(debug) {
@@ -15,11 +13,8 @@ Play.prototype = {
         console.log('In Play');
     },
     create: function() {
-        // Add background sky
+        // Create and display background sky
         this.sky = game.add.tileSprite(0,0, 1000,600, 'sky');
-
-        this.sky.setScrol
-
         
         // Create and display the player
         this.player = new Player(game, 32, game.world.height - 96);
@@ -28,48 +23,26 @@ Play.prototype = {
         // Create and display minions
         minions = game.add.group();
         minions.enableBody = true;
-        createMinion(100, 100, false);
-        createMinion(890, 300, true);
+        minions.add(new Minion(game, 100, 100, false));
+        minions.add(new Minion(game, 250, 490, true));
         
         
         // Create and display enemy
-        this.enemy = new Enemy(game, 100, 400, 'dude');
-        this.enemy.alpha = 0;
-        game.add.existing(this.enemy);
-
+        // this.enemy = new Enemy(game, 100, 400, 'dude');
+        // this.enemy.alpha = 0;
+        // game.add.existing(this.enemy);
         
         // Create and display platform
         platforms = game.add.group();
         platforms.enableBody = true;
         createLevel();
 
-        // Learning about tweens, should be rewritten
-        var txt1 = game.add.text(25, 550, "Walk up to an enemy to fight them!", {fontSize: '32px', fill:'fff'});
-        txt1.alpha = 0;
-        tween = game.add.tween(txt1).to( { alpha: 1 }, 2000);
-        tween.start();
     }, 
     update: function() {
-
-        // Placeholder tween stuff
-        tween.onComplete.add(tweenComplete, this);
-        if (this.player.combat && !this.placeholder) {
-            var txt1 = game.add.text(25, 550, "Press the indicated arrow key to fight!", {fontSize: '32px', fill:'fff'});
-            txt1.alpha = 0;
-            tween = game.add.tween(txt1).to( { alpha: 1 }, 2000);
-            tween.start();
-            txt1.alpha = 0;
-            this.placeholder = true;
-        } else if (!this.player.combat) {
-            this.placeholder = false;
-        }
-
+        // End of level check
         if (this.player.x < 60 && this.player.y < 160) {
             game.state.start('GameOver');
         }
-
-        // Reset time
-        game.time.slowMotion = 1.0;
 
         // Collision check between platforms and characters
         game.physics.arcade.collide(platforms, [this.player, minions, this.enemy]);
@@ -91,50 +64,7 @@ Play.prototype = {
     }
 };
 
-
-// Events
-
-// Learning about tweens, should be rewritten
-function tweenComplete(txt, tween) {
-    console.log(txt);
-    var ntween = game.add.tween(txt).to( { alpha: 0 }, 2000);
-    ntween.start();
-    tween.stop();
-}
-
 // Helper functions
-
-/* 
-    createMinion() - Creates and displays a red minion
-        pox_x       : the x position it should spawn at
-        pos_y       : the y position it should spawn at
-        faceLeft    : boolean to determine if facing left or not
-*/
-function createMinion(pos_x, pos_y, faceLeft) {
-    // Create and display minion
-    var minion = minions.create(pos_x, pos_y, 'twinDark');
-    minion.body.gravity.y = 300;
-    minion.tint = 0xff0000;
-    // Offset minion collision bounds
-    // var sizex = 100; var sizey = 200;
-    // minion.body.setSize(sizex,sizey, (sizex*-1) - 30, 48-sizey);
-
-    // Minion animations
-    minion.animations.add('standing', [0, 1, 2, 3], 10, true);
-    minion.animations.play('standing');
-
-    // Facing direction
-    if (faceLeft) minion.scale.x = 1;
-    else minion.scale.x = -1;
-}
-
-/* 
-    createPlatform() - Creates and displays a red minion
-        pox_x       : the x position it should spawn at
-        pos_y       : the y position it should spawn at
-        scale_x     : the width of the platform
-        scale_y     : the height of the platform
-*/
 function createPlatform (pos_x, pos_y, scale_x, scale_y) {
     var platform = platforms.create(pos_x, game.height - pos_y, 'bounds');
     platform.body.immovable = true;

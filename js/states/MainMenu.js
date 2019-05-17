@@ -9,7 +9,7 @@ MainMenu.prototype = {
         game.load.images(['sky','bounds'],
         ['sky.png','platform.png']);
 
-        game.load.spritesheet('health', 'health.png', 36, 32, 3, 0, 2);
+        game.load.spritesheet('health', 'health.png', 36, 32, 4);
 
         // Load Character Atlas
         game.load.atlas('twinLight','twinLight.png','twinLight.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -26,7 +26,6 @@ MainMenu.prototype = {
         console.log('Assets loaded');
     },
     create: function() {
-        game.add.sprite(300,300, 'health', 2);
 
         // Enable Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
