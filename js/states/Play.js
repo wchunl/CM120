@@ -15,16 +15,23 @@ Play.prototype = {
     create: function() {
         // Create and display background sky
         this.sky = game.add.tileSprite(0,0, 1000,600, 'sky');
+        // Create and display platform
+        platforms = game.add.group();
+        platforms.enableBody = true;
+        createLevel();
         
         // Create and display the player
-        this.player = new Player(game, 32, game.world.height - 96);
+        this.player = new Player(game, 0, game.world.height - 96);
         game.add.existing(this.player);
+        //Create the twin brother
+        this.enemy = new Enemy(game, 200, game.world.height-96);
+        game.add.existing(this.enemy);
         
         // Create and display minions
         minions = game.add.group();
         minions.enableBody = true;
-        minions.add(new Minion(game, 100, 100, false));
-        minions.add(new Minion(game, 250, 490, true));
+        minions.add(new Minion(game, 531, 100, false));
+        minions.add(new Minion(game, 168, 490, true));
         
         
         // Create and display enemy
@@ -32,10 +39,7 @@ Play.prototype = {
         // this.enemy.alpha = 0;
         // game.add.existing(this.enemy);
         
-        // Create and display platform
-        platforms = game.add.group();
-        platforms.enableBody = true;
-        createLevel();
+        
 
     }, 
     update: function() {
@@ -59,6 +63,10 @@ Play.prototype = {
         // Show collisions if debug is on
         if (this.debug) {
             game.debug.body(this.player);
+            game.debug.body(this.enemy);
+            //i put this here just for getting exact position of the player
+            game.debug.spriteInfo(this.player, 32, 32);
+            game.debug.spriteInfo(this.enemy, 700, 32);
             minions.forEach( game.debug.body, game.debug);
         }
     }
