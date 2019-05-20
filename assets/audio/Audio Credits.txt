@@ -1,0 +1,5 @@
+This game uses these sounds from freesound:
+knife slash 2.wav, knife slash 1.wav from beerbelly38 (https://freesound.org/people/beerbelly38/)
+Male Death 1.ogg, from scorpion67890 (https://freesound.org/people/scorpion67890/)
+8-bit Hurt1.aif from timgormly (https://freesound.org/people/timgormly/)
+Stab, Metal Knife in Lettuce A.wav, from InspectorJ (https://freesound.org/people/InspectorJ/)
