@@ -14,7 +14,7 @@ Play.prototype = {
     },
     create: function() {
         // Create and display background sky
-        this.sky = game.add.tileSprite(0,0, 1000,600, 'sky');
+        this.sky = game.add.tileSprite(0,0, 6000, 4000, 'gameBackground');
         // Create and display platform
         platforms = game.add.group();
         platforms.enableBody = true;
