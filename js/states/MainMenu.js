@@ -7,8 +7,8 @@ MainMenu.prototype = {
         game.load.path = 'assets/img/';
 
         // Load Sprites
-        game.load.images(['gameBackground','bounds','mm_play','mm_debug'],
-        ['gameBackground.png','platform.png','mm_play.png','mm_debug.png']);
+        game.load.images(['gameBackground','bound','platform1','platform2','platform3','mm_play','mm_debug'],
+        ['gameBackground.png','bound.png','platform1.png','platform2.png','platform3.png','mm_play.png','mm_debug.png']);
 
         game.load.spritesheet('health', 'health.png', 36, 32, 4);
 
