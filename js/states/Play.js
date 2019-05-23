@@ -11,6 +11,7 @@ Play.prototype = {
     },
     preload: function() {
         console.log('In Play');
+        game.world.setBounds(0,0,3000,3000);
     },
     create: function() {
         // Create and display background sky
@@ -21,10 +22,10 @@ Play.prototype = {
         createLevel();
         
         // Create and display the player
-        this.player = new Player(game, 0, game.world.height - 96);
+        this.player = new Player(game, 0, 600 - 96);
         game.add.existing(this.player);
         //Create the twin brother
-        this.enemy = new Enemy(game, 200, game.world.height-96);
+        this.enemy = new Enemy(game, 200, 600 -96);
         game.add.existing(this.enemy);
         
         // Create and display minions
@@ -34,6 +35,7 @@ Play.prototype = {
         minions.add(new Minion(game, 168, 490, true));
         
         
+        game.camera.follow(this.player, 'FOLLOW_LOCKON', 0.1, 0.1);
         // Create and display enemy
         // this.enemy = new Enemy(game, 100, 400, 'dude');
         // this.enemy.alpha = 0;

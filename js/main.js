@@ -11,7 +11,7 @@
 // Main.js
 
 // Define game
-var game = new Phaser.Game(6000, 4000, Phaser.AUTO);
+var game = new Phaser.Game(1000, 600, Phaser.AUTO);
 
 // Add states to StateManager
 game.state.add('MainMenu', MainMenu);

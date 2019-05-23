@@ -48,7 +48,7 @@ Enemy.prototype.constructor = Enemy;
 
 Enemy.prototype.update = function () {
 //    if(this.scale.x = 1)
-    console.log(this.x);
+   //  console.log(this.x);
     if(this.air == true){
         this.body.velocity.y = 0;
     }

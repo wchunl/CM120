@@ -30,7 +30,7 @@ function Player(game, posx, posy) {
     this.combat; // The current combat object, if any
 
     // Health
-    this.health = 6; // Health variable, 6 = six half hearts (3 full hearts)
+    this.health = 3; // Health variable, 6 = six half hearts (3 full hearts)
     this.h1 = game.add.sprite(10,10, 'health', 0);
     this.h2 = game.add.sprite(50,10, 'health', 0);
     this.h3 = game.add.sprite(90,10, 'health', 0);
@@ -51,11 +51,11 @@ Player.prototype.update = function () {
 Player.prototype.healthManager = function() {
     // Works assuming lose half a heart to any damage
     switch(this.health) {
-        case 5: this.h3.frame = 2; break; // heart 3 = half heart
-        case 4: this.h3.frame = 1; break; // heart 3 = empty heart
-        case 3: this.h2.frame = 2; break; // heart 2 = half heart
-        case 2: this.h2.frame = 1; break; // heart 2 = empty heart
-        case 1: this.h1.frame = 2; break; // heart 1 = half heart
+        // case 5: this.h3.frame = 2; break; // heart 3 = half heart
+        case 2: this.h3.frame = 1; break; // heart 3 = empty heart
+        // case 3: this.h2.frame = 2; break; // heart 2 = half heart
+        case 1: this.h2.frame = 1; break; // heart 2 = empty heart
+        // case 1: this.h1.frame = 2; break; // heart 1 = half heart
         case 0: game.state.start('GameOver', true, false); break; // player is dead
         default: // nothing happens
       }
@@ -89,8 +89,9 @@ Player.prototype.movementManager = function() {
 
     // Left/Right movement and crouching/standing
     if (game.input.keyboard.isDown(Phaser.KeyCode.S) && this.body.touching.down) {  // [S] key is down
-        if (this.body.acceleration.x > 0) this.body.acceleration.x -= 100; // decelerate left
-        else if (this.body.acceleration.x < 0) this.body.acceleration.x += 100; // decelerate right
+        // if (this.body.acceleration.x > 0) this.body.acceleration.x -= 100; // decelerate left
+        // else if (this.body.acceleration.x < 0) this.body.acceleration.x += 100; // decelerate right
+        this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.01);
         this.animations.play('crouching');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.A)) { // [A] key is down
         this.scale.x = 1; // face left
@@ -101,11 +102,15 @@ Player.prototype.movementManager = function() {
         if (this.body.acceleration.x < 10000) this.body.acceleration.x += 500; // accelerate
         this.animations.play('moving');
     } else { // Otherwise standing
-        if (this.body.acceleration.x > 0) this.body.acceleration.x -= 1000; // decelerate left
-        else if (this.body.acceleration.x < 0) this.body.acceleration.x += 1000; // decelerate right
+       this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.1);
+        // if (this.body.acceleration.x > 0) this.body.acceleration.x -= 1000; // decelerate left
+        // else if (this.body.acceleration.x < 0) this.body.acceleration.x += 1000; // decelerate right
         this.animations.play('standing');
     }
-
+    
+    if (this.body.touching.left || this.body.touching.right) {
+        this.body.acceleration.x = 0;
+    }
     
     // console.log(this.body.acceleration.x);
     
@@ -118,6 +123,6 @@ Player.prototype.movementManager = function() {
     if (!this.body.touching.down) {
         this.frame = 37;
     }
+
     
 }
-
