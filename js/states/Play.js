@@ -146,6 +146,7 @@ function createLevel(level) {
         createPlatform1(26*n,14*n, 3, 3);
         createPlatform1(31*n,5*n, 1, 1);
         createPlatform1(31*n,11*n, 1, 1);
+        createPlatform1(31*n,17*n, 1, 1);
 
         // 3#
         createPlatform1(20*n,15*n, 4, 1);
