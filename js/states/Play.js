@@ -23,12 +23,20 @@ Play.prototype = {
         platforms = game.add.group();
         platforms.enableBody = true;
 
+        // elevator
+        this.elevator = platforms.create (32, 4000 - 14*32, 'platform2');
+        this.elevator.body.immovable = true;
+        this.elevator.scale.setTo(6, 1);
+        this.elevator.body.allowGravity = false;
+        this.elevator.body.velocity.y = 0;
+
         // start level 1
         createLevel(1);
         level1 = true;
 
         // Create and display the player
-        this.player = new Player(game, 0, 4000 - 96);
+        //this.player = new Player(game, 0, 4000 - 96);
+        this.player = new Player(game, 64, 4000 - 32*16); // test only
         game.add.existing(this.player);
         //Create the twin brother
         this.enemy = new Enemy(game, 200, 4000 - 96);
@@ -43,8 +51,6 @@ Play.prototype = {
         // this.enemy = new Enemy(game, 100, 400, 'dude');
         // this.enemy.alpha = 0;
         // game.add.existing(this.enemy);
-        
-        
 
     }, 
     update: function() {
@@ -69,8 +75,22 @@ Play.prototype = {
             console.log('Level 1 Completed!');
 
             createLevel(2);
+            this.elevator.body.velocity.y = -200;
             level1 = false;
             level2 = true;
+        }
+        // elevator smooth stop
+        if (this.elevator.y <= 4256 - 32*80) {
+            this.elevator.body.velocity.y = -64;
+            if (this.elevator.y <= 4128 - 32*80) {
+                this.elevator.body.velocity.y = -32;
+                if (this.elevator.y <= 4064 - 32*80) {
+                    this.elevator.body.velocity.y = -16;
+                    if (this.elevator.y <= 4000 - 32*80) {
+                        this.elevator.body.velocity.y = 0;
+                    }
+                }
+            }
         }
 
         // end level 2 & start level 3
@@ -132,7 +152,7 @@ function createLevel(level) {
         createBound(0, 4000, 1, 105);  // left
         createBound(0, 2*n, 200, 10);    // bottom
         createBound(32*n,30*n, 20, 30);    // right
-        createBound(7*n, 30*n, 25, 10);    // top
+        createBound(7*n, 80*n, 25, 60);    // top
 
         // 1#
         createPlatform1(10*n,3*n, 1, 1);
@@ -160,15 +180,14 @@ function createLevel(level) {
 
     if (level === 2) {
         console.log('Creating Level 2...');
+        minions.add(new Minion(game, 531, 3500, right));
 
         // bounds
-        //createBound();
+        createBound(7*n, 20*n, 1, 7);   // right
+        createBound(0, 20*n, 1, 6); // left
 
-        //minions.add(new Minion(game, 531, 3500, right));
-
-        // 0#
-        createBound(7*n, 20*n, 1, 7);
-        createBound(0, 20*n, 1, 6);
+        // elevator masking
+        createBound(0,14*n, 7, 1);
 
         // 1#
         createPlatform2();
