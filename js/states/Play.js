@@ -35,8 +35,8 @@ Play.prototype = {
         level1 = true;
 
         // Create and display the player
-        //this.player = new Player(game, 0, 4000 - 96);
-        this.player = new Player(game, 64, 4000 - 32*16); // test only
+        if (this.debug) this.player = new Player(game, 64, 4000 - 32*16); // test only
+        else this.player = new Player(game, 0, 4000 - 96);
         game.add.existing(this.player);
         //Create the twin brother
         this.enemy = new Enemy(game, 200, 4000 - 96);
