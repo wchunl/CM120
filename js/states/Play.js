@@ -1,8 +1,6 @@
 // Play State object
 var tween;
-let level1 = false;
-let level2 = false;
-let level3 = false;
+let currentLevel;
 
 var Play = function(game) {
     // Variables that need forward declaration
@@ -32,7 +30,7 @@ Play.prototype = {
 
         // start level 1
         createLevel(1);
-        level1 = true;
+        currentLevel = 1;
 
         // Create and display the player
         if (this.debug) this.player = new Player(game, 64, 4000 - 32*16); // test only
@@ -71,13 +69,12 @@ Play.prototype = {
         }
 
         // end level 1 & start level 2
-        if (level1 === true && this.player.x < 32 * 6 && this.player.y < 4000 - 32 * 14) {
+        if (currentLevel === 1 && this.player.x < 32 * 6 && this.player.y < 4000 - 32 * 14) {
             console.log('Level 1 Completed!');
 
             createLevel(2);
             this.elevator.body.velocity.y = -200;
-            level1 = false;
-            level2 = true;
+            currentLevel = 2;
         }
         // elevator smooth stop
         if (this.elevator.y <= 4256 - 32*80) {
@@ -94,12 +91,11 @@ Play.prototype = {
         }
 
         // end level 2 & start level 3
-        if (level2 === true && this.player.x === 6000 && this.player.y === 4000) {  //change condition later
+        if (currentLevel === 2 && this.player.x === 6000 && this.player.y === 4000) {  //change condition later
             console.log('Level 2 Completed!');
 
-            createLevel(2);
-            level2 = false;
-            level3 = true;
+            createLevel(3);
+            currentLevel = 3;
         }
     },
     render: function() {
