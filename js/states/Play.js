@@ -176,7 +176,7 @@ function createLevel(level) {
 
     if (level === 2) {
         console.log('Creating Level 2...');
-        minions.add(new Minion(game, 531, 3500, right));
+
 
         // bounds
         createBound(7*n, 20*n, 1, 7);   // right
@@ -184,9 +184,31 @@ function createLevel(level) {
 
         // elevator masking
         createBound(0,14*n, 7, 1);
+        createPlatform2(7*n, 80*n, 25, 1);
 
         // 1#
-        createPlatform2();
+        createPlatform2(12*n, 84*n, 25, 1);
+        createPlatform2(15*n, 83*n, 22, 3);
+        minions.add(new Minion(game, 14*n, 86*n, left));
+
+        // 2#
+        createPlatform2(17*n, 89*n, 25, 1);
+        createPlatform2(21*n, 88*n, 21, 4);
+        minions.add(new Minion(game, 19*n, 91*n, left));
+
+        // 3#
+        createPlatform2(22*n, 95*n, 83, 1);
+        createPlatform2(26*n, 94*n, 20, 5);
+        minions.add(new Minion(game, 24*n, 97*n, left));
+
+        // 4#
+        minions.add(new Minion(game, 90*n, 97*n, left));
+        minions.add(new Minion(game, 104*n, 97*n, left)); // temporary sub. for twin brother
+        // create twin brother at (x,y) = (74*n, 97*n)
+
+        // bounds
+        createBound(90*n, 94*n, 15, 95);    // left
+        createBound(115*n, 120*n, 15, 115);  // right
 
         console.log('Level 2 Created!');
     }
@@ -195,7 +217,7 @@ function createLevel(level) {
         console.log('Creating Level 3...');
 
         // bounds
-        //createBound();
+        createBound(3840, 0, 10, 150);   // right
 
         // 1#
         createPlatform3();

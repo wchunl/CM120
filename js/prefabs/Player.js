@@ -46,7 +46,7 @@ Player.prototype.update = function () {
     this.body.velocity.x = 0;
     this.healthManager();    // Health Manager
     this.combatManager();    // Combat Manager
-}
+};
 
 Player.prototype.healthManager = function() {
     // Works assuming lose half a heart to any damage
@@ -59,7 +59,7 @@ Player.prototype.healthManager = function() {
         case 0: game.state.start('GameOver', true, false); break; // player is dead
         default: // nothing happens
       }
-}
+};
 
 Player.prototype.combatManager = function() {
     
@@ -73,7 +73,7 @@ Player.prototype.combatManager = function() {
         this.inCombat = false;
         this.combat.destroy();
     }
-}
+};
 
 Player.prototype.createCombat = function(player, enemy) {
     if (!player.inCombat){ // Runs once
@@ -81,7 +81,7 @@ Player.prototype.createCombat = function(player, enemy) {
         game.add.existing(player.combat);
         player.inCombat = true;
     }
-}
+};
 
 
 // Movement manager
@@ -95,11 +95,15 @@ Player.prototype.movementManager = function() {
         this.animations.play('crouching');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.A)) { // [A] key is down
         this.scale.x = 1; // face left
-        if (this.body.acceleration.x > -10000) this.body.acceleration.x -= 500; // accelerate
-        this.animations.play('moving'); 
+        if (this.body.acceleration.x > -10000 && currentLevel === 1) this.body.acceleration.x -= 500; // accelerate
+        this.animations.play('moving');
+        if (this.body.acceleration.x > -15000 && currentLevel > 1) this.body.acceleration.x -= 1000; // adult speed
+        this.animations.play('moving');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.D)) { // [D] key is down
         this.scale.x = -1; // face right
-        if (this.body.acceleration.x < 10000) this.body.acceleration.x += 500; // accelerate
+        if (this.body.acceleration.x < 10000 && currentLevel === 1) this.body.acceleration.x += 500; // accelerate
+        this.animations.play('moving');
+        if (this.body.acceleration.x < 15000 && currentLevel > 1) this.body.acceleration.x += 1000; // adult speed
         this.animations.play('moving');
     } else { // Otherwise standing
        this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.1);
@@ -115,8 +119,11 @@ Player.prototype.movementManager = function() {
     // console.log(this.body.acceleration.x);
     
     // Jumping
-    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down) { 
+    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down && currentLevel === 1) {
         this.body.velocity.y = -500;
+    }
+    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down && currentLevel > 1) {  // adult jump
+        this.body.velocity.y = -650;
     }
     
     // Jumping animation
@@ -125,4 +132,4 @@ Player.prototype.movementManager = function() {
     }
 
     
-}
+};
