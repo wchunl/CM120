@@ -64,7 +64,7 @@ Enemy.prototype.update = function () {
         this.end = true;  
      }
     this.path();
-}
+};
 Enemy.prototype.path = function(){
      if (Math.floor(this.x) == 300 && this.y>224 && this.air == false&& this.body.touching.down){
         this.body.velocity.x = 40;
@@ -98,9 +98,9 @@ Enemy.prototype.path = function(){
 
 
     // if(Math.floor(this.x) == 300 && this.air == false)
-}
+};
 Enemy.prototype.jump = function(){
     this.body.velocity.y = -500;
     this.animations.play('jumping');
-}
+};
 

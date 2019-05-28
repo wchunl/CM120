@@ -21,4 +21,4 @@ GameOver.prototype = {
             game.state.start('Play');
         }
     }
-}
+};

@@ -66,12 +66,12 @@ Combat.prototype.update = function () {
         console.log(this.player.health);
         this.nextButton();
     }
-}
+};
 
 Combat.prototype.nextButton = function () {
     if (this.buttonIdx < this.numButtons - 1) { // If there are more buttons, set next active buttons
         this.buttonIdx++; // Increment index
-        this.activeButton = this.buttons[this.buttonIdx] // Set new active button
+        this.activeButton = this.buttons[this.buttonIdx]; // Set new active button
         this.activeButton.visible = true; // Make it visible
         this.activeButton.active = true; // Set it to active
     } else { // If no more buttons left, then combat is over
@@ -87,4 +87,4 @@ Combat.prototype.nextButton = function () {
         this.activeButton.pressed = false;
         this.activeButton.wrongPressed = false;
     }
-}
+};
