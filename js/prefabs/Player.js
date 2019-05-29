@@ -1,4 +1,5 @@
 // Player prefab
+var doOnce = true;
 
 function Player(game, posx, posy) {
     // Create an instance of Phaser.Sprite
@@ -50,8 +51,8 @@ Player.prototype.update = function () {
     this.body.velocity.x = 0;
     this.healthManager();    // Health Manager
     this.combatManager();    // Combat Manager
-    if (this.moveable) this.movementManager(); // Movement manager
-    else {this.body.acceleration.x = 0; this.animations.play("standing");}
+    if (this.moveable) {doOnce = true; this.movementManager();} // Movement manager
+    else if (doOnce){doOnce = false; this.body.acceleration.x = 0; this.animations.play("standing");}
 };
 
 Player.prototype.healthManager = function() {
