@@ -28,6 +28,7 @@ function Player(game, posx, posy) {
     // Instance variables
     this.inCombat = false; // currently in combat?
     this.combat; // The current combat object, if any
+    this.moveable = true; // should the player be able to move right now?
 
     // Health
     this.health = 3; // Health variable, 6 = six half hearts (3 full hearts)
@@ -46,16 +47,15 @@ Player.prototype.update = function () {
     this.body.velocity.x = 0;
     this.healthManager();    // Health Manager
     this.combatManager();    // Combat Manager
+    if (this.moveable) this.movementManager(); // Movement manager
+    else {this.body.acceleration.x = 0; this.animations.play("standing");}
 };
 
 Player.prototype.healthManager = function() {
-    // Works assuming lose half a heart to any damage
+    // Works assuming lose a heart to any damage
     switch(this.health) {
-        // case 5: this.h3.frame = 2; break; // heart 3 = half heart
         case 2: this.h3.frame = 1; break; // heart 3 = empty heart
-        // case 3: this.h2.frame = 2; break; // heart 2 = half heart
         case 1: this.h2.frame = 1; break; // heart 2 = empty heart
-        // case 1: this.h1.frame = 2; break; // heart 1 = half heart
         case 0: game.state.start('GameOver', true, false); break; // player is dead
         default: // nothing happens
       }
@@ -63,20 +63,21 @@ Player.prototype.healthManager = function() {
 
 Player.prototype.combatManager = function() {
     
-    if (!game.physics.arcade.overlap(this, minions, this.createCombat)) {
-        // If not colliding with enemy, the player can move
-        this.movementManager();
-    }
-    
+    // Check if combat has started
+    game.physics.arcade.overlap(this, minions, this.createCombat);
+
+
     if (this.inCombat && this.combat.combatOver) {
         console.log('destroying combat');
         this.inCombat = false;
+        this.moveable = true;
         this.combat.destroy();
     }
 };
 
 Player.prototype.createCombat = function(player, enemy) {
     if (!player.inCombat){ // Runs once
+        this.moveable = false;
         player.combat = new Combat(game, player, enemy, 3);
         game.add.existing(player.combat);
         player.inCombat = true;
