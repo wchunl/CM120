@@ -1,8 +1,6 @@
 // Play State object
 var tween;
-let level1 = false;
-let level2 = false;
-let level3 = false;
+let currentLevel;
 
 var Play = function(game) {
     // Variables that need forward declaration
@@ -32,11 +30,11 @@ Play.prototype = {
 
         // start level 1
         createLevel(1);
-        level1 = true;
+        currentLevel = 1;
 
         // Create and display the player
-        //this.player = new Player(game, 0, 4000 - 96);
-        this.player = new Player(game, 64, 4000 - 32*16); // test only
+        if (this.debug) this.player = new Player(game, 64, 4000 - 32*16); // test only
+        else this.player = new Player(game, 0, 4000 - 96);
         game.add.existing(this.player);
         //Create the twin brother
         this.enemy = new Enemy(game, 200, 4000 - 96);
@@ -71,13 +69,12 @@ Play.prototype = {
         }
 
         // end level 1 & start level 2
-        if (level1 === true && this.player.x < 32 * 6 && this.player.y < 4000 - 32 * 14) {
+        if (currentLevel === 1 && this.player.x < 32 * 6 && this.player.y < 4000 - 32 * 14) {
             console.log('Level 1 Completed!');
 
             createLevel(2);
             this.elevator.body.velocity.y = -200;
-            level1 = false;
-            level2 = true;
+            currentLevel = 2;
         }
         // elevator smooth stop
         if (this.elevator.y <= 4256 - 32*80) {
@@ -94,12 +91,11 @@ Play.prototype = {
         }
 
         // end level 2 & start level 3
-        if (level2 === true && this.player.x === 6000 && this.player.y === 4000) {  //change condition later
+        if (currentLevel === 2 && this.player.x === 6000 && this.player.y === 4000) {  //change condition later
             console.log('Level 2 Completed!');
 
-            createLevel(2);
-            level2 = false;
-            level3 = true;
+            createLevel(3);
+            currentLevel = 3;
         }
     },
     render: function() {
@@ -180,7 +176,7 @@ function createLevel(level) {
 
     if (level === 2) {
         console.log('Creating Level 2...');
-        minions.add(new Minion(game, 531, 3500, right));
+
 
         // bounds
         createBound(7*n, 20*n, 1, 7);   // right
@@ -188,9 +184,31 @@ function createLevel(level) {
 
         // elevator masking
         createBound(0,14*n, 7, 1);
+        createPlatform2(7*n, 80*n, 25, 1);
 
         // 1#
-        createPlatform2();
+        createPlatform2(12*n, 84*n, 25, 1);
+        createPlatform2(15*n, 83*n, 22, 3);
+        minions.add(new Minion(game, 14*n, 86*n, left));
+
+        // 2#
+        createPlatform2(17*n, 89*n, 25, 1);
+        createPlatform2(21*n, 88*n, 21, 4);
+        minions.add(new Minion(game, 19*n, 91*n, left));
+
+        // 3#
+        createPlatform2(22*n, 95*n, 83, 1);
+        createPlatform2(26*n, 94*n, 20, 5);
+        minions.add(new Minion(game, 24*n, 97*n, left));
+
+        // 4#
+        minions.add(new Minion(game, 90*n, 97*n, left));
+        minions.add(new Minion(game, 104*n, 97*n, left)); // temporary sub. for twin brother
+        // create twin brother at (x,y) = (74*n, 97*n)
+
+        // bounds
+        createBound(90*n, 94*n, 15, 95);    // left
+        createBound(115*n, 120*n, 15, 115);  // right
 
         console.log('Level 2 Created!');
     }
@@ -199,7 +217,7 @@ function createLevel(level) {
         console.log('Creating Level 3...');
 
         // bounds
-        //createBound();
+        createBound(3840, 0, 10, 150);   // right
 
         // 1#
         createPlatform3();

@@ -1,12 +1,12 @@
 // Minion prefab
 
 function Minion(game, posx, posy, faceLeft) {
-    this.faceLeft = faceLeft
+    this.faceLeft = faceLeft;
     this.posx = posx;
     this.posy = posy;
     
     // Create an instance of Phaser.Sprite
-    Phaser.Sprite.call(this, game, posx, posy, 'twinDark');
+    Phaser.Sprite.call(this, game, posx, 4000 - posy, 'twinDark');
     
 
     // Create and display minion
@@ -47,4 +47,4 @@ Minion.prototype.update = function () {
     // this.player.body.acceleration.x = 0;
     // this.player.body.velocity.x = 0;
 
-}
+};

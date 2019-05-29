@@ -5,7 +5,7 @@ function Button(game, posx, posy) {
     Phaser.Sprite.call(this, game, posx, posy, 'buttons', 'leftOut');
 
     // Scale change
-    this.scale.setTo(0.15,0.15)
+    this.scale.setTo(0.15,0.15);
     this.alpha = 0;
 
     // Instance Variables
@@ -42,10 +42,10 @@ Button.prototype.update = function () {
             if (this.keys[i] != this.key && game.input.keyboard.justPressed(this.keys[i]))
                 this.wrongPressed = true; // If wrong key is pressed
     }
-}
+};
 
 Button.prototype.moveTowards = function(posx, posy, stepSize) {
     this.alpha = Phaser.Math.linearInterpolation([this.alpha, 1], stepSize * 1.5);
     this.x = Phaser.Math.linearInterpolation([this.x, posx], stepSize);
     this.y = Phaser.Math.linearInterpolation([this.y, posy], stepSize);
-}
+};
