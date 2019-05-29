@@ -12,7 +12,7 @@ function Player(game, posx, posy) {
     game.physics.enable(this);
     this.body.gravity.y = 1000;
     this.body.collideWorldBounds = true;
-    this.body.setSize(31,48,11,0);
+    this.body.setSize(31,38,11,10);
 
     // Movement Animations
     this.animations.add('moving', [8,9,10,11,12,13,14,15], 12, true);
@@ -34,6 +34,9 @@ function Player(game, posx, posy) {
     this.h1 = game.add.sprite(10,10, 'health', 0);
     this.h2 = game.add.sprite(50,10, 'health', 0);
     this.h3 = game.add.sprite(90,10, 'health', 0);
+    this.h1.fixedToCamera = true;
+    this.h2.fixedToCamera = true;
+    this.h3.fixedToCamera = true;
 }
 
 // Inherit Phaser.Sprite's prototype
