@@ -247,27 +247,77 @@ function soundManager(main) {
 
 }
 
-
-
 function createBound (pos_x, pos_y, scale_x, scale_y) {
-    var platform = platforms.create(pos_x, 4000 - pos_y, 'bound');
-    platform.body.immovable = true;
-    platform.scale.setTo(scale_x, scale_y);
+    let defaultY = pos_y;
+
+    for (let i = 1; i <= scale_x; i++) {
+        for (let j = 1; j <= scale_y; j++) {
+
+            createBoundExt(pos_x, pos_y, 1, 1);
+            pos_y = pos_y - 32;
+        }
+        pos_x = pos_x + 32;
+        pos_y = defaultY;
+    }
+}
+function createBoundExt (pos_x, pos_y, scale_x, scale_y) {
+        var platform = platforms.create(pos_x, 4000 - pos_y, 'bound');
+        platform.body.immovable = true;
+        platform.scale.setTo(scale_x, scale_y);
 }
 
 function createPlatform1 (pos_x, pos_y, scale_x, scale_y) {
+    let defaultY = pos_y;
+
+    for (let i = 1; i <= scale_x; i++) {
+        for (let j = 1; j <= scale_y; j++) {
+
+            createPlatform1Ext(pos_x, pos_y, 1, 1);
+            pos_y = pos_y - 32;
+        }
+        pos_x = pos_x + 32;
+        pos_y = defaultY;
+    }
+}
+function createPlatform1Ext (pos_x, pos_y, scale_x, scale_y) {
     var platform = platforms.create(pos_x, 4000 - pos_y, 'platform1');
     platform.body.immovable = true;
     platform.scale.setTo(scale_x, scale_y);
 }
 
 function createPlatform2 (pos_x, pos_y, scale_x, scale_y) {
+    let defaultY = pos_y;
+
+    for (let i = 1; i <= scale_x; i++) {
+        for (let j = 1; j <= scale_y; j++) {
+
+            createPlatform2Ext(pos_x, pos_y, 1, 1);
+            pos_y = pos_y - 32;
+        }
+        pos_x = pos_x + 32;
+        pos_y = defaultY;
+    }
+}
+function createPlatform2Ext (pos_x, pos_y, scale_x, scale_y) {
     var platform = platforms.create(pos_x, 4000 - pos_y, 'platform2');
     platform.body.immovable = true;
     platform.scale.setTo(scale_x, scale_y);
 }
 
 function createPlatform3 (pos_x, pos_y, scale_x, scale_y) {
+    let defaultY = pos_y;
+
+    for (let i = 1; i <= scale_x; i++) {
+        for (let j = 1; j <= scale_y; j++) {
+
+            createPlatform3Ext(pos_x, pos_y, 1, 1);
+            pos_y = pos_y - 32;
+        }
+        pos_x = pos_x + 32;
+        pos_y = defaultY;
+    }
+}
+function createPlatform3Ext (pos_x, pos_y, scale_x, scale_y) {
     var platform = platforms.create(pos_x, 4000 - pos_y, 'platform2');
     platform.body.immovable = true;
     platform.scale.setTo(scale_x, scale_y);
