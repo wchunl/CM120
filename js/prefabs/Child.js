@@ -12,6 +12,7 @@ function Child(game, posx, posy) {
     this.body.gravity.y = 1000;
     this.body.collideWorldBounds = true;
     this.body.setSize(31,48,11,0); // it depends on the child art
+    this.jumpAble = true; 
 
     // Movement Animations (need art)
     this.animations.add('move', [0,6,1,7,12,13,3,9], 12, true);
