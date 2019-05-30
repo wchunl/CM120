@@ -1,5 +1,6 @@
 // MainMenu State object
 var track;
+var video;
 
 // Snippet from https://phaser.io/examples/v2/text/google-webfonts
 WebFontConfig = {
@@ -23,8 +24,10 @@ MainMenu.prototype = {
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
         // Load Sprites
-        game.load.images(['gameBackground','bound','platform1','platform2','platform3','mm_play','mm_debug','screenBlack'],
-        ['gameBackground.png','bound.png','platform1.png','platform2.png','platform3.png','mm_play.png','mm_debug.png','screenBlack.jpg']);
+        game.load.images(['gameBackground','bound','platform1','platform2','platform3','mm_play','mm_debug','screenBlack','timerbar'],
+        ['gameBackground.png','bound.png','platform1.png','platform2.png','platform3.png','mm_play.png','mm_debug.png','screenBlack.jpg','timerbar.png']);
+
+        game.load.video('menuBGM', 'menuVideo.mp4');
 
         game.load.spritesheet('health', 'health.png', 36, 32, 4);
 
@@ -58,7 +61,14 @@ MainMenu.prototype = {
         console.log('Assets loaded');
     },
     create: function() {
+        video = game.add.video('menuBGM');
+        video.volume = 0.3;
+        video.play(true);
+        video.addToWorld(-200,0,0,0, 0.95, 1);
+        
 
+        // game.add.tileSprite(0,0, 1000, 600, 'mainMenuBG');
+        
         // Enable Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -66,13 +76,22 @@ MainMenu.prototype = {
         track.play('', 0, 1, false);
 
         // Display Main Menu Text
-        game.add.text(16,16, 'Main Menu', { fontSize: '32px', fill: '#fff' });
-        game.add.text(16,56, 'Catch the enemy!', { fontSize: '32px', fill: '#fff' });
-        game.add.text(16,96, 'Use [W][A][S][D] Keys to Move', { fontSize: '32px', fill: '#fff' });
-        game.add.text(16,136, 'Use [↑][←][↓][→] Keys to fight in combat', { fontSize: '32px', fill: '#fff' });
+        var title =game.add.text(0,0, 'Twinternal', { fontSize: '64px', fill: '#6F4E37' });
+        title.centerX = game.camera.centerX; title.centerY = game.camera.centerY - 200;
+        title.alpha = 0;
+        title.font = "MedievalSharp";
+        game.add.tween(title).to( {alpha: 1}, 3000, "Linear", true);
         
-        game.add.button(16,186,'mm_play', playPressed);
-        game.add.button(16,246,'mm_debug', debugPressed);
+        // game.add.text(16,16, 'Main Menu', { fontSize: '32px', fill: '#fff' });
+        // game.add.text(16,56, 'Catch the enemy!', { fontSize: '32px', fill: '#fff' });
+        // game.add.text(16,96, 'Use [W][A][S][D] Keys to Move', { fontSize: '32px', fill: '#fff' });
+        // game.add.text(16,136, 'Use [↑][←][↓][→] Keys to fight in combat', { fontSize: '32px', fill: '#fff' });
+        
+        var btn1 = game.add.button(-150,476,'mm_play', playPressed); btn1.alpha = 0;
+        game.add.tween(btn1).to( {alpha: 1}, 3000, "Linear", true);
+        var btn2 = game.add.button(-150,536,'mm_debug', debugPressed); btn2.alpha = 0;
+        game.add.tween(btn2).to( {alpha: 1}, 3000, "Linear", true);
+
     },
     update: function() {
 
@@ -80,10 +99,12 @@ MainMenu.prototype = {
 };
 
 function playPressed() {
+    video.destroy();
     track.pause();
     game.state.start('Play', false, false, false);
 }
 function debugPressed() {
+    video.destroy();
     track.pause();
     game.state.start('Play', false, false, true)
 }
