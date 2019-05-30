@@ -29,7 +29,7 @@ function Player(game, posx, posy) {
     // Instance variables
     this.inCombat = false; // currently in combat?
     this.combat; // The current combat object, if any
-    this.moveable = true; // should the player be able to move right now?
+    this.jumpAble = true; // should the player be able to move jump now?
 
     // Health
     this.health = 3; // Health variable, 6 = six half hearts (3 full hearts)
@@ -51,9 +51,9 @@ Player.prototype.update = function () {
     this.body.velocity.x = 0;
     this.healthManager();    // Health Manager
     this.combatManager();    // Combat Manager
-    if (this.moveable) this.movementManager(); // Movement manager
-    else this.body.acceleration.x = 0;
-//     else if (doOnce){doOnce = false; this.body.acceleration.x = 0; this.animations.play("standing");}
+    // if (this.moveable) this.movementManager(); // Movement manager
+    // else this.body.acceleration.x = 0;
+    //     else if (doOnce){doOnce = false; this.body.acceleration.x = 0; this.animations.play("standing");}
 };
 
 Player.prototype.healthManager = function() {
@@ -63,26 +63,28 @@ Player.prototype.healthManager = function() {
         case 1: this.h2.frame = 1; break; // heart 2 = empty heart
         case 0: game.state.start('GameOver', true, false); break; // player is dead
         default: // nothing happens
-      }
+    }
 };
 
 Player.prototype.combatManager = function() {
     
     // Check if combat has started
-    game.physics.arcade.overlap(this, minions, this.createCombat);
+    if (!game.physics.arcade.overlap(this, minions, this.createCombat)) {
+        this.movementManager();
+    }
 
 
     if (this.inCombat && this.combat.combatOver) {
         console.log('destroying combat');
         this.inCombat = false;
-        this.moveable = true;
+        // this.moveable = true;
         this.combat.destroy();
     }
 };
 
 Player.prototype.createCombat = function(player, enemy) {
     if (!player.inCombat){ // Runs once
-        this.moveable = false;
+        // this.moveable = false;
         player.combat = new Combat(game, player, enemy, 3);
         game.add.existing(player.combat);
         player.inCombat = true;
@@ -101,15 +103,15 @@ Player.prototype.movementManager = function() {
         this.animations.play('crouching');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.A)) { // [A] key is down
         this.scale.x = 1; // face left
-        if (this.body.acceleration.x > -10000 && currentLevel === 1) this.body.acceleration.x -= 500; // accelerate
+        if (this.body.acceleration.x > -10000) this.body.acceleration.x -= 500; // accelerate
         this.animations.play('moving');
-        if (this.body.acceleration.x > -15000 && currentLevel > 1) this.body.acceleration.x -= 1000; // adult speed
+        // if (this.body.acceleration.x > -15000 && currentLevel > 1) this.body.acceleration.x -= 1000; // adult speed
         this.animations.play('moving');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.D)) { // [D] key is down
         this.scale.x = -1; // face right
-        if (this.body.acceleration.x < 10000 && currentLevel === 1) this.body.acceleration.x += 500; // accelerate
+        if (this.body.acceleration.x < 10000) this.body.acceleration.x += 500; // accelerate
         this.animations.play('moving');
-        if (this.body.acceleration.x < 15000 && currentLevel > 1) this.body.acceleration.x += 1000; // adult speed
+        // if (this.body.acceleration.x < 15000 && currentLevel > 1) this.body.acceleration.x += 1000; // adult speed
         this.animations.play('moving');
     } else { // Otherwise standing
        this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.1);
@@ -125,12 +127,12 @@ Player.prototype.movementManager = function() {
     // console.log(this.body.acceleration.x);
     
     // Jumping
-    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down && currentLevel === 1) {
-        this.body.velocity.y = -500;
-    }
-    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down && currentLevel > 1) {  // adult jump
+    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down && this.jumpAble) {
         this.body.velocity.y = -650;
     }
+    // if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down && currentLevel > 1 && this.jumpAble) {  // adult jump
+    //     this.body.velocity.y = -650;
+    // }
     
     // Jumping animation
     if (!this.body.touching.down) {

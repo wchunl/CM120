@@ -1,6 +1,6 @@
 // Play State object
 var tween;
-let currentLevel;
+var currentLevel = 0;
 
 var Play = function(game) {
     // Variables that need forward declaration
@@ -22,6 +22,9 @@ Play.prototype = {
         this.nar;
     },
     create: function() {
+        // The UI reserved for the highest level, draws over every other sprite
+        topUI = game.add.group(); 
+
         // Create and display background sky
         this.sky = game.add.tileSprite(0,0, 6000, 4000, 'gameBackground');
         // Create and display platform
@@ -40,17 +43,18 @@ Play.prototype = {
         createLevel(1);
         currentLevel = 1;
         
+        // Create and display minions
+        minions = game.add.group();
+        minions.enableBody = true;
         // Create and display the player
-        if (this.debug) this.player = new Player(game, 352, 4000 - 32*16); // test only
+        // if (this.debug) this.player = new Player(game, 352, 4000 - 32*16); // right before elevator lvl
+        if (this.debug) {this.player = new Player(game, 352, 1420); createLevel(2);} // level 2
         else this.player = new Player(game, 150, 4000 - 96);
         game.add.existing(this.player);
         //Create the twin brother
         this.enemy = new Enemy(game, 200, 4000 - 96);
         game.add.existing(this.enemy);
         
-        // Create and display minions
-        minions = game.add.group();
-        minions.enableBody = true;
 
 
         game.camera.x = 0; game.camera.y = 4000;
@@ -86,7 +90,7 @@ Play.prototype = {
         // end level 1 & start level 2
         if (currentLevel === 1 && this.player.x < 32 * 4 && this.player.y < 4000 - 32 * 14) {
             console.log('Level 1 Completed!');
-            this.player.moveable = false;
+            this.player.jumpAble = false;
             createLevel(2);
             this.elevator.body.velocity.y = -200;
             currentLevel = 2;
@@ -117,7 +121,7 @@ Play.prototype = {
         }
 
         if (this.soundQueue == 1 && this.player.y < 2200 && this.nar.isPlaying) {
-            console.log("still on");
+            // console.log("still on");
             this.elevator.body.velocity.y = 0;
         } 
 
@@ -189,7 +193,7 @@ function tweenManager(main) {
     // Display title on elevator
     if (main.player.y < 3000) {
         if (main.title == null) {
-            main.title = game.add.text(main.player.x + 200, main.player.y-10, "Twinternal", {fill: '#fff'});
+            main.title = game.add.text(main.player.x + 250, main.player.y-10, "Twinternal", {fill: '#6F4E37'});
             main.title.alpha = 0;
             var tween = game.add.tween(main.title).to( {alpha: 1}, 1000, "Linear", true);
             tween.yoyo(true, 2000);
@@ -202,7 +206,7 @@ function tweenManager(main) {
     
     // Elevator end
     if (main.player.y < 1800) {
-        main.player.moveable = true;
+        main.player.jumpAble = true;
     }
 }
 
@@ -215,13 +219,17 @@ function soundManager(main) {
         main.bgm.play(); 
         main.nar.play();
     }
+
+    // console.log(main.currentLevel);
     
-    if (main.soundQueue == 1 && !main.bgm.isPlaying && !main.nar.isPlaying) {
-        main.soundQueue = 2;
-        main.bgm = game.add.audio("lvl2_bgm", 0.5, true);
-        main.nar = game.add.audio("nar2", 4, false);
-        main.bgm.play(); 
-        main.nar.play();
+    if (main.soundQueue == 1 && !main.bgm.isPlaying 
+        && !main.nar.isPlaying && currentLevel == 2 
+        && main.player.y < 2200) {
+            main.soundQueue = 2;
+            main.bgm = game.add.audio("lvl2_bgm", 0.25, true);
+            main.nar = game.add.audio("nar2", 3, false);
+            main.bgm.play(); 
+            main.nar.play();
     }
 
 }
