@@ -59,7 +59,7 @@ Enemy.prototype.update = function () {
         this.animations.stop(null, true);
         this.animations.play('standing');
     }
-    if(Math.floor(this.x) == 13 && this.y < 224){
+    if(Math.floor(this.x) == 13 && this.y ==3528){
         this.scale.x = -1;
         this.end = true;  
      }
@@ -83,15 +83,17 @@ Enemy.prototype.path = function(){
         this.jump(); 
      }else if (Math.floor(this.x) == 938&& this.air == false && this.body.touching.down){
         this.jump(); 
-     }else if (Math.floor(this.x) == 987&& this.air == false ){
+     }else if (Math.floor(this.x) == 1004&& this.air == false ){
         this.jump();
         this.body.velocity.x = -110;
         this.scale.x = 1;
-     }else if (Math.floor(this.x) == 840&& this.air == false && this.body.touching.down ){
+     }else if (Math.floor(this.x) == 837&& this.air == false && this.body.touching.down ){
         this.jump();
      }else if (Math.floor(this.x) == 651&& this.air == false && this.body.touching.down ){
         this.jump();
-     }else if (Math.floor(this.x) == 486&& this.air == false && this.body.touching.down ){
+     }else if (Math.floor(this.x) == 500&& this.air == false && this.body.touching.down ){
+        this.jump();
+     }else if (Math.floor(this.x) == 331&& this.air == false && this.body.touching.down ){
         this.jump();
      }
 

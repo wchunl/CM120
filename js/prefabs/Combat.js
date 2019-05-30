@@ -66,6 +66,9 @@ Combat.prototype.update = function () {
         console.log(this.player.health);
         this.nextButton();
     }
+    if (game.input.keyboard.isDown(Phaser.KeyCode.LEFT)) { // [D] key is down
+       this.player.animations.play('swing');
+    }
 };
 
 Combat.prototype.nextButton = function () {
