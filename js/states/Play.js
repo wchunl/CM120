@@ -124,7 +124,6 @@ Play.prototype = {
         // end level 2 & start level 3
         if (currentLevel === 2 && this.player.x === 6000 && this.player.y === 4000) {  //change condition later
             console.log('Level 2 Completed!');
-
             createLevel(3);
             currentLevel = 3;
         }
