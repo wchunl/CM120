@@ -97,12 +97,12 @@ MainMenu.prototype = {
 };
 
 function playPressed() {
-    video.destroy();
+    video.stop();
     track.pause();
     game.state.start('Play', false, false, false);
 }
 function debugPressed() {
-    video.destroy();
+    video.stop();
     track.pause();
     game.state.start('Play', false, false, true)
 }
