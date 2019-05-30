@@ -34,6 +34,8 @@ MainMenu.prototype = {
         // Load Character Atlas
         game.load.atlas('twinLight','twinLight.png','twinLight.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
         game.load.atlas('twinDark','twinDark.png','twinDark.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+        game.load.atlas('child1','child1.png','child1.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
+        game.load.atlas('child2','child2.png','child2.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 
         // Load Other Atlas
         game.load.atlas('buttons', 'buttons.png', 'buttons.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);

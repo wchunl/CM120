@@ -23,79 +23,83 @@ Play.prototype = {
     },
     create: function() {
         // The UI reserved for the highest level, draws over every other sprite
-        topUI = game.add.group(); 
+        topUI = game.add.group();
 
         // Create and display background sky
         this.sky = game.add.tileSprite(0,0, 6000, 4000, 'gameBackground');
         // Create and display platform
         platforms = game.add.group();
         platforms.enableBody = true;
-        
+
         // elevator
         this.elevator = platforms.create (32, 4000 - 14*32, 'platform2');
         this.elevator.body.immovable = true;
         this.elevator.scale.setTo(6, 1);
         this.elevator.body.allowGravity = false;
         this.elevator.body.velocity.y = 0;
-        
-        
+
+         // Create and display minions
+        minions = game.add.group();
+        minions.enableBody = true;
+
         // start level 1
         createLevel(1);
         currentLevel = 1;
-        
+
         // Create and display minions
         minions = game.add.group();
         minions.enableBody = true;
         // Create and display the player
         // if (this.debug) this.player = new Player(game, 352, 4000 - 32*16); // right before elevator lvl
-        if (this.debug) {this.player = new Player(game, 352, 1420); createLevel(2);} // level 2
-        else this.player = new Player(game, 150, 4000 - 96);
-        game.add.existing(this.player);
+        if (this.debug) {this.child = new Child(game, 352, 1420); createLevel(2);} // level 2
+        else this.child = new Child(game, 150, 4000 - 96);
+        game.add.existing(this.child);
         //Create the twin brother
-        this.enemy = new Enemy(game, 200, 4000 - 96);
-        game.add.existing(this.enemy);
-        
+        this.enemyy = new Enemyy(game, 200, 4000 - 96);
+        game.add.existing(this.enemyy);
+
 
 
         game.camera.x = 0; game.camera.y = 4000;
-        game.camera.follow(this.player, 'FOLLOW_LOCKON', 0.1, 0.1);
+        game.camera.follow(this.child, 'FOLLOW_LOCKON', 0.1, 0.1);
         // Create and display enemy
         // this.enemy = new Enemy(game, 100, 400, 'dude');
         // this.enemy.alpha = 0;
         // game.add.existing(this.enemy);
-        
+
         game.add.image(0, 2200, "screenBlack");
         game.add.image(0, 1800, "screenBlack");
-    }, 
+    },
     update: function() {
         soundManager(this); // BGM and narration manager
         tweenManager(this); // Tutorial texts manager
 
         // End of level check
-        if (this.player.x < 60 && this.player.y < 160) {
+        if (this.child.x < 60 && this.child.y < 160) {
             game.state.start('GameOver');
         }
 
         // Collision check between platforms and characters
-        game.physics.arcade.collide(platforms, [this.player, minions, this.enemy]);
-        
+        game.physics.arcade.collide(platforms, [this.player, minions, this.enemyy]);
+        game.physics.arcade.collide(platforms, [this.child, minions, this.enemyy]);
+
         // Debug mode
         if (this.debug) {
             // Write mouse pointer current position when pressed
             if (game.input.activePointer.justPressed())
                 console.log('Mouse position: ' + game.input.mousePointer.x + ',' + game.input.mousePointer.y);
-            
+
         }
 
         // end level 1 & start level 2
-        if (currentLevel === 1 && this.player.x < 32 * 4 && this.player.y < 4000 - 32 * 14) {
+        if (currentLevel === 1 && this.child.x < 32 * 4 && this.child.y < 4000 - 32 * 14) {
             console.log('Level 1 Completed!');
-            this.player.jumpAble = false;
+            this.child.jumpAble = false;
             createLevel(2);
             this.elevator.body.velocity.y = -200;
             currentLevel = 2;
         }
-        
+
 
         // this.elevator.body.velocity.y = Phaser.Math.linearInterpolation([this.elevator.body.velocity.y, 0] , 0.001);
         // if (this.elevator.y < 4000) {
@@ -103,8 +107,15 @@ Play.prototype = {
         //     this.elevator.body.velocity.y = -200;
         // }
         // elevator smooth stop
-        if (this.player.y < 2200) {
+        if (this.child.y < 2200) {
             this.elevator.body.velocity.y = -200;
+        }
+        if(this.elevator.y < 1900 && this.elevator.y > 1898){
+           //change character
+           this.child.destroy();
+           this.player = new Player(game, 90, 1100); // test only
+           game.add.existing(this.player);
+           game.camera.follow(this.player,0.1, 0.1);
         }
 
         if (this.elevator.y <= 4256 - 32*80) {
@@ -120,26 +131,28 @@ Play.prototype = {
             }
         }
 
-        if (this.soundQueue == 1 && this.player.y < 2200 && this.nar.isPlaying) {
-            // console.log("still on");
+        if (this.soundQueue == 1 && this.child.y < 2200 && this.nar.isPlaying) {
+            console.log("still on");
             this.elevator.body.velocity.y = 0;
-        } 
+        }
 
         // end level 2 & start level 3
-        if (currentLevel === 2 && this.player.x === 6000 && this.player.y === 4000) {  //change condition later
-            console.log('Level 2 Completed!');
-            createLevel(3);
-            currentLevel = 3;
-        }
+        // if (currentLevel === 2 && this.player.x === 6000 && this.player.y === 4000) {  //change condition later
+        //     console.log('Level 2 Completed!');
+        //     createLevel(3);
+        //     currentLevel = 3;
+        // }
     },
     render: function() {
         // Show collisions if debug is on
         if (this.debug) {
-            game.debug.body(this.player);
-            game.debug.body(this.enemy);
+         //   game.debug.body(this.player);
+            game.debug.body(this.enemyy);
+            game.debug.body(this.child);
             //i put this here just for getting exact position of the player
-            game.debug.spriteInfo(this.player, 32, 32);
-            game.debug.spriteInfo(this.enemy, 700, 32);
+           // game.debug.spriteInfo(this.player, 32, 32);
+             // game.debug.spriteInfo(this.child,100, 32);
+            game.debug.spriteInfo(this.enemyy, 700, 32);
             minions.forEach( game.debug.body, game.debug);
         }
     }
@@ -149,17 +162,17 @@ Play.prototype = {
 function tweenManager(main) {
     // Display tutorial text for movement
     if (main.tutorial == "tut1") {
-        main.playerPtr = game.add.text(main.player.x, main.player.y, "↓ YOU", {fontSize: '64px', fill: '#0f0'});
+        main.playerPtr = game.add.text(main.child.x, main.child.y, "↓ YOU", {fontSize: '64px', fill: '#0f0'});
         main.playerPtr.alpha = 0;
         var tweenplyrptr = game.add.tween(main.playerPtr).to( {alpha: 1}, 100, "Linear", true, 0, 10);
         tweenplyrptr.yoyo(true, 100);
 
-        main.tutorial = game.add.text(main.player.x, main.player.y, "Use [W][A][S][D] keys to move around!", {fontSize: '16px', fill: '#fff'});
+        main.tutorial = game.add.text(main.child.x, main.child.y, "Use [W][A][S][D] keys to move around!", {fontSize: '16px', fill: '#fff'});
         main.tutorial.alpha = 0;
         var tween = game.add.tween(main.tutorial).to( {alpha: 1}, 1000, "Linear", true, 4000);
         tween.yoyo(true, 5000);
         tween.onComplete.add(finished, this);function finished(){
-            main.tutorial = game.add.text(main.player.x, main.player.y, "Try to catch your twin brother Calvin!", {fontSize: '16px', fill: '#fff'});
+            main.tutorial = game.add.text(main.child.x, main.child.y, "Try to catch your twin brother Calvin!", {fontSize: '16px', fill: '#fff'});
             main.tutorial.alpha = 0;
             var tween2 = game.add.tween(main.tutorial).to( {alpha: 1}, 1000, "Linear", true);
             tween2.yoyo(true, 5000);
@@ -167,33 +180,33 @@ function tweenManager(main) {
 
             // Pointer
             if (main.pointer == "tut1") {
-                main.pointer = game.add.text(main.enemy.x, main.enemy.y, "↓", {fontSize: '64px', fill: '#0f0'});
+                main.pointer = game.add.text(main.enemyy.x, main.enemyy.y, "↓", {fontSize: '64px', fill: '#0f0'});
                 main.pointer.alpha = 0;
                 var tweenptr = game.add.tween(main.pointer).to( {alpha: 1}, 100, "Linear", true, 0, 15);
                 tweenptr.yoyo(true, 100);
             }
         }
     }
-    
+
     if (main.playerPtr != null) {
-        main.playerPtr.x = main.player.x - 20;
-        main.playerPtr.y = main.player.y - 100;
+        main.playerPtr.x = main.child.x - 20;
+        main.playerPtr.y = main.child.y - 100;
     }
 
-    main.tutorial.centerX = Phaser.Math.linearInterpolation([main.tutorial.centerX, main.player.x], 0.2);
-    main.tutorial.centerY = Phaser.Math.linearInterpolation([main.tutorial.centerY, main.player.y - 50], 0.5);
+    main.tutorial.centerX = Phaser.Math.linearInterpolation([main.tutorial.centerX, main.child.x], 0.2);
+    main.tutorial.centerY = Phaser.Math.linearInterpolation([main.tutorial.centerY, main.child.y - 50], 0.5);
     if (main.pointer != "tut1") {
-        main.pointer.centerX = main.enemy.x;
-        main.pointer.centerY = main.enemy.y - 70;
+        main.pointer.centerX = main.enemyy.x;
+        main.pointer.centerY = main.enemyy.y - 70;
     }
-    // main.tutorial.centerY = main.player.y - 50;
+    // main.tutorial.centerY = main.child.y - 50;
     if (main.tutorial.x < 0) main.tutorial.x = 0;
-    // main.tutorial.y = main.player.y + 40;
+    // main.tutorial.y = main.child.y + 40;
 
     // Display title on elevator
-    if (main.player.y < 3000) {
+    if (main.child.y < 3000) {
         if (main.title == null) {
-            main.title = game.add.text(main.player.x + 250, main.player.y-10, "Twinternal", {fill: '#6F4E37'});
+            main.title = game.add.text(main.child.x + 250, main.child.y-10, "Twinternal", {fill: '#6F4E37'});
             main.title.alpha = 0;
             var tween = game.add.tween(main.title).to( {alpha: 1}, 1000, "Linear", true);
             tween.yoyo(true, 2000);
@@ -201,12 +214,12 @@ function tweenManager(main) {
         }
         main.title.font = 'MedievalSharp';
         main.title.fontSize = 60;
-        main.title.y = main.player.y-10;
+        main.title.y = main.child.y-10;
     }
-    
+
     // Elevator end
-    if (main.player.y < 1800) {
-        main.player.jumpAble = true;
+    if (main.child.y < 1800) {
+        main.child.jumpAble = true;
     }
 }
 
@@ -216,19 +229,19 @@ function soundManager(main) {
         main.soundQueue = 1;
         main.bgm = game.add.audio("lvl1_bgm", 1, false);
         main.nar = game.add.audio("nar1", 1, false);
-        main.bgm.play(); 
+        main.bgm.play();
         main.nar.play();
     }
 
     // console.log(main.currentLevel);
-    
-    if (main.soundQueue == 1 && !main.bgm.isPlaying 
-        && !main.nar.isPlaying && currentLevel == 2 
-        && main.player.y < 2200) {
+
+    if (main.soundQueue == 1 && !main.bgm.isPlaying
+        && !main.nar.isPlaying && currentLevel == 2
+        && main.child.y < 2200) {
             main.soundQueue = 2;
             main.bgm = game.add.audio("lvl2_bgm", 0.25, true);
             main.nar = game.add.audio("nar2", 3, false);
-            main.bgm.play(); 
+            main.bgm.play();
             main.nar.play();
     }
 
@@ -286,7 +299,7 @@ function createLevel(level) {
         createPlatform1(26*n,14*n, 3, 3);
         createPlatform1(31*n,5*n, 1, 1);
         createPlatform1(31*n,11*n, 1, 1);
-        createPlatform1(31*n,17*n, 1, 1);
+       // createPlatform1(31*n,17*n, 1, 1);
 
         // 3#
         createPlatform1(20*n,15*n, 4, 1);
@@ -294,7 +307,6 @@ function createLevel(level) {
         createPlatform1(10*n,15*n, 3, 1);
         createPlatform1(5*n,14*n, 2, 1);
         createPlatform1(0,14*n, 5, 10);
-
         console.log('Level 1 Created!');
     }
 
