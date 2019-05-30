@@ -16,6 +16,7 @@ Play.prototype = {
         this.title = null;
         this.tutorial = "tut1";
         this.pointer = "tut1";
+        this.playerPtr = null;
         this.soundQueue = 0;
         this.bgm;
         this.nar;
@@ -41,7 +42,7 @@ Play.prototype = {
         
         // Create and display the player
         if (this.debug) this.player = new Player(game, 352, 4000 - 32*16); // test only
-        else this.player = new Player(game, 0, 4000 - 96);
+        else this.player = new Player(game, 150, 4000 - 96);
         game.add.existing(this.player);
         //Create the twin brother
         this.enemy = new Enemy(game, 200, 4000 - 96);
@@ -143,12 +144,16 @@ Play.prototype = {
 
 // Helper functions
 function tweenManager(main) {
-    // var pointer = null;
     // Display tutorial text for movement
     if (main.tutorial == "tut1") {
+        main.playerPtr = game.add.text(main.player.x, main.player.y, "↓ YOU", {fontSize: '64px', fill: '#0f0'});
+        main.playerPtr.alpha = 0;
+        var tweenplyrptr = game.add.tween(main.playerPtr).to( {alpha: 1}, 100, "Linear", true, 0, 10);
+        tweenplyrptr.yoyo(true, 100);
+
         main.tutorial = game.add.text(main.player.x, main.player.y, "Use [W][A][S][D] keys to move around!", {fontSize: '16px', fill: '#fff'});
         main.tutorial.alpha = 0;
-        var tween = game.add.tween(main.tutorial).to( {alpha: 1}, 1000, "Linear", true, 1000);
+        var tween = game.add.tween(main.tutorial).to( {alpha: 1}, 1000, "Linear", true, 4000);
         tween.yoyo(true, 5000);
         tween.onComplete.add(finished, this);function finished(){
             main.tutorial = game.add.text(main.player.x, main.player.y, "Try to catch your twin brother Calvin!", {fontSize: '16px', fill: '#fff'});
@@ -167,6 +172,11 @@ function tweenManager(main) {
         }
     }
     
+    if (main.playerPtr != null) {
+        main.playerPtr.x = main.player.x - 20;
+        main.playerPtr.y = main.player.y - 100;
+    }
+
     main.tutorial.centerX = Phaser.Math.linearInterpolation([main.tutorial.centerX, main.player.x], 0.2);
     main.tutorial.centerY = Phaser.Math.linearInterpolation([main.tutorial.centerY, main.player.y - 50], 0.5);
     if (main.pointer != "tut1") {
