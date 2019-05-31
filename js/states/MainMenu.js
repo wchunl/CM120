@@ -1,6 +1,7 @@
 // MainMenu State object
 var track;
 var video;
+var btn1, btn2, btn3, title, srcBack;
 
 // Snippet from https://phaser.io/examples/v2/text/google-webfonts
 WebFontConfig = {
@@ -24,8 +25,8 @@ MainMenu.prototype = {
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
         // Load Sprites
-        game.load.images(['gameBackground','bound','platform1','platform2','platform3','mm_play','mm_debug','screenBlack','timerbar'],
-        ['gameBackground.png','bound.png','platform1.png','platform2.png','platform3.png','mm_play.png','mm_debug.png','screenBlack.jpg','timerbar.png']);
+        game.load.images(['gameBackground','bound','platform1','platform2','platform3','mm_play','mm_debug','mm_sources','screenBlack','timerbar'],
+        ['gameBackground.png','bound.png','platform1.png','platform2.png','platform3.png','mm_play.png','mm_debug.png','mm_sources.png','screenBlack.jpg','timerbar.png']);
 
         game.load.video('menuBGM', 'menuVideo.mp4');
 
@@ -76,7 +77,7 @@ MainMenu.prototype = {
         track.play('', 0, 1, false);
 
         // Display Main Menu Text
-        var title =game.add.text(0,0, 'Twinternal', { fontSize: '64px', fill: '#6F4E37' });
+        title =game.add.text(0,0, 'Twinternal', { fontSize: '64px', fill: '#6F4E37' });
         title.centerX = game.camera.centerX; title.centerY = game.camera.centerY - 200;
         title.alpha = 0;
         title.font = "MedievalSharp";
@@ -87,18 +88,21 @@ MainMenu.prototype = {
         // game.add.text(16,96, 'Use [W][A][S][D] Keys to Move', { fontSize: '32px', fill: '#fff' });
         // game.add.text(16,136, 'Use [↑][←][↓][→] Keys to fight in combat', { fontSize: '32px', fill: '#fff' });
         
-        var btn1 = game.add.button(-150,476,'mm_play', playPressed); btn1.alpha = 0;
-        game.add.tween(btn1).to( {alpha: 1}, 3000, "Linear", true);
-        var btn2 = game.add.button(-150,536,'mm_debug', debugPressed); btn2.alpha = 0;
-        game.add.tween(btn2).to( {alpha: 1}, 3000, "Linear", true);
-
+        btn1 = game.add.button(-150,416,'mm_play', playPressed); btn1.alpha = 0;
+        game.add.tween(btn1).to( {alpha: 1}, 1000, "Linear", true);
+        btn2 = game.add.button(-150,476,'mm_debug', debugPressed); btn2.alpha = 0;
+        game.add.tween(btn2).to( {alpha: 1}, 1000, "Linear", true);
+        btn3 = game.add.button(-150,536,'mm_sources', sourcesPressed); btn3.alpha = 0;
+        game.add.tween(btn3).to( {alpha: 1}, 1000, "Linear", true);
+        
     },
     update: function() {
-
+        
     }
 };
 
 function playPressed() {
+    console.log("test");
     video.stop();
     track.pause();
     game.state.start('Play', false, false, false);
@@ -107,4 +111,29 @@ function debugPressed() {
     video.stop();
     track.pause();
     game.state.start('Play', false, false, true)
+}
+function sourcesPressed() {
+    game.add.tween(title).to( {alpha: 0}, 1000, "Linear", true);
+    game.add.tween(btn1).to( {x: -250}, 1000, Phaser.Easing.easeIn, true);
+    game.add.tween(btn2).to( {x: -250}, 1000, "Linear", true);
+    game.add.tween(btn3).to( {x: -250}, 1000, "Linear", true);
+    
+    
+    var source = game.add.text(20, 10, "Sources", {fontSize: '32px', fill: '#FFF'})
+    source.centerX = game.world.width/2;
+    source.alpha = 0; source.font = 'MedievalSharp';
+    game.add.tween(source).to( {alpha: 1}, 1000, "Linear", true);
+    addSource("menu video: https://www.youtube.com/watch?v=4vIQON2fDWM", 1);
+    addSource("menu buttons: https://cooltext.com/Edit-Logo?LogoId=3258678199", 2);
+    addSource("source 3", 3);
+    addSource("source 4", 4);
+    addSource("source 5", 5);
+    // ...
+}
+
+function addSource(text, line_nr) {
+    var source = game.add.text(20, (line_nr * 20) + 40, text, {fontSize: '16px', fill: '#FFF'})
+    source.alpha = 0; source.font = 'MedievalSharp';
+    game.add.tween(source).to( {alpha: 1}, 1000, "Linear", true);
+    
 }

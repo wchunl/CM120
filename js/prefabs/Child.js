@@ -60,7 +60,8 @@ Child.prototype.movementManager = function() {
     }    
     // Jumping
     if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down) { 
-        this.body.velocity.y = -500;
+        // this.body.velocity.y = -500;
+        this.body.velocity.y = -650; // debugging
     }
     // Jumping animation
     if (!this.body.touching.down) {

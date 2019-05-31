@@ -51,8 +51,12 @@ Play.prototype = {
         minions.enableBody = true;
         // Create and display the player
         // if (this.debug) this.player = new Player(game, 352, 4000 - 32*16); // right before elevator lvl
-        if (this.debug) {this.child = new Child(game, 352, 1420); createLevel(2);} // level 2
-        else this.child = new Child(game, 150, 4000 - 96);
+        if (this.debug) {
+            this.player = new Player(game, 352, 1400); 
+            createLevel(2); // level 2
+            game.add.existing(this.player);
+        }
+        this.child = new Child(game, 150, 4000 - 96);
         game.add.existing(this.child);
         //Create the twin brother
         this.enemyy = new Enemyy(game, 200, 4000 - 96);
@@ -61,7 +65,8 @@ Play.prototype = {
 
 
         game.camera.x = 0; game.camera.y = 4000;
-        game.camera.follow(this.child, 'FOLLOW_LOCKON', 0.1, 0.1);
+        if (this.debug) game.camera.follow(this.player, 'FOLLOW_LOCKON', 0.1, 0.1);
+        else game.camera.follow(this.child, 'FOLLOW_LOCKON', 0.1, 0.1);
         // Create and display enemy
         // this.enemy = new Enemy(game, 100, 400, 'dude');
         // this.enemy.alpha = 0;
