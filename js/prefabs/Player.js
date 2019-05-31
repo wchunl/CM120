@@ -95,7 +95,7 @@ Player.prototype.createCombat = function(player, enemy) {
 Player.prototype.movementManager = function() {
 
      // Left/Right movement and crouching/standing
-    if (game.input.keyboard.isDown(Phaser.KeyCode.S) && this.body.touching.down) {  // [S] key is down
+    if (game.input.keyboard.isDown(Phaser.KeyCode.S) && this.body.blocked.down) {  // [S] key is down
         // if (this.body.acceleration.x > 0) this.body.acceleration.x -= 100; // decelerate left
         // else if (this.body.acceleration.x < 0) this.body.acceleration.x += 100; // decelerate right
         this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.01);
@@ -119,22 +119,22 @@ Player.prototype.movementManager = function() {
         this.animations.play('standing');
     }
 
-    if (this.body.touching.left || this.body.touching.right) {
+    if (this.body.blocked.left || this.body.blocked.right) {
         this.body.acceleration.x = 0;
     }
 
     // console.log(this.body.acceleration.x);
 
     // Jumping
-    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down && this.jumpAble) {
+    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.blocked.down && this.jumpAble) {
         this.body.velocity.y = -650;
     }
-    // if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down && currentLevel > 1 && this.jumpAble) {  // adult jump
+    // if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.blocked.down && currentLevel > 1 && this.jumpAble) {  // adult jump
     //     this.body.velocity.y = -650;
     // }
 
     // Jumping animation
-    if (!this.body.touching.down) {
+    if (!this.body.blocked.down) {
         this.frame = 37;
     }
 

@@ -21,6 +21,9 @@ var MainMenu = function(game) {};
 MainMenu.prototype = {
     preload: function() {
         game.load.path = 'assets/img/';
+        
+        game.load.tilemap('test','../maptest.json',null, Phaser.Tilemap.TILED_JSON);
+        game.load.spritesheet('tileset', '../dirt-tiles.png', 32,32);
 
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
@@ -128,7 +131,6 @@ function sourcesPressed() {
     addSource("source 3", 3);
     addSource("source 4", 4);
     addSource("source 5", 5);
-    // ...
 }
 
 function addSource(text, line_nr) {

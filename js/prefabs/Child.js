@@ -38,7 +38,7 @@ Child.prototype.update = function () {
 Child.prototype.movementManager = function() {
 
     // Left/Right movement and crouching/standing
-    if (game.input.keyboard.isDown(Phaser.KeyCode.S) && this.body.touching.down) {  // [S] key is down
+    if (game.input.keyboard.isDown(Phaser.KeyCode.S) && this.body.blocked.down) {  // [S] key is down
        // this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.01);
         this.animations.play('stand');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.A)) { // [A] key is down
@@ -55,16 +55,21 @@ Child.prototype.movementManager = function() {
         // else if (this.body.acceleration.x < 0) this.body.acceleration.x += 1000; // decelerate right
         this.animations.play('stand');
     } 
-    if (this.body.touching.left || this.body.touching.right) {
+    if (this.body.blocked.left || this.body.blocked.right) {
         this.body.acceleration.x = 0;
     }    
+
+    // if (this.body.touching.down) {
+    //     console.log("touching down");
+    // }
+
     // Jumping
-    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.touching.down) { 
+    if (game.input.keyboard.isDown(Phaser.KeyCode.W) && this.body.blocked.down) { 
         // this.body.velocity.y = -500;
         this.body.velocity.y = -650; // debugging
     }
     // Jumping animation
-    if (!this.body.touching.down) {
+    if (!this.body.blocked.down) {
         this.frame = 37;
     }  
 }

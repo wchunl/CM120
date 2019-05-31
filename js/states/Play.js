@@ -43,7 +43,13 @@ Play.prototype = {
         minions.enableBody = true;
 
         // start level 1
-        createLevel(1);
+        // createLevel(1);
+        this.map = game.add.tilemap('test');
+        this.map.addTilesetImage('test', 'tileset')
+        this.mapLayer = this.map.createLayer('Tile Layer 1');
+        this.mapLayer.resizeWorld();
+        this.map.setCollisionByExclusion([], true)
+
         currentLevel = 1;
 
         // Create and display minions
@@ -85,8 +91,12 @@ Play.prototype = {
         }
 
         // Collision check between platforms and characters
-        game.physics.arcade.collide(platforms, [this.player, minions, this.enemyy]);
-        game.physics.arcade.collide(platforms, [this.child, minions, this.enemyy]);
+        // game.physics.arcade.collide(platforms, [this.child, minions, this.enemyy]);
+        // game.physics.arcade.collide(platforms, [this.player, minions, this.enemyy]);
+
+        game.physics.arcade.collide([this.child, minions, this.enemyy], this.mapLayer);
+        game.physics.arcade.collide([this.player, minions, this.enemyy], this.mapLayer);
+        
 
         // Debug mode
         if (this.debug) {
@@ -151,7 +161,7 @@ Play.prototype = {
     render: function() {
         // Show collisions if debug is on
         if (this.debug) {
-         //   game.debug.body(this.player);
+            if (this.player != undefined) game.debug.body(this.player);
             game.debug.body(this.enemyy);
             game.debug.body(this.child);
             //i put this here just for getting exact position of the player
