@@ -57,13 +57,16 @@ Play.prototype = {
         minions.enableBody = true;
         // Create and display the player
         // if (this.debug) this.player = new Player(game, 352, 4000 - 32*16); // right before elevator lvl
-        if (this.debug) {
-            this.player = new Player(game, 352, 1400); 
-            createLevel(2); // level 2
-            game.add.existing(this.player);
-        }
+        // if (this.debug) {
+        //     this.player = new Player(game, 352, 1400); 
+        //     createLevel(2); // level 2
+        //     game.add.existing(this.player);
+        // }
         this.child = new Child(game, 150, 4000 - 96);
         game.add.existing(this.child);
+
+        this.player = new Player(game, 200, 4000 - 96);
+        game.add.existing(this.player);
         //Create the twin brother
         this.enemyy = new Enemyy(game, 200, 4000 - 96);
         game.add.existing(this.enemyy);
@@ -73,6 +76,7 @@ Play.prototype = {
         game.camera.x = 0; game.camera.y = 4000;
         if (this.debug) game.camera.follow(this.player, 'FOLLOW_LOCKON', 0.1, 0.1);
         else game.camera.follow(this.child, 'FOLLOW_LOCKON', 0.1, 0.1);
+       
         // Create and display enemy
         // this.enemy = new Enemy(game, 100, 400, 'dude');
         // this.enemy.alpha = 0;
@@ -95,7 +99,7 @@ Play.prototype = {
         game.physics.arcade.collide(platforms, [this.player, minions, this.enemyy]);
 
         game.physics.arcade.collide([this.child, minions, this.enemyy], this.mapLayer);
-        game.physics.arcade.collide([this.player, minions, this.enemyy], this.mapLayer);
+        game.physics.arcade.collide([this.player, minions, this.enemy], this.mapLayer);
         
 
         // Debug mode
@@ -128,7 +132,7 @@ Play.prototype = {
         if(this.elevator.y < 1900 && this.elevator.y > 1898){
            //change character
            this.child.destroy();
-           this.player = new Player(game, 90, 1100); // test only
+           this.player = new Player(game, 90, 1740); // test only
            game.add.existing(this.player);
            game.camera.follow(this.player,0.1, 0.1);
         }
@@ -167,7 +171,8 @@ Play.prototype = {
             //i put this here just for getting exact position of the player
            // game.debug.spriteInfo(this.player, 32, 32);
              // game.debug.spriteInfo(this.child,100, 32);
-            game.debug.spriteInfo(this.enemyy, 700, 32);
+            game.debug.spriteInfo(this.enemyy, 32, 32);
+             game.debug.spriteInfo(this.child, 700, 32);
             minions.forEach( game.debug.body, game.debug);
         }
     }

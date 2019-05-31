@@ -105,13 +105,13 @@ Player.prototype.movementManager = function() {
         if (this.body.acceleration.x > -10000) this.body.acceleration.x -= 500; // accelerate
         this.animations.play('moving');
         // if (this.body.acceleration.x > -15000 && currentLevel > 1) this.body.acceleration.x -= 1000; // adult speed
-        this.animations.play('moving');
+      //  this.animations.play('moving');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.D)) { // [D] key is down
         this.scale.x = -1; // face right
         if (this.body.acceleration.x < 10000) this.body.acceleration.x += 500; // accelerate
         this.animations.play('moving');
         // if (this.body.acceleration.x < 15000 && currentLevel > 1) this.body.acceleration.x += 1000; // adult speed
-        this.animations.play('moving');
+      //  this.animations.play('moving');
     } else { // Otherwise standing
        this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.1);
         // if (this.body.acceleration.x > 0) this.body.acceleration.x -= 1000; // decelerate left
