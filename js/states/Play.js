@@ -91,8 +91,8 @@ Play.prototype = {
         }
 
         // Collision check between platforms and characters
-        // game.physics.arcade.collide(platforms, [this.child, minions, this.enemyy]);
-        // game.physics.arcade.collide(platforms, [this.player, minions, this.enemyy]);
+        game.physics.arcade.collide(platforms, [this.child, minions, this.enemyy]);
+        game.physics.arcade.collide(platforms, [this.player, minions, this.enemyy]);
 
         game.physics.arcade.collide([this.child, minions, this.enemyy], this.mapLayer);
         game.physics.arcade.collide([this.player, minions, this.enemyy], this.mapLayer);
