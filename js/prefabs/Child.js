@@ -69,7 +69,7 @@ Child.prototype.movementManager = function() {
         this.body.velocity.y = -650; // debugging
     }
     // Jumping animation
-    if (!this.body.blocked.down) {
+    if (this.body.velocity.y != 0) {
         this.frame = 37;
     }  
 }

@@ -38,17 +38,16 @@ Play.prototype = {
         this.elevator.body.allowGravity = false;
         this.elevator.body.velocity.y = 0;
 
-         // Create and display minions
+        // Create and display minions
         minions = game.add.group();
         minions.enableBody = true;
 
-        // start level 1
-        // createLevel(1);
+        // Create and display tilemap
         this.map = game.add.tilemap('test');
         this.map.addTilesetImage('test', 'tileset')
         this.mapLayer = this.map.createLayer('Tile Layer 1');
         this.mapLayer.resizeWorld();
-        this.map.setCollisionByExclusion([], true)
+        this.map.setCollisionByExclusion([], true);
 
         currentLevel = 1;
 
@@ -62,11 +61,14 @@ Play.prototype = {
         //     createLevel(2); // level 2
         //     game.add.existing(this.player);
         // }
+
+        // Create child
         this.child = new Child(game, 150, 4000 - 96);
         game.add.existing(this.child);
 
-        this.player = new Player(game, 200, 4000 - 96);
-        game.add.existing(this.player);
+        // this.player = new Player(game, 200, 4000 - 96);
+        // game.add.existing(this.player);
+
         //Create the twin brother
         this.enemyy = new Enemyy(game, 200, 4000 - 96);
         game.add.existing(this.enemyy);
@@ -74,8 +76,7 @@ Play.prototype = {
 
 
         game.camera.x = 0; game.camera.y = 4000;
-        if (this.debug) game.camera.follow(this.player, 'FOLLOW_LOCKON', 0.1, 0.1);
-        else game.camera.follow(this.child, 'FOLLOW_LOCKON', 0.1, 0.1);
+        game.camera.follow(this.child, 'FOLLOW_LOCKON', 0.1, 0.1);
        
         // Create and display enemy
         // this.enemy = new Enemy(game, 100, 400, 'dude');
@@ -94,12 +95,9 @@ Play.prototype = {
             game.state.start('GameOver');
         }
 
-        // Collision check between platforms and characters
-        game.physics.arcade.collide(platforms, [this.child, minions, this.enemyy]);
-        game.physics.arcade.collide(platforms, [this.player, minions, this.enemyy]);
-
-        game.physics.arcade.collide([this.child, minions, this.enemyy], this.mapLayer);
-        game.physics.arcade.collide([this.player, minions, this.enemy], this.mapLayer);
+        // Collision check between platforms, tilemaps and characters
+        game.physics.arcade.collide([this.child, minions, this.enemyy], [this.mapLayer, platforms]);
+        game.physics.arcade.collide([this.player, minions, this.enemy], [this.mapLayer, platforms]);
         
 
         // Debug mode
@@ -114,25 +112,26 @@ Play.prototype = {
         if (currentLevel === 1 && this.child.x < 32 * 4 && this.child.y < 4000 - 32 * 14) {
             console.log('Level 1 Completed!');
             this.child.jumpAble = false;
-            createLevel(2);
+            // createLevel(2);
             this.elevator.body.velocity.y = -200;
             currentLevel = 2;
+
+            var n = 32;
+            minions.add(new Minion(game, 14*n, 86*n, true));
+            minions.add(new Minion(game, 19*n, 91*n, true));
+            minions.add(new Minion(game, 24*n, 97*n, true));
+            minions.add(new Minion(game, 90*n, 97*n, true));
+            minions.add(new Minion(game, 104*n, 97*n, true)); // temporary sub. for twin brother
         }
 
-
-        // this.elevator.body.velocity.y = Phaser.Math.linearInterpolation([this.elevator.body.velocity.y, 0] , 0.001);
-        // if (this.elevator.y < 4000) {
-        //     console.log("running this??");
-        //     this.elevator.body.velocity.y = -200;
-        // }
         // elevator smooth stop
         if (this.child.y < 2200) {
             this.elevator.body.velocity.y = -200;
         }
         if(this.elevator.y < 1900 && this.elevator.y > 1898){
            //change character
+           this.player = new Player(game, this.child.x, this.child.y - 10);
            this.child.destroy();
-           this.player = new Player(game, 90, 1740); // test only
            game.add.existing(this.player);
            game.camera.follow(this.player,0.1, 0.1);
         }
@@ -151,7 +150,7 @@ Play.prototype = {
         }
 
         if (this.soundQueue == 1 && this.child.y < 2200 && this.nar.isPlaying) {
-            console.log("still on");
+            console.log("waiting for sound to stop first");
             this.elevator.body.velocity.y = 0;
         }
 
@@ -263,171 +262,5 @@ function soundManager(main) {
             main.nar = game.add.audio("nar2", 3, false);
             main.bgm.play();
             main.nar.play();
-    }
-
-}
-
-function createBound (pos_x, pos_y, scale_x, scale_y) {
-    let defaultY = pos_y;
-
-    for (let i = 1; i <= scale_x; i++) {
-        for (let j = 1; j <= scale_y; j++) {
-
-            createBoundExt(pos_x, pos_y, 1, 1);
-            pos_y = pos_y - 32;
-        }
-        pos_x = pos_x + 32;
-        pos_y = defaultY;
-    }
-}
-function createBoundExt (pos_x, pos_y, scale_x, scale_y) {
-        var platform = platforms.create(pos_x, 4000 - pos_y, 'bound');
-        platform.body.immovable = true;
-        platform.scale.setTo(scale_x, scale_y);
-}
-
-function createPlatform1 (pos_x, pos_y, scale_x, scale_y) {
-    let defaultY = pos_y;
-
-    for (let i = 1; i <= scale_x; i++) {
-        for (let j = 1; j <= scale_y; j++) {
-
-            createPlatform1Ext(pos_x, pos_y, 1, 1);
-            pos_y = pos_y - 32;
-        }
-        pos_x = pos_x + 32;
-        pos_y = defaultY;
-    }
-}
-function createPlatform1Ext (pos_x, pos_y, scale_x, scale_y) {
-    var platform = platforms.create(pos_x, 4000 - pos_y, 'platform1');
-    platform.body.immovable = true;
-    platform.scale.setTo(scale_x, scale_y);
-}
-
-function createPlatform2 (pos_x, pos_y, scale_x, scale_y) {
-    let defaultY = pos_y;
-
-    for (let i = 1; i <= scale_x; i++) {
-        for (let j = 1; j <= scale_y; j++) {
-
-            createPlatform2Ext(pos_x, pos_y, 1, 1);
-            pos_y = pos_y - 32;
-        }
-        pos_x = pos_x + 32;
-        pos_y = defaultY;
-    }
-}
-function createPlatform2Ext (pos_x, pos_y, scale_x, scale_y) {
-    var platform = platforms.create(pos_x, 4000 - pos_y, 'platform2');
-    platform.body.immovable = true;
-    platform.scale.setTo(scale_x, scale_y);
-}
-
-function createPlatform3 (pos_x, pos_y, scale_x, scale_y) {
-    let defaultY = pos_y;
-
-    for (let i = 1; i <= scale_x; i++) {
-        for (let j = 1; j <= scale_y; j++) {
-
-            createPlatform3Ext(pos_x, pos_y, 1, 1);
-            pos_y = pos_y - 32;
-        }
-        pos_x = pos_x + 32;
-        pos_y = defaultY;
-    }
-}
-function createPlatform3Ext (pos_x, pos_y, scale_x, scale_y) {
-    var platform = platforms.create(pos_x, 4000 - pos_y, 'platform2');
-    platform.body.immovable = true;
-    platform.scale.setTo(scale_x, scale_y);
-}
-
-function createLevel(level) {
-    const n = 32;
-    const left = true;
-    const right = false;
-
-    if (level === 1) {
-        console.log('Creating Level 1...');
-
-        // bounds
-        createBound(0, 4000, 1, 105);  // left
-        createBound(0, 2*n, 200, 10);    // bottom
-        createBound(32*n,30*n, 20, 30);    // right
-        createBound(7*n, 80*n, 25, 60);    // top
-
-        // 1#
-        createPlatform1(10*n,3*n, 1, 1);
-        createPlatform1(13*n,5*n, 1, 3);
-        createPlatform1(16*n,7*n, 1, 3);
-        createPlatform1(19*n,9*n, 1, 5);
-        createPlatform1(22*n,9*n, 1, 7);
-
-        // 2#
-        createPlatform1(26*n,8*n, 3, 3);
-        createPlatform1(26*n,14*n, 3, 3);
-        createPlatform1(31*n,5*n, 1, 1);
-        createPlatform1(31*n,11*n, 1, 1);
-       // createPlatform1(31*n,17*n, 1, 1);
-
-        // 3#
-        createPlatform1(20*n,15*n, 4, 1);
-        createPlatform1(15*n,14*n, 3, 1);
-        createPlatform1(10*n,15*n, 3, 1);
-        createPlatform1(5*n,14*n, 2, 1);
-        createPlatform1(0,14*n, 5, 10);
-        console.log('Level 1 Created!');
-    }
-
-    if (level === 2) {
-        console.log('Creating Level 2...');
-
-
-        // bounds
-        createBound(7*n, 20*n, 1, 7);   // right
-        createBound(0, 20*n, 1, 6); // left
-
-        // elevator masking
-        createBound(0,14*n, 7, 1);
-        createPlatform2(7*n, 80*n, 25, 1);
-
-        // 1#
-        createPlatform2(12*n, 84*n, 25, 1);
-        createPlatform2(15*n, 83*n, 22, 3);
-        minions.add(new Minion(game, 14*n, 86*n, left));
-
-        // 2#
-        createPlatform2(17*n, 89*n, 25, 1);
-        createPlatform2(21*n, 88*n, 21, 4);
-        minions.add(new Minion(game, 19*n, 91*n, left));
-
-        // 3#
-        createPlatform2(22*n, 95*n, 83, 1);
-        createPlatform2(26*n, 94*n, 20, 5);
-        minions.add(new Minion(game, 24*n, 97*n, left));
-
-        // 4#
-        minions.add(new Minion(game, 90*n, 97*n, left));
-        minions.add(new Minion(game, 104*n, 97*n, left)); // temporary sub. for twin brother
-        // create twin brother at (x,y) = (74*n, 97*n)
-
-        // bounds
-        createBound(90*n, 94*n, 15, 95);    // left
-        createBound(115*n, 120*n, 15, 115);  // right
-
-        console.log('Level 2 Created!');
-    }
-
-    if (level === 3) {
-        console.log('Creating Level 3...');
-
-        // bounds
-        createBound(3840, 0, 10, 150);   // right
-
-        // 1#
-        createPlatform3();
-
-        console.log('Level 3 Created!');
     }
 }

@@ -39,13 +39,13 @@ Enemyy.prototype.constructor = Enemyy;
 
 Enemyy.prototype.update = function () {
 //    if(this.scale.x = 1)
-     console.log(this.x);
+   //   console.log(this.x);
     if(this.air == true){
         this.body.velocity.y = 0;
     }
     if(this.body.blocked.down&&this.end==false){
         this.animations.play('moving');
-        console.log("walking");
+      //   console.log("walking");
     }
     if(Math.floor(this.x) == 17){
         this.scale.x = 1;
@@ -61,7 +61,7 @@ Enemyy.prototype.path = function(){
      if (Math.floor(this.x) == 280 && this.y>3880 && this.air == false&& this.body.blocked.down){
         this.body.velocity.x = 60;
         this.jump(); 
-        console.log("first jump");
+      //   console.log("first jump");
      }else if (Math.floor(this.x) == 360 && this.y>3800&& this.air == false && this.body.blocked.down){
         this.body.velocity.x = 90;
         this.jump(); 
