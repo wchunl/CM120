@@ -135,7 +135,7 @@ Player.prototype.movementManager = function() {
     // }
 
     // Jumping animation
-    if (this.body.velocity.y != 0) {
+    if (this.body.velocity.y != 0 || (!this.body.blocked.down && !this.body.touching.down)) {
         this.frame = 37;
     }
 

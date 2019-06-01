@@ -82,11 +82,11 @@ Combat.prototype.nextButton = function () {
         this.activeButton.active = true; // Set it to active
     } else { // If no more buttons left, then combat is over
         // Create a new sprite at the same location to play the death animation
-        var deathSprite = new Minion(game, this.minion.posx, this.minion.posy-5, this.minion.faceLeft);
+        var deathSprite = new Minion(game, this.minion.x, this.minion.y-5, this.minion.faceLeft);
         this.minion.destroy(); // Destroy the actual minion
         deathSprite.animations.play('death'); // Play the death animation
         game.add.existing(deathSprite); // Add it to the game
-        // deathSprite.body.gravity = 1; // Set its gravity to 0
+        deathSprite.body.gravity = 0; // Set its gravity to 0
         this.combatOver = true; // Combat is over
 
         // Play death sound
