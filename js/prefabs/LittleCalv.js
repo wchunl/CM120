@@ -39,12 +39,13 @@ Enemyy.prototype.constructor = Enemyy;
 
 Enemyy.prototype.update = function () {
 //    if(this.scale.x = 1)
-   //  console.log(this.x);
+     console.log(this.x);
     if(this.air == true){
         this.body.velocity.y = 0;
     }
-    if(this.body.touching.down&&this.end==false){
+    if(this.body.blocked.down&&this.end==false){
         this.animations.play('moving');
+        console.log("walking");
     }
     if(Math.floor(this.x) == 17){
         this.scale.x = 1;
@@ -57,34 +58,35 @@ Enemyy.prototype.update = function () {
     this.path();
 };
 Enemyy.prototype.path = function(){
-     if (Math.floor(this.x) == 280 && this.y>3880 && this.air == false&& this.body.touching.down){
+     if (Math.floor(this.x) == 280 && this.y>3880 && this.air == false&& this.body.blocked.down){
         this.body.velocity.x = 60;
         this.jump(); 
-     }else if (Math.floor(this.x) == 360 && this.y>3800&& this.air == false && this.body.touching.down){
+        console.log("first jump");
+     }else if (Math.floor(this.x) == 360 && this.y>3800&& this.air == false && this.body.blocked.down){
         this.body.velocity.x = 90;
         this.jump(); 
-     }else if (Math.floor(this.x) == 438 && this.air == false && this.body.touching.down){
+     }else if (Math.floor(this.x) == 438 && this.air == false && this.body.blocked.down){
         this.body.velocity.x = 102;
         this.jump(); 
-     }else if (Math.floor(this.x) == 533 && this.y>224 && this.air == false&& this.body.touching.down){
+     }else if (Math.floor(this.x) == 533 && this.y>224 && this.air == false&& this.body.blocked.down){
         this.jump(); 
-     }else if (Math.floor(this.x) == 628 && this.air == false && this.body.touching.down){
+     }else if (Math.floor(this.x) == 628 && this.air == false && this.body.blocked.down){
         this.jump(); 
-     }else if (Math.floor(this.x) == 730 && this.y>3687 && this.air == false && this.body.touching.down){
+     }else if (Math.floor(this.x) == 730 && this.y>3687 && this.air == false && this.body.blocked.down){
         this.jump(); 
-     }else if (Math.floor(this.x) == 932&& this.air == false && this.body.touching.down){
-        this.jump(); 
+     }else if (Math.floor(this.x) == 932&& this.air == false && this.body.blocked.down){
+        this.body.velocity.y = -530;
      }else if (Math.floor(this.x) == 1002&& this.air == false ){
         this.jump();
         this.body.velocity.x = -110;
         this.scale.x = -1;
-     }else if (Math.floor(this.x) == 837&& this.y<3720&&this.air == false && this.body.touching.down ){
+     }else if (Math.floor(this.x) == 837&& this.y<3720&&this.air == false && this.body.blocked.down ){
         this.jump();
-     }else if (Math.floor(this.x) == 651&& this.air == false && this.body.touching.down ){
+     }else if (Math.floor(this.x) == 651&& this.air == false && this.body.blocked.down ){
         this.jump();
-     }else if (Math.floor(this.x) == 507&& this.air == false && this.body.touching.down ){
+     }else if (Math.floor(this.x) == 507&& this.air == false && this.body.blocked.down ){
         this.jump();
-     }else if (Math.floor(this.x) == 331&& this.air == false && this.body.touching.down ){
+     }else if (Math.floor(this.x) == 331&& this.air == false && this.body.blocked.down ){
         this.jump();
      }
 
