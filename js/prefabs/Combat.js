@@ -86,7 +86,7 @@ Combat.prototype.nextButton = function () {
         this.minion.destroy(); // Destroy the actual minion
         deathSprite.animations.play('death'); // Play the death animation
         game.add.existing(deathSprite); // Add it to the game
-        deathSprite.body.gravity = 0; // Set its gravity to 0
+        deathSprite.body.gravity = 1; // Set its gravity to 0
         this.combatOver = true; // Combat is over
 
         // Play death sound
