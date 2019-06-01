@@ -22,7 +22,7 @@ function Player(game, posx, posy) {
     this.animations.add('stance', [4,5,6,7], 12, true);
     this.animations.add('block', [16,17,18,19], 12, true);
     this.animations.add('swing', [20,21,22,23], 12, false);
-    this.animations.add('hurt', [32, 32, 32, 32], 12, false);
+    // // // // this.animations.add('hurt', [32, 32, 32, 32], 12, false);
 
     // Instance variables
     this.inCombat = false; // currently in combat?
@@ -99,26 +99,27 @@ Player.prototype.movementManager = function() {
         // if (this.body.acceleration.x > 0) this.body.acceleration.x -= 100; // decelerate left
         // else if (this.body.acceleration.x < 0) this.body.acceleration.x += 100; // decelerate right
         this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.01);
+        // this.body.height = 32;
         this.animations.play('crouching');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.A)) { // [A] key is down
         this.scale.x = 1; // face left
         if (this.body.acceleration.x > -10000) this.body.acceleration.x -= 500; // accelerate
         this.animations.play('moving');
         // if (this.body.acceleration.x > -15000 && currentLevel > 1) this.body.acceleration.x -= 1000; // adult speed
-      //  this.animations.play('moving');
+        //  this.animations.play('moving');
     } else if (game.input.keyboard.isDown(Phaser.KeyCode.D)) { // [D] key is down
         this.scale.x = -1; // face right
         if (this.body.acceleration.x < 10000) this.body.acceleration.x += 500; // accelerate
         this.animations.play('moving');
         // if (this.body.acceleration.x < 15000 && currentLevel > 1) this.body.acceleration.x += 1000; // adult speed
-      //  this.animations.play('moving');
+        //  this.animations.play('moving');
     } else { // Otherwise standing
-       this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.1);
+        this.body.acceleration.x = Phaser.Math.linearInterpolation([this.body.acceleration.x, 0], 0.1);
         // if (this.body.acceleration.x > 0) this.body.acceleration.x -= 1000; // decelerate left
         // else if (this.body.acceleration.x < 0) this.body.acceleration.x += 1000; // decelerate right
         this.animations.play('standing');
     }
-
+    
     if (this.body.blocked.left || this.body.blocked.right) {
         this.body.acceleration.x = 0;
     }
@@ -135,7 +136,7 @@ Player.prototype.movementManager = function() {
     // }
 
     // Jumping animation
-    if (this.body.velocity.y != 0) {
+    if (this.body.velocity.y != 0 && !(this.body.blocked.down || this.body.touching.down)) {
         this.frame = 37;
     }
 

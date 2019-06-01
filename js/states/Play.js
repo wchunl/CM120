@@ -96,17 +96,9 @@ Play.prototype = {
         }
 
         // Collision check between platforms, tilemaps and characters
-        game.physics.arcade.collide([this.child, minions, this.enemyy], [this.mapLayer, platforms]);
-        game.physics.arcade.collide([this.player, minions, this.enemy], [this.mapLayer, platforms]);
+        game.physics.arcade.collide([this.child, minions, this.player], [this.mapLayer, platforms]);
+        game.physics.arcade.collide(this.enemyy, this.mapLayer);
         
-
-        // Debug mode
-        if (this.debug) {
-            // Write mouse pointer current position when pressed
-            if (game.input.activePointer.justPressed())
-                console.log('Mouse position: ' + game.input.mousePointer.x + ',' + game.input.mousePointer.y);
-
-        }
 
         // end level 1 & start level 2
         if (currentLevel === 1 && this.child.x < 32 * 4 && this.child.y < 4000 - 32 * 14) {
@@ -117,11 +109,11 @@ Play.prototype = {
             currentLevel = 2;
 
             var n = 32;
-            minions.add(new Minion(game, 14*n, 86*n, true));
-            minions.add(new Minion(game, 19*n, 91*n, true));
-            minions.add(new Minion(game, 24*n, 97*n, true));
-            minions.add(new Minion(game, 90*n, 97*n, true));
-            minions.add(new Minion(game, 104*n, 97*n, true)); // temporary sub. for twin brother
+            minions.add(new Minion(game, 450, 1200, true)); // ledge 1
+            minions.add(new Minion(game, 620, 1000, true)); // ledge 2
+            minions.add(new Minion(game, 780, 890, true)); // ledge 3
+            // minions.add(new Minion(game, 90*n, 97*n, true)); // ?? dont know where this goes
+            // minions.add(new Minion(game, 104*n, 97*n, true)); // ?? dont know where the enemy is here
         }
 
         // elevator smooth stop
@@ -165,13 +157,14 @@ Play.prototype = {
         // Show collisions if debug is on
         if (this.debug) {
             if (this.player != undefined) game.debug.body(this.player);
-            game.debug.body(this.enemyy);
-            game.debug.body(this.child);
+            if (this.enemyy != undefined) game.debug.body(this.enemyy);
+            // if (this.child != undefined) game.debug.body(this.child);
             //i put this here just for getting exact position of the player
            // game.debug.spriteInfo(this.player, 32, 32);
              // game.debug.spriteInfo(this.child,100, 32);
             game.debug.spriteInfo(this.enemyy, 32, 32);
-             game.debug.spriteInfo(this.child, 700, 32);
+            if (this.player != undefined) game.debug.spriteInfo(this.player, 700, 32);
+            // game.debug.spriteInfo(this.child, 700, 32);
             minions.forEach( game.debug.body, game.debug);
         }
     }
