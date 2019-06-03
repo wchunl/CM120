@@ -17,6 +17,7 @@ function Combat(game, playerObj, minionObj, numButtons) {
     this.minionAnim; // The current minion animation object
     
     // Create an instance of Phaser.Sprite
+    // Invisible prefab
     Phaser.Sprite.call(this, game, 0, 0, 'buttons', 'leftOut');
     this.visible = false;
     
@@ -56,15 +57,20 @@ Combat.prototype.update = function () {
     if (this.activeButton.pressed) { // If active button is pressed
         this.playerAnim = this.player.animations.play('swing');
         this.minionAnim = this.minion.animations.play('hurt');
+        // this.activeButton.timer.destroy(); this.activeButton.timerBar.destroy();
         this.activeButton.destroy(); // Destroy the active button
         this.nextButton();
     } else if (this.activeButton.wrongPressed) { // If wrong button is pressed
         this.playerAnim = this.player.animations.play('hurt');
         this.minionAnim = this.minion.animations.play('swing');
+        // this.activeButton.timer.destroy(); this.activeButton.timerBar.destroy();
         this.activeButton.destroy(); // Destroy the active button
         this.player.health -= 1; // Decrease player health by 1
         console.log(this.player.health);
         this.nextButton();
+    }
+    if (game.input.keyboard.isDown(Phaser.KeyCode.LEFT)) { // [D] key is down
+       this.player.animations.play('swing');
     }
 };
 
@@ -76,12 +82,15 @@ Combat.prototype.nextButton = function () {
         this.activeButton.active = true; // Set it to active
     } else { // If no more buttons left, then combat is over
         // Create a new sprite at the same location to play the death animation
-        var deathSprite = new Minion(game, this.minion.posx, this.minion.posy, this.minion.faceLeft);
-        game.add.existing(deathSprite); // Add it to the game
-        deathSprite.body.gravity = 0; // Set its gravity to 0
-        deathSprite.animations.play('death'); // Play the death animation
+        var deathSprite = new Minion(game, this.minion.x, this.minion.y-5, this.minion.faceLeft);
         this.minion.destroy(); // Destroy the actual minion
+        deathSprite.animations.play('death'); // Play the death animation
+        game.add.existing(deathSprite); // Add it to the game
+        deathSprite.body.gravity = 1; // Set its gravity to 0
         this.combatOver = true; // Combat is over
+
+        // Play death sound
+        game.add.audio('death').play();
 
         // Making sure the last button wont be checked again
         this.activeButton.pressed = false;

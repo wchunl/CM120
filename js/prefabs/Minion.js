@@ -6,7 +6,7 @@ function Minion(game, posx, posy, faceLeft) {
     this.posy = posy;
     
     // Create an instance of Phaser.Sprite
-    Phaser.Sprite.call(this, game, posx, 4000 - posy, 'twinDark');
+    Phaser.Sprite.call(this, game, posx, posy, 'twinDark');
     
 
     // Create and display minion

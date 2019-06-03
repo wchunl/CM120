@@ -1,4 +1,4 @@
-// Button prefab
+var TIMER_TIME = 1000; // The duration of the timer, lower = more difficult
 
 function Button(game, posx, posy) {
     // Create an instance of Phaser.Sprite
@@ -12,6 +12,15 @@ function Button(game, posx, posy) {
     this.pressed = false; // Whether the correct key is pressed
     this.wrongPressed = false; // Whether the wrong key is pressed
     this.active = false; // True if this is the active key the player sees 
+
+    // Timer
+    this.startTime;
+    this.timerBar = game.add.image(this.x + 38, this.y+60, 'timerbar');
+    this.timerBar.anchor.x = 0.5; this.timerBar.anchor.y = 0.5;
+    this.timerBar.visible = false;
+    this.timerStarted = false;
+
+    this.seed = Math.random() * 1000;
 
     // Choose a random arrow key
     this.keys = [Phaser.KeyCode.UP, Phaser.KeyCode.DOWN, Phaser.KeyCode.LEFT, Phaser.KeyCode.RIGHT];
@@ -36,11 +45,40 @@ Button.prototype.constructor = Button;
 
 // Check if right/wrong key is pressed
 Button.prototype.update = function () {
+    
+    // console.log("seed " + this.seed + " button has timer duration: " + this.ctimer.timer.duration);
+    if (this.active && !this.timerStarted) {
+        this.timerStarted = true;
+        this.timerBar.visible = true;
+        this.startTime = game.time.now;
+        // console.log(game.time.now);
+    }
+        
     if (this.active) {
-        if (game.input.keyboard.justPressed(this.key)) this.pressed = true; // If correct key is pressed
-        else for (var i = 0; i < this.keys.length; i++)
-            if (this.keys[i] != this.key && game.input.keyboard.justPressed(this.keys[i]))
-                this.wrongPressed = true; // If wrong key is pressed
+        var duration = TIMER_TIME - (game.time.now - this.startTime);
+        this.timerBar.width = (duration/10).toFixed(0) * 2;
+
+        if (duration < 0) {
+            this.timerBar.destroy();
+            this.wrongPressed = true
+            game.add.audio('hurt').play();
+        }
+        
+        if (game.input.keyboard.justPressed(this.key)) {// If correct key is pressed
+            this.timerBar.destroy();
+            this.pressed = true;
+            var slashSound = game.add.audio('slash2');
+            slashSound.volume = 10; slashSound.play();
+            console.log("destroying");
+        } else {
+            for (var i = 0; i < this.keys.length; i++) {
+                if (this.keys[i] != this.key && game.input.keyboard.justPressed(this.keys[i])) {
+                    this.timerBar.destroy();
+                    this.wrongPressed = true; // If wrong key is pressed
+                    game.add.audio('hurt').play();
+                }
+            }
+        }
     }
 };
 
