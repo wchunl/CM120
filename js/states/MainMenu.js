@@ -128,9 +128,10 @@ function sourcesPressed() {
     game.add.tween(source).to( {alpha: 1}, 1000, "Linear", true);
     addSource("menu video: https://www.youtube.com/watch?v=4vIQON2fDWM", 1);
     addSource("menu buttons: https://cooltext.com/Edit-Logo?LogoId=3258678199", 2);
-    addSource("source 3", 3);
-    addSource("source 4", 4);
-    addSource("source 5", 5);
+    addSource("knife slash 2.wav, knife slash 1.wav from beerbelly38 (https://freesound.org/people/beerbelly38/)", 3);
+    addSource("Male Death 1.ogg, from scorpion67890 (https://freesound.org/people/scorpion67890/)", 4);
+    addSource("8-bit Hurt1.aif from timgormly (https://freesound.org/people/timgormly/)", 5);
+    addSource("Stab, Metal Knife in Lettuce A.wav, from InspectorJ (https://freesound.org/people/InspectorJ/)", 6);
 }
 
 function addSource(text, line_nr) {
