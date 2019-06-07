@@ -44,8 +44,8 @@ Combat.prototype = Object.create(Phaser.Sprite.prototype);
 Combat.prototype.constructor = Combat;
 
 Combat.prototype.update = function () {
-    if (this.playerAnim.isFinished) this.playerAnim = this.player.animations.play('stance');
-    if (this.minionAnim.isFinished) this.minionAnim = this.minion.animations.play('stance');
+    if (this.playerAnim != undefined && this.playerAnim.isFinished) this.playerAnim = this.player.animations.play('stance');
+    if (this.minionAnim != undefined && this.minionAnim.isFinished) this.minionAnim = this.minion.animations.play('stance');
     // Stop player movement
     this.player.body.acceleration.x = 0;
     this.player.body.velocity.x = 0;

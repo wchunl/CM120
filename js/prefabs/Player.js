@@ -30,7 +30,7 @@ function Player(game, posx, posy) {
     this.jumpAble = true; // should the player be able to move jump now?
 
     // Health
-    this.health = 3; // Health variable, 6 = six half hearts (3 full hearts)
+    this.health = 6; // Health variable, 6 = six half hearts (3 full hearts)
     this.h1 = game.add.sprite(10,10, 'health', 0);
     this.h2 = game.add.sprite(50,10, 'health', 0);
     this.h3 = game.add.sprite(90,10, 'health', 0);
@@ -55,11 +55,11 @@ Player.prototype.update = function () {
 Player.prototype.healthManager = function() {
     // Works assuming lose half a heart to any damage
     switch(this.health) {
-        // case 5: this.h3.frame = 2; break; // heart 3 = half heart
-        case 2: this.h3.frame = 1; break; // heart 3 = empty heart
-        // case 3: this.h2.frame = 2; break; // heart 2 = half heart
-        case 1: this.h2.frame = 1; break; // heart 2 = empty heart
-        // case 1: this.h1.frame = 2; break; // heart 1 = half heart
+        case 5: this.h3.frame = 2; break; // heart 3 = half heart
+        case 4: this.h3.frame = 1; break; // heart 3 = empty heart
+        case 3: this.h2.frame = 2; break; // heart 2 = half heart
+        case 2: this.h2.frame = 1; break; // heart 2 = empty heart
+        case 1: this.h1.frame = 2; break; // heart 1 = half heart
         case 0: game.state.start('GameOver', true, false); break; // player is dead
         default: // nothing happens
     }
