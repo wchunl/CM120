@@ -14,6 +14,7 @@ Play.prototype = {
         console.log('In Play');
         game.world.setBounds(0,0,6000,4000);
         this.title = null;
+        this.end = false;
         this.tutorial = "tut1";
         this.pointer = "tut1";
         this.playerPtr = null;
@@ -94,6 +95,8 @@ Play.prototype = {
         if (this.child.x < 60 && this.child.y < 160) {
             game.state.start('GameOver');
         }
+
+
 
         // Collision check between platforms, tilemaps and characters
         game.physics.arcade.collide([this.child, minions, this.player], [this.mapLayer, platforms]);
@@ -232,6 +235,15 @@ function tweenManager(main) {
     // Elevator end
     if (main.child.y < 1800) {
         main.child.jumpAble = true;
+    }
+
+    //test for end of game
+    if (main.child.x >200 && main.end ==false){
+        game.camera.fade('#000000');
+        main.bgm.stop();
+        main.nar.stop();
+        main.end = true;
+        setTimeout(function(){ game.state.start('GameOver'); }, 2000);
     }
 }
 
