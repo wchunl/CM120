@@ -12,7 +12,7 @@ function Player(game, posx, posy) {
     this.body.gravity.y = 1000;
     this.body.collideWorldBounds = true;
     this.body.setSize(31,39,11,10);
-
+    this.body.maxVelocity.set(1000);
     // Movement Animations
     this.animations.add('moving', [8,9,10,11,12,13,14,15], 12, true);
     this.animations.add('standing', [0,1,2,3], 12, true);

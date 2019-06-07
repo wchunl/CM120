@@ -129,6 +129,7 @@ Play.prototype = {
 
         }
 
+
         if (this.elevator.y <= 4256 - 32*80) {
             this.elevator.body.velocity.y = -128;
             if (this.elevator.y <= 4128 - 32*80) {
@@ -197,19 +198,19 @@ function tweenManager(main) {
         main.title.y = main.child.y-10;
     }
 
-    // Elevator end
-    if (main.child.y < 1800) {
-        main.child.jumpAble = true;
-    }
+    // // Elevator end
+    // if (main.child.y < 1800) {
+    //     main.child.jumpAble = true;
+    // }
 
-    //test for end of game
-    if (main.child.x >200 && main.end ==false){
-        game.camera.fade('#000000');
-        main.bgm.stop();
-        main.nar.stop();
-        main.end = true;
-        setTimeout(function(){ game.state.start('GameOver'); }, 2000);
-    }
+    // //test for end of game
+    // if (main.child.x >200 && main.end ==false){
+    //     game.camera.fade('#000000');
+    //     main.bgm.stop();
+    //     main.nar.stop();
+    //     main.end = true;
+    //     setTimeout(function(){ game.state.start('GameOver'); }, 2000);
+    // }
 }
 
 function soundManager(main) {
