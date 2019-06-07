@@ -1,6 +1,7 @@
 // Play State object
 var tween;
 var currentLevel = 0;
+// var tutorial2 = false;
 
 var Play = function(game) {
     // Variables that need forward declaration
@@ -19,6 +20,7 @@ Play.prototype = {
         this.pointer = "tut1";
         this.playerPtr = null;
         this.soundQueue = 0;
+        // this.tutimg;
         this.bgm;
         this.nar;
     },
@@ -55,37 +57,23 @@ Play.prototype = {
         // Create and display minions
         minions = game.add.group();
         minions.enableBody = true;
-        // Create and display the player
-        // if (this.debug) this.player = new Player(game, 352, 4000 - 32*16); // right before elevator lvl
-        // if (this.debug) {
-        //     this.player = new Player(game, 352, 1400); 
-        //     createLevel(2); // level 2
-        //     game.add.existing(this.player);
-        // }
 
         // Create child
         this.child = new Child(game, 150, 4000 - 96);
         game.add.existing(this.child);
 
-        // this.player = new Player(game, 200, 4000 - 96);
-        // game.add.existing(this.player);
-
-        //Create the twin brother
+        // Create the twin brother
         this.enemyy = new Enemyy(game, 200, 4000 - 96);
         game.add.existing(this.enemyy);
 
-
-
+        // Lock camera on child
         game.camera.x = 0; game.camera.y = 4000;
         game.camera.follow(this.child, 'FOLLOW_LOCKON', 0.1, 0.1);
-       
-        // Create and display enemy
-        // this.enemy = new Enemy(game, 100, 400, 'dude');
-        // this.enemy.alpha = 0;
-        // game.add.existing(this.enemy);
 
         game.add.image(0, 2200, "screenBlack");
         game.add.image(0, 1800, "screenBlack");
+
+        tutorialOne();
     },
     update: function() {
         soundManager(this); // BGM and narration manager
@@ -101,7 +89,7 @@ Play.prototype = {
         // Collision check between platforms, tilemaps and characters
         game.physics.arcade.collide([this.child, minions, this.player], [this.mapLayer, platforms]);
         game.physics.arcade.collide(this.enemyy, this.mapLayer);
-        
+
 
         // end level 1 & start level 2
         if (currentLevel === 1 && this.child.x < 32 * 4 && this.child.y < 4000 - 32 * 14) {
@@ -115,8 +103,15 @@ Play.prototype = {
             minions.add(new Minion(game, 450, 1200, true)); // ledge 1
             minions.add(new Minion(game, 620, 1000, true)); // ledge 2
             minions.add(new Minion(game, 780, 890, true)); // ledge 3
-            // minions.add(new Minion(game, 90*n, 97*n, true)); // ?? dont know where this goes
-            // minions.add(new Minion(game, 104*n, 97*n, true)); // ?? dont know where the enemy is here
+
+            var platform = platforms.create(0, 3300, 'platform1');
+            platform.body.immovable = true;
+            platform.scale.setTo(1, 10);
+            var platform2 = platforms.create(224, 3300, 'platform1');
+            platform2.body.immovable = true;
+            platform2.scale.setTo(1, 9);
+
+
         }
 
         // elevator smooth stop
@@ -129,6 +124,9 @@ Play.prototype = {
            this.child.destroy();
            game.add.existing(this.player);
            game.camera.follow(this.player,0.1, 0.1);
+           game.add.image(0, 1800, "screenBlack");
+           tutorialTwo();
+
         }
 
         if (this.elevator.y <= 4256 - 32*80) {
@@ -149,75 +147,42 @@ Play.prototype = {
             this.elevator.body.velocity.y = 0;
         }
 
-        // end level 2 & start level 3
-        // if (currentLevel === 2 && this.player.x === 6000 && this.player.y === 4000) {  //change condition later
-        //     console.log('Level 2 Completed!');
-        //     createLevel(3);
-        //     currentLevel = 3;
-        // }
     },
     render: function() {
         // Show collisions if debug is on
         if (this.debug) {
             if (this.player != undefined) game.debug.body(this.player);
-            if (this.enemyy != undefined) game.debug.body(this.enemyy);
-            // if (this.child != undefined) game.debug.body(this.child);
-            //i put this here just for getting exact position of the player
-           // game.debug.spriteInfo(this.player, 32, 32);
-             // game.debug.spriteInfo(this.child,100, 32);
-            game.debug.spriteInfo(this.enemyy, 32, 32);
             if (this.player != undefined) game.debug.spriteInfo(this.player, 700, 32);
+            if (this.enemyy != undefined) game.debug.body(this.enemyy);
+            // if (this.child != undefined) game.debug.spriteInfo(this.child, 500, 32);
+            if (this.enemyy != undefined) game.debug.spriteInfo(this.enemyy, 32, 32);
             // game.debug.spriteInfo(this.child, 700, 32);
             minions.forEach( game.debug.body, game.debug);
         }
     }
 };
 
+function tutorialOne() {
+    var tutimg = game.add.image(340, 0, "tut1");
+    tutimg.alpha = 0;
+    tutimg.fixedToCamera = true;
+    tutimg.scale.setTo(0.75,0.75);
+    var tuttween = game.add.tween(tutimg).to( {alpha: 1}, 1000, "Linear", true, 1000);
+    tuttween.yoyo(true, 10000);
+}
+
+function tutorialTwo() {
+    var tutimg = game.add.image(340, 0, "tut2");
+    tutimg.alpha = 0;
+    tutimg.fixedToCamera = true;
+    tutimg.scale.setTo(0.75,0.75);
+    var tuttween = game.add.tween(tutimg).to( {alpha: 1}, 1000, "Linear", true, 1000);
+    tuttween.yoyo(true, 10000);
+}
+
+
 // Helper functions
 function tweenManager(main) {
-    // Display tutorial text for movement
-    if (main.tutorial == "tut1") {
-        main.playerPtr = game.add.text(main.child.x, main.child.y, "↓ YOU", {fontSize: '64px', fill: '#0f0'});
-        main.playerPtr.alpha = 0;
-        var tweenplyrptr = game.add.tween(main.playerPtr).to( {alpha: 1}, 100, "Linear", true, 0, 10);
-        tweenplyrptr.yoyo(true, 100);
-
-        main.tutorial = game.add.text(main.child.x, main.child.y, "Use [W][A][S][D] keys to move around!", {fontSize: '16px', fill: '#fff'});
-        main.tutorial.alpha = 0;
-        var tween = game.add.tween(main.tutorial).to( {alpha: 1}, 1000, "Linear", true, 4000);
-        tween.yoyo(true, 5000);
-        tween.onComplete.add(finished, this);function finished(){
-            main.tutorial = game.add.text(main.child.x, main.child.y, "Try to catch your twin brother Calvin!", {fontSize: '16px', fill: '#fff'});
-            main.tutorial.alpha = 0;
-            var tween2 = game.add.tween(main.tutorial).to( {alpha: 1}, 1000, "Linear", true);
-            tween2.yoyo(true, 5000);
-            tween2.onComplete.add(finished, this);function finished(){main.tutorial = "tut2";}
-
-            // Pointer
-            if (main.pointer == "tut1") {
-                main.pointer = game.add.text(main.enemyy.x, main.enemyy.y, "↓", {fontSize: '64px', fill: '#0f0'});
-                main.pointer.alpha = 0;
-                var tweenptr = game.add.tween(main.pointer).to( {alpha: 1}, 100, "Linear", true, 0, 15);
-                tweenptr.yoyo(true, 100);
-            }
-        }
-    }
-
-    if (main.playerPtr != null) {
-        main.playerPtr.x = main.child.x - 20;
-        main.playerPtr.y = main.child.y - 100;
-    }
-
-    main.tutorial.centerX = Phaser.Math.linearInterpolation([main.tutorial.centerX, main.child.x], 0.2);
-    main.tutorial.centerY = Phaser.Math.linearInterpolation([main.tutorial.centerY, main.child.y - 50], 0.5);
-    if (main.pointer != "tut1") {
-        main.pointer.centerX = main.enemyy.x;
-        main.pointer.centerY = main.enemyy.y - 70;
-    }
-    // main.tutorial.centerY = main.child.y - 50;
-    if (main.tutorial.x < 0) main.tutorial.x = 0;
-    // main.tutorial.y = main.child.y + 40;
-
     // Display title on elevator
     if (main.child.y < 3000) {
         if (main.title == null) {
