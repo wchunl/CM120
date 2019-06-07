@@ -28,8 +28,8 @@ MainMenu.prototype = {
         game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
         // Load Sprites
-        game.load.images(['gameBackground','bound','platform1','platform2','platform3','mm_play','mm_debug','mm_sources','screenBlack','timerbar'],
-        ['gameBackground.png','bound.png','platform1.png','platform2.png','platform3.png','mm_play.png','mm_debug.png','mm_sources.png','screenBlack.jpg','timerbar.png']);
+        game.load.images(['gameBackground','bound','platform1','platform2','platform3','mm_play','mm_debug','mm_sources','screenBlack','timerbar','tut2','tut1'],
+        ['gameBackground.png','bound.png','platform1.png','platform2.png','platform3.png','mm_play.png','mm_debug.png','mm_sources.png','screenBlack.jpg','timerbar.png','tut2.png','tut1.png']);
 
         game.load.video('menuBGM', 'menuVideo.mp4');
 

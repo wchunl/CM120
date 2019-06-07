@@ -1,6 +1,7 @@
 // Play State object
 var tween;
 var currentLevel = 0;
+// var tutorial2 = false;
 
 var Play = function(game) {
     // Variables that need forward declaration
@@ -18,6 +19,7 @@ Play.prototype = {
         this.pointer = "tut1";
         this.playerPtr = null;
         this.soundQueue = 0;
+        // this.tutimg;
         this.bgm;
         this.nar;
     },
@@ -69,6 +71,8 @@ Play.prototype = {
        
         game.add.image(0, 2200, "screenBlack");
         game.add.image(0, 1800, "screenBlack");
+        
+        tutorialOne();
     },
     update: function() {
         soundManager(this); // BGM and narration manager
@@ -104,7 +108,7 @@ Play.prototype = {
             platform2.body.immovable = true;
             platform2.scale.setTo(1, 9);
 
-            game.paused = true;
+
         }
 
         // elevator smooth stop
@@ -118,6 +122,8 @@ Play.prototype = {
            game.add.existing(this.player);
            game.camera.follow(this.player,0.1, 0.1);
            game.add.image(0, 1800, "screenBlack");
+           tutorialTwo();
+
         }
 
         if (this.elevator.y <= 4256 - 32*80) {
@@ -153,59 +159,31 @@ Play.prototype = {
     }
 };
 
+function tutorialOne() {
+    var tutimg = game.add.image(340, 0, "tut1");
+    tutimg.alpha = 0;
+    tutimg.fixedToCamera = true;
+    tutimg.scale.setTo(0.75,0.75);
+    var tuttween = game.add.tween(tutimg).to( {alpha: 1}, 1000, "Linear", true, 1000);
+    tuttween.yoyo(true, 10000);
+}
+
+function tutorialTwo() {
+    var tutimg = game.add.image(340, 0, "tut2");
+    tutimg.alpha = 0;
+    tutimg.fixedToCamera = true;
+    tutimg.scale.setTo(0.75,0.75);
+    var tuttween = game.add.tween(tutimg).to( {alpha: 1}, 1000, "Linear", true, 1000);
+    tuttween.yoyo(true, 10000);
+}
+
+
 // Helper functions
 function tweenManager(main) {
-    // Display tutorial text for movement
-    if (main.tutorial == "tut1") {
-        main.playerPtr = game.add.text(main.child.x, main.child.y, "↓ YOU", {fontSize: '64px', fill: '#0f0'});
-        main.playerPtr.font = 'MedievalSharp';
-        main.playerPtr.alpha = 0;
-        var tweenplyrptr = game.add.tween(main.playerPtr).to( {alpha: 1}, 100, "Linear", true, 0, 10);
-        tweenplyrptr.yoyo(true, 100);
-
-        main.tutorial = game.add.text(main.child.x, main.child.y, "Use [W][A][S][D] keys to move around!", {fontSize: '16px', fill: '#fff'});
-        main.tutorial.font = 'MedievalSharp';
-        main.tutorial.alpha = 0;
-        var tween = game.add.tween(main.tutorial).to( {alpha: 1}, 1000, "Linear", true, 4000);
-        tween.yoyo(true, 5000);
-        tween.onComplete.add(finished, this);function finished(){
-            main.tutorial = game.add.text(main.child.x, main.child.y, "Try to catch your twin brother Calvin!", {fontSize: '16px', fill: '#fff'});
-            main.tutorial.font = 'MedievalSharp';
-            main.tutorial.alpha = 0;
-            var tween2 = game.add.tween(main.tutorial).to( {alpha: 1}, 1000, "Linear", true);
-            tween2.yoyo(true, 5000);
-            tween2.onComplete.add(finished, this);function finished(){main.tutorial = "tut2";}
-
-            // Pointer
-            if (main.pointer == "tut1") {
-                main.pointer = game.add.text(main.enemyy.x, main.enemyy.y, "↓", {fontSize: '64px', fill: '#0f0'});
-                main.playerPtr.font = 'MedievalSharp';
-                main.pointer.alpha = 0;
-                var tweenptr = game.add.tween(main.pointer).to( {alpha: 1}, 100, "Linear", true, 0, 15);
-                tweenptr.yoyo(true, 100);
-            }
-        }
-    }
-
-    if (main.playerPtr != null) {
-        main.playerPtr.x = main.child.x - 20;
-        main.playerPtr.y = main.child.y - 100;
-    }
-
-    main.tutorial.centerX = Phaser.Math.linearInterpolation([main.tutorial.centerX, main.child.x], 0.2);
-    main.tutorial.centerY = Phaser.Math.linearInterpolation([main.tutorial.centerY, main.child.y - 50], 0.5);
-    if (main.pointer != "tut1") {
-        main.pointer.centerX = main.enemyy.x;
-        main.pointer.centerY = main.enemyy.y - 70;
-    }
-    // main.tutorial.centerY = main.child.y - 50;
-    if (main.tutorial.x < 0) main.tutorial.x = 0;
-    // main.tutorial.y = main.child.y + 40;
-
     // Display title on elevator
     if (main.child.y < 3000) {
         if (main.title == null) {
-            main.title = game.add.text(main.child.x + 200, main.child.y-10, "Twinternal", {fill: '#6F4E37'});
+            main.title = game.add.text(main.child.x + 250, main.child.y-10, "Twinternal", {fill: '#6F4E37'});
             main.title.alpha = 0;
             var tween = game.add.tween(main.title).to( {alpha: 1}, 1000, "Linear", true);
             tween.yoyo(true, 2000);
@@ -214,11 +192,6 @@ function tweenManager(main) {
         main.title.font = 'MedievalSharp';
         main.title.fontSize = 60;
         main.title.y = main.child.y-10;
-    }
-
-    // Elevator end
-    if (main.child.y < 1800) {
-        main.child.jumpAble = true;
     }
 }
 
