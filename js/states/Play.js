@@ -148,6 +148,10 @@ Play.prototype = {
             this.elevator.body.velocity.y = 0;
         }
 
+        if (this.player != undefined && this.player.x > 3400 && this.player.x < 3402) {
+            this.soundQueue = 3;
+        }
+
     },
     render: function() {
         // Show collisions if debug is on
@@ -217,7 +221,7 @@ function soundManager(main) {
 
     if (main.soundQueue == 0) {
         main.soundQueue = 1;
-        main.bgm = game.add.audio("lvl1_bgm", 1, false);
+        main.bgm = game.add.audio("lvl1_bgm", 1, true);
         main.nar = game.add.audio("nar1", 1, false);
         main.bgm.play();
         main.nar.play();
@@ -225,13 +229,20 @@ function soundManager(main) {
 
     // console.log(main.currentLevel);
 
-    if (main.soundQueue == 1 && !main.bgm.isPlaying
-        && !main.nar.isPlaying && currentLevel == 2
-        && main.child.y < 2200) {
+    if (main.soundQueue == 1 && !main.nar.isPlaying && currentLevel == 2 && main.child.y < 2200) {
+            console.log("running this");
             main.soundQueue = 2;
+            main.bgm.stop();
             main.bgm = game.add.audio("lvl2_bgm", 0.25, true);
             main.nar = game.add.audio("nar2", 3, false);
             main.bgm.play();
             main.nar.play();
+    }
+
+    if (main.soundQueue == 3) {
+        main.soundQueue = 4;
+        main.bgm.stop();
+        main.bgm = game.add.audio("lvl3_bgm", 0.25, true);
+        main.bgm.play();
     }
 }
