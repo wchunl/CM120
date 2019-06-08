@@ -158,7 +158,8 @@ Play.prototype = {
         if (this.debug) {
             if (this.player != undefined) game.debug.body(this.player);
             if (this.player != undefined) game.debug.spriteInfo(this.player, 700, 32);
-            if (this.enemyy != undefined) game.debug.body(this.enemyy);
+            if (this.Enemyyy != undefined) game.debug.body(this.enemyy);
+            game.debug.spriteInfo(this.child,700,32)
             // if (this.child != undefined) game.debug.spriteInfo(this.child, 500, 32);
             if (this.enemyy != undefined) game.debug.spriteInfo(this.enemyy, 32, 32);
             // game.debug.spriteInfo(this.child, 700, 32);
