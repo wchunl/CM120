@@ -149,7 +149,7 @@ Play.prototype = {
         }
 
         // end level 2 & start level 3
-        if (currentLevel === 2 && this.player.x > 32 * 106 && this.player.y > 32 * 29) {
+        if (this.player != undefined && currentLevel === 2 && this.player.x > 32 * 106 && this.player.y > 32 * 29) {
             console.log('Level 2 Completed!');
             currentLevel = 3;
 
@@ -203,7 +203,9 @@ function tweenManager(main) {
     // Display title on elevator
     if (main.child.y < 3000) {
         if (main.title == null) {
-            main.title = game.add.text(main.child.x + 250, main.child.y-10, "Twinternal", {fill: '#6F4E37'});
+            main.title = game.add.text(500, 300, "Twinternal", {fill: '#6F4E37'});
+            main.title.fixedToCamera = true;
+            main.title.anchor.setTo(0.5);
             main.title.alpha = 0;
             var tween = game.add.tween(main.title).to( {alpha: 1}, 1000, "Linear", true);
             tween.yoyo(true, 2000);
