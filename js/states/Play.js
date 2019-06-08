@@ -105,11 +105,6 @@ Play.prototype = {
             this.elevator.body.velocity.y = -200;
             currentLevel = 2;
 
-            var n = 32;
-            minions.add(new Minion(game, 450, 1200, true)); // ledge 1
-            minions.add(new Minion(game, 620, 1000, true)); // ledge 2
-            minions.add(new Minion(game, 780, 890, true)); // ledge 3
-
             var platform = platforms.create(0, 3300, 'platform1');
             platform.body.immovable = true;
             platform.scale.setTo(1, 10);
@@ -117,7 +112,7 @@ Play.prototype = {
             platform2.body.immovable = true;
             platform2.scale.setTo(1, 9);
 
-
+            generateMinion();   // function to create all the minions in the game
         }
 
         // elevator smooth stop
@@ -134,8 +129,6 @@ Play.prototype = {
            tutorialTwo();
 
         }
-
-
         if (this.elevator.y <= 4256 - 32*80) {
             this.elevator.body.velocity.y = -128;
             if (this.elevator.y <= 4128 - 32*80) {
@@ -261,4 +254,20 @@ function soundManager(main) {
         main.bgm = game.add.audio("lvl3_bgm", 0.25, true);
         main.bgm.play();
     }
+}
+
+function generateMinion (){
+    const n = 32;
+    const left = true;
+    const right = false;
+
+    // Level 2
+    minions.add(new Minion(game, 12*n, 38*n, left)); // ledge 1
+    minions.add(new Minion(game, 17*n, 33*n, left)); // ledge 2
+    minions.add(new Minion(game, 22*n, 27*n, left)); // ledge 3
+    minions.add(new Minion(game, 90.5*n, 27*n, left)); // in front of cave
+    minions.add(new Minion(game, 104.5*n, 27*n, left)); // the end of cave
+
+    // Level 3
+
 }
