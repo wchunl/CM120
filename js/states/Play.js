@@ -100,10 +100,10 @@ Play.prototype = {
         // end level 1 & start level 2
         if (currentLevel === 1 && this.child.x < 32 * 4 && this.child.y < 4000 - 32 * 14) {
             console.log('Level 1 Completed!');
-            this.child.jumpAble = false;
-            // createLevel(2);
-            this.elevator.body.velocity.y = -200;
             currentLevel = 2;
+
+            this.child.jumpAble = false;
+            this.elevator.body.velocity.y = -200;
 
             var platform = platforms.create(0, 3300, 'platform1');
             platform.body.immovable = true;
@@ -148,9 +148,12 @@ Play.prototype = {
             this.elevator.body.velocity.y = 0;
         }
 
-        // Play level 3 narration
-        if (this.player != undefined && this.player.x > 3400 && this.player.x < 3402) {
-            this.soundQueue = 3;
+        // end level 2 & start level 3
+        if (currentLevel === 2 && this.player.x > 32 * 106 && this.player.y > 32 * 29) {
+            console.log('Level 2 Completed!');
+            currentLevel = 3;
+
+            this.soundQueue = 3;    // Play level 3 narration
         }
 
         // Reset button checker
