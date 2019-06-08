@@ -23,62 +23,68 @@ Play.prototype = {
         // this.tutimg;
         this.bgm;
         this.nar;
+
     },
     create: function() {
         // The UI reserved for the highest level, draws over every other sprite
         topUI = game.add.group();
-
+        
         // Create and display background sky
         this.sky = game.add.tileSprite(0,0, 6000, 4000, 'gameBackground');
         // Create and display platform
         platforms = game.add.group();
         platforms.enableBody = true;
-
+        
         // elevator
         this.elevator = platforms.create (32, 4000 - 14*32, 'platform2');
         this.elevator.body.immovable = true;
         this.elevator.scale.setTo(6, 1);
         this.elevator.body.allowGravity = false;
         this.elevator.body.velocity.y = 0;
-
+        
         // Create and display minions
         minions = game.add.group();
         minions.enableBody = true;
-
+        
         // Create and display tilemap
         this.map = game.add.tilemap('test');
         this.map.addTilesetImage('test', 'tileset')
         this.mapLayer = this.map.createLayer('Tile Layer 1');
         this.mapLayer.resizeWorld();
         this.map.setCollisionByExclusion([], true);
-
+        
         currentLevel = 1;
-
+        
         // Create and display minions
         minions = game.add.group();
         minions.enableBody = true;
-
+        
         // Create child
         this.child = new Child(game, 150, 4000 - 96);
         game.add.existing(this.child);
-
+        
         // Create the twin brother
         this.enemyy = new Enemyy(game, 200, 4000 - 96);
         game.add.existing(this.enemyy);
-
+        
         // Lock camera on child
         game.camera.x = 0; game.camera.y = 4000;
         game.camera.follow(this.child, 'FOLLOW_LOCKON', 0.1, 0.1);
-
+        
         game.add.image(0, 2200, "screenBlack");
         game.add.image(0, 1800, "screenBlack");
+        
+        var txt = game.add.text(855,575, 'Press [R] to reset', { fontSize: '16px', fill: '#fff' });
+        txt.alpha = 0.5;
+        // txt.font = "MedievalSharp";
+        txt.fixedToCamera = true;
 
         tutorialOne();
     },
     update: function() {
         soundManager(this); // BGM and narration manager
         tweenManager(this); // Tutorial texts manager
-
+        
         // End of level check
         if (this.child.x < 60 && this.child.y < 160) {
             game.state.start('GameOver');
@@ -143,13 +149,22 @@ Play.prototype = {
             }
         }
 
+        // Wait on elevator until narration has completed
         if (this.soundQueue == 1 && this.child.y < 2200 && this.nar.isPlaying) {
             console.log("waiting for sound to stop first");
             this.elevator.body.velocity.y = 0;
         }
 
+        // Play level 3 narration
         if (this.player != undefined && this.player.x > 3400 && this.player.x < 3402) {
             this.soundQueue = 3;
+        }
+
+        // Reset button checker
+        if (game.input.keyboard.justPressed(Phaser.KeyCode.R)) {
+            this.bgm.stop();
+            this.nar.stop();
+            game.state.start('MainMenu');
         }
 
     },

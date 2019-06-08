@@ -20,6 +20,9 @@ WebFontConfig = {
 var MainMenu = function(game) {};
 MainMenu.prototype = {
     preload: function() {
+        var loading = this.add.text(500,300, "Loading, please wait...", { fontSize: '32px', fill: '#fff' }); 
+        loading.anchor.setTo(0.5);
+
         game.load.path = 'assets/img/';
         
         game.load.tilemap('test','../maptest.json',null, Phaser.Tilemap.TILED_JSON);
@@ -63,6 +66,7 @@ MainMenu.prototype = {
         game.load.audio('stab'  , 'stab.mp3');
         
         console.log('Assets loaded');
+        // loading.destroy();
     },
     create: function() {
         video = game.add.video('menuBGM');
