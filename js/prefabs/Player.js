@@ -98,7 +98,7 @@ Player.prototype.fade = function() {
      if(this.x>3386.7&& this.trans == false &&playerCreated==true){
         this.trans = true;
         game.camera.fade('#000000');
-        setTimeout(function(){ game.camera.resetFX(); }, 2500);
+        setTimeout(function(){ game.camera.resetFX(); }, 3500);
     }
 }
 
