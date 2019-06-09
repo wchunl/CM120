@@ -1,9 +1,11 @@
 // Minion prefab
 
-function Minion(game, posx, posy, faceLeft) {
+function Minion(game, posx, posy, faceLeft, nbs) {
     this.faceLeft = faceLeft;
     this.posx = posx;
     this.posy = posy;
+
+    this.numButtons = nbs;
     
     // Create an instance of Phaser.Sprite
     Phaser.Sprite.call(this, game, posx, posy, 'twinDark');

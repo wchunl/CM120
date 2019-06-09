@@ -15,15 +15,18 @@ GameOver.prototype = {
     // game.add.text(16,56, 'Final Score: ' + this.score, { fontSize: '32px', fill: '#fff' });
         setTimeout(function(){ game.add.text(330,340, 'Press [Space] to Replay', { font: 'MedievalSharp', fontSize: '32px', fill: '#fff' });}, 4000);
         
+        this.audio = game.add.audio('nar3', 1, false);
+        this.audio.play();
     },
     update: function() {
         //stop playing all the audio
-        game.sound.stopAll();﻿
+        game.sound.stopAll();
         // Switch states if spacebar is pressed
         var spacebar = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         if(spacebar.isDown) {
             game.state.start('MainMenu');
         }
+
 
         //ADD "end"
         this.end = game.add.text(370, 260, "The end", {fill: '#6F4E37'});

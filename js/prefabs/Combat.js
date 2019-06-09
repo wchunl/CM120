@@ -4,17 +4,18 @@ var PLAYER_OFFSET_Y = 102; // The y offset of the button relative to the player
 var BUTTON_FADE_HEIGHT = 200; // The starting height of the button before fade in
 var BUTTON_STEP_SIZE = 0.13; // How fast the button moves and fades in [0 - 1]
 
-function Combat(game, playerObj, minionObj, numButtons) {
+function Combat(game, playerObj, minionObj) {
     // Variables
     this.player = playerObj;
     this.minion = minionObj;
-    this.numButtons = numButtons;
-    this.buttons = new Array(numButtons); // Array of all buttons
+    this.numButtons = this.minion.numButtons;
+    this.buttons = new Array(this.numButtons); // Array of all buttons
     this.activeButton; // The current button object the player should see
     this.buttonIdx = 0; // The current index of activeButton in buttons
     this.combatOver = false; // Whether the combat is over or not;
     this.playerAnim; // The current player animation object
     this.minionAnim; // The current minion animation object
+
     
     // Create an instance of Phaser.Sprite
     // Invisible prefab
@@ -22,7 +23,7 @@ function Combat(game, playerObj, minionObj, numButtons) {
     this.visible = false;
     
     // Generate the buttons
-    for (var i = 0; i < numButtons; i++) {
+    for (var i = 0; i < this.numButtons; i++) {
         var button = new Button(game, this.player.x - PLAYER_OFFSET_X,
                                       this.player.y - BUTTON_FADE_HEIGHT);
         // button.alpha = 0; // Make button transparent for now
@@ -82,7 +83,7 @@ Combat.prototype.nextButton = function () {
         this.activeButton.active = true; // Set it to active
     } else { // If no more buttons left, then combat is over
         // Create a new sprite at the same location to play the death animation
-        var deathSprite = new Minion(game, this.minion.x, this.minion.y-5, this.minion.faceLeft);
+        var deathSprite = new Minion(game, this.minion.x, this.minion.y, this.minion.faceLeft);
         this.minion.destroy(); // Destroy the actual minion
         deathSprite.animations.play('death'); // Play the death animation
         game.add.existing(deathSprite); // Add it to the game
