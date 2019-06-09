@@ -6,7 +6,7 @@ function Enemy(game, posx, posy) {
     Phaser.Sprite.call(this, game, posx, posy, 'twinDark');
     
     this.anchor.setTo(.5,.5);
-    this.scale.x *= -1;
+    this.scale.x = 1;
     
     // Physical Properties
     game.physics.enable(this);
