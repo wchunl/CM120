@@ -279,6 +279,42 @@ function generateMinion (){
     minions.add(new Minion(game, 90.5*n, 27*n, left)); // in front of cave
     minions.add(new Minion(game, 104.5*n, 27*n, left)); // the end of cave
 
-    // Level 3
+    // Level 3 Part I
+    minions.add(new Minion(game, 141.5*n,121*n, left));
+    minions.add(new Minion(game, 149.5*n,119*n, left));
+    minions.add(new Minion(game, 158.5*n,117*n, left));
 
+    minions.add(new Minion(game, 168*n,155*n, right));
+    minions.add(new Minion(game, 172*n,155*n, right));
+    minions.add(new Minion(game, 175*n,111*n, right));
+    minions.add(new Minion(game, 179*n,111*n, right));
+
+    minions.add(new Minion(game, 147.5*n,91*n, left));
+    minions.add(new Minion(game, 150.5*n,91*n, left));
+    minions.add(new Minion(game, 153.5*n,91*n, left));
+
+    minions.add(new Minion(game, 135.5*n,83*n, left));
+
+    minions.add(new Minion(game, 150.5*n,72*n, left));
+
+    minions.add(new Minion(game, 166*n,82*n, left));
+
+    minions.add(new Minion(game, 182*n,65*n, left));
+
+    // Level 3 Part II
+    minions.add(new Minion(game, 157.5*n,26*n, right));
+
+    minions.add(new Minion(game, 148.5*n,55*n, right));
+    minions.add(new Minion(game, 151.5*n,55*n, right));
+    minions.add(new Minion(game, 154.5*n,55*n, right));
+
+    minions.add(new Minion(game, 135.5*n,43*n, right));
+
+    minions.add(new Minion(game, 139.5*n,19*n, right));
+
+    minions.add(new Minion(game, 151.5*n,19*n, left));
+
+    minions.add(new Minion(game, 158.5*n,14*n, left));
+    minions.add(new Minion(game, 165.5*n,11*n, left));
+    minions.add(new Minion(game, 172.5*n,8*n, left));
 }
