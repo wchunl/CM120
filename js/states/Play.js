@@ -278,69 +278,69 @@ function generateMinion (){
     const right = false;
 
     // Level 2
-    minions.add(new Minion(game, 12*n, 38*n, left)); // ledge 1
-    minions.add(new Minion(game, 17*n, 33*n, left)); // ledge 2
-    minions.add(new Minion(game, 22*n, 27*n, left)); // ledge 3
-    minions.add(new Minion(game, 90.5*n, 27*n, left)); // in front of cave
-    minions.add(new Minion(game, 104.5*n, 27*n, left)); // the end of cave
+    minions.add(new Minion(game, 12*n, 38*n, left, 3, 3)); // ledge 1
+    minions.add(new Minion(game, 17*n, 33*n, left, 3, 3)); // ledge 2
+    minions.add(new Minion(game, 22*n, 27*n, left, 3, 3)); // ledge 3
+    minions.add(new Minion(game, 90.5*n, 27*n, left, 3)); // in front of cave
+    minions.add(new Minion(game, 104.5*n, 27*n, left, 3)); // the end of cave
 
     // on the bridge
-    minions.add(new Minion(game, 50.5*n, 27*n, left));
-    minions.add(new Minion(game, 60.5*n, 27*n, left));
-    minions.add(new Minion(game, 70.5*n, 27*n, left));
-    minions.add(new Minion(game, 80.5*n, 27*n, left));
+    minions.add(new Minion(game, 50.5*n, 27*n, left, 3));
+    minions.add(new Minion(game, 60.5*n, 27*n, left, 3));
+    minions.add(new Minion(game, 70.5*n, 27*n, left, 3));
+    minions.add(new Minion(game, 80.5*n, 27*n, left, 3));
 
     // Level 3 Part I
-    minions.add(new Minion(game, 141.5*n,121*n, left));
-    minions.add(new Minion(game, 149.5*n,119*n, left));
-    minions.add(new Minion(game, 158.5*n,117*n, left));
+    minions.add(new Minion(game, 141.5*n,121*n, left, 3));
+    minions.add(new Minion(game, 149.5*n,119*n, left, 3));
+    minions.add(new Minion(game, 158.5*n,117*n, left, 3));
 
-    minions.add(new Minion(game, 167*n,155*n, right));
-    minions.add(new Minion(game, 176*n,111*n, right));
-    minions.add(new Minion(game, 180*n,111*n, right));
+    minions.add(new Minion(game, 167*n,155*n, right, 3));
+    minions.add(new Minion(game, 176*n,111*n, right, 3));
+    minions.add(new Minion(game, 180*n,111*n, right, 3));
 
-    minions.add(new Minion(game, 173*n,98*n, left));
+    minions.add(new Minion(game, 173*n,98*n, left, 3));
 
-    minions.add(new Minion(game, 164.5*n,93*n, right));
+    minions.add(new Minion(game, 164.5*n,93*n, right, 3));
 
-    minions.add(new Minion(game, 157.5*n,89*n, right));
+    minions.add(new Minion(game, 157.5*n,89*n, right, 3));
 
-    minions.add(new Minion(game, 148.5*n,83*n, right));
+    minions.add(new Minion(game, 148.5*n,83*n, right, 3));
 
-    minions.add(new Minion(game, 147.5*n,91*n, left));
-    minions.add(new Minion(game, 150.5*n,91*n, left));
-    minions.add(new Minion(game, 153.5*n,91*n, left));
+    minions.add(new Minion(game, 147.5*n,91*n, left, 3));
+    minions.add(new Minion(game, 150.5*n,91*n, left, 3));
+    minions.add(new Minion(game, 153.5*n,91*n, left, 3));
 
-    minions.add(new Minion(game, 136.5*n,83*n, right));
+    minions.add(new Minion(game, 136.5*n,83*n, right, 3));
 
-    minions.add(new Minion(game, 139.5*n,76*n, left));
-    minions.add(new Minion(game, 150.5*n,72*n, left));
+    minions.add(new Minion(game, 139.5*n,76*n, left, 3));
+    minions.add(new Minion(game, 150.5*n,72*n, left, 3));
 
-    minions.add(new Minion(game, 166*n,82*n, left));
+    minions.add(new Minion(game, 166*n,82*n, left, 3));
 
-    minions.add(new Minion(game, 182*n,65*n, left));
+    minions.add(new Minion(game, 182*n,65*n, left, 3));
 
     // Level 3 Part II
-    minions.add(new Minion(game, 158.5*n,26*n, right));
+    minions.add(new Minion(game, 158.5*n,26*n, right, 3));
 
-    minions.add(new Minion(game, 149.5*n,55*n, right));
-    minions.add(new Minion(game, 152.5*n,55*n, right));
-    minions.add(new Minion(game, 155.5*n,55*n, right));
+    minions.add(new Minion(game, 149.5*n,55*n, right, 3));
+    minions.add(new Minion(game, 152.5*n,55*n, right, 3));
+    minions.add(new Minion(game, 155.5*n,55*n, right, 3));
 
-    minions.add(new Minion(game, 136.5*n,43*n, right));
+    minions.add(new Minion(game, 136.5*n,43*n, right, 3));
 
-    minions.add(new Minion(game, 140.5*n,25*n, right));
-    minions.add(new Minion(game, 140.5*n,19*n, right));
+    minions.add(new Minion(game, 140.5*n,25*n, right, 3));
+    minions.add(new Minion(game, 140.5*n,19*n, right, 3));
 
-    minions.add(new Minion(game, 151.5*n,19*n, left));
+    minions.add(new Minion(game, 151.5*n,19*n, left, 3));
 
-    minions.add(new Minion(game, 158.5*n,14*n, left));
-    minions.add(new Minion(game, 165.5*n,11*n, left));
-    minions.add(new Minion(game, 172.5*n,8*n, left));
+    minions.add(new Minion(game, 158.5*n,14*n, left, 3));
+    minions.add(new Minion(game, 165.5*n,11*n, left, 3));
+    minions.add(new Minion(game, 172.5*n,8*n, left, 3));
 
     this.enemy = new Enemy(game,184*n,5*n);
     game.add.existing(this.enemy);
     minions.add(this.enemy);
   
-    // final boss at (game, 184*n, 5*n, left)
+    // final boss at (game, 184*n, 5*n, left, 3)
 }

@@ -88,7 +88,7 @@ Player.prototype.combatManager = function() {
 Player.prototype.createCombat = function(player, enemy) {
     if (!player.inCombat){ // Runs once
         // this.moveable = false;
-        player.combat = new Combat(game, player, enemy, 3);
+        player.combat = new Combat(game, player, enemy);
         game.add.existing(player.combat);
         player.inCombat = true;
     }
