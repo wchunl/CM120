@@ -153,12 +153,17 @@ Play.prototype = {
         }
 
         // end level 2 & start level 3
+        let soundTransition = false;
         if (this.player != undefined && currentLevel === 2 && this.player.x > 32 * 106 && this.player.y > 32 * 29) {
             console.log('Level 2 Completed!');
             currentLevel = 3;
 
+            soundTransition = true; // trigger sound transition
+        }
+        if (this.soundQueue === 2 && !this.nar.isPlaying && soundTransition === true) {
             this.soundQueue = 3;    // Play level 3 narration
         }
+
 
         // Reset button checker
         if (game.input.keyboard.justPressed(Phaser.KeyCode.R)) {
@@ -332,4 +337,6 @@ function generateMinion (){
     minions.add(new Minion(game, 158.5*n,14*n, left));
     minions.add(new Minion(game, 165.5*n,11*n, left));
     minions.add(new Minion(game, 172.5*n,8*n, left));
+
+    // final boss at (game, 184*n, 5*n, left)
 }
