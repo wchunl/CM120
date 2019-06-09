@@ -1,6 +1,7 @@
 // Play State object
 var tween;
 var currentLevel = 0;
+var playerCreated = false;
 // var tutorial2 = false;
 
 var Play = function(game) {
@@ -119,16 +120,19 @@ Play.prototype = {
         if (this.child.y < 2200) {
             this.elevator.body.velocity.y = -200;
         }
+        //transition 1 
         if(this.elevator.y < 1900 && this.elevator.y > 1898){
            //change character
-           this.player = new Player(game, this.child.x, this.child.y - 10);
-           this.child.destroy();
+           this.player = new Player(game, this.child.x, this.child.y);
            game.add.existing(this.player);
-           game.camera.follow(this.player,0.1, 0.1);
+           playerCreated = true;
            game.add.image(0, 1800, "screenBlack");
+    //       game.camera.follow(this.player,0.1, 0.1);
+           game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05);
+           this.child.destroy();
            tutorialTwo();
-
         }
+
         if (this.elevator.y <= 4256 - 32*80) {
             this.elevator.body.velocity.y = -128;
             if (this.elevator.y <= 4128 - 32*80) {
@@ -149,12 +153,17 @@ Play.prototype = {
         }
 
         // end level 2 & start level 3
+        let soundTransition = false;
         if (this.player != undefined && currentLevel === 2 && this.player.x > 32 * 106 && this.player.y > 32 * 29) {
             console.log('Level 2 Completed!');
             currentLevel = 3;
 
+            soundTransition = true; // trigger sound transition
+        }
+        if (this.soundQueue === 2 && !this.nar.isPlaying && soundTransition === true) {
             this.soundQueue = 3;    // Play level 3 narration
         }
+
 
         // Reset button checker
         if (game.input.keyboard.justPressed(Phaser.KeyCode.R)) {
@@ -221,14 +230,16 @@ function tweenManager(main) {
     //     main.child.jumpAble = true;
     // }
 
-    //test for end of game
-    if (main.child.x >200 && main.end ==false){
-        game.camera.fade('#000000');
-        main.bgm.stop();
-        main.nar.stop();
-        main.end = true;
-        setTimeout(function(){ game.state.start('GameOver'); }, 2000);
-    }
+    // //test for end of game
+    // if (main.child.x >200 && main.end ==false){
+    //     game.camera.fade('#000000');
+    //     main.bgm.stop();
+    //     main.nar.stop();
+    //     main.end = true;
+    //     setTimeout(function(){ game.state.start('GameOver'); }, 2000);
+    // }
+
+    
 }
 
 function soundManager(main) {
@@ -273,6 +284,63 @@ function generateMinion (){
     minions.add(new Minion(game, 90.5*n, 27*n, left)); // in front of cave
     minions.add(new Minion(game, 104.5*n, 27*n, left)); // the end of cave
 
-    // Level 3
+    // on the bridge
+    minions.add(new Minion(game, 50.5*n, 27*n, left));
+    minions.add(new Minion(game, 60.5*n, 27*n, left));
+    minions.add(new Minion(game, 70.5*n, 27*n, left));
+    minions.add(new Minion(game, 80.5*n, 27*n, left));
 
+    // Level 3 Part I
+    minions.add(new Minion(game, 141.5*n,121*n, left));
+    minions.add(new Minion(game, 149.5*n,119*n, left));
+    minions.add(new Minion(game, 158.5*n,117*n, left));
+
+    minions.add(new Minion(game, 167*n,155*n, right));
+    minions.add(new Minion(game, 176*n,111*n, right));
+    minions.add(new Minion(game, 180*n,111*n, right));
+
+    minions.add(new Minion(game, 173*n,98*n, left));
+
+    minions.add(new Minion(game, 164.5*n,93*n, right));
+
+    minions.add(new Minion(game, 157.5*n,89*n, right));
+
+    minions.add(new Minion(game, 148.5*n,83*n, right));
+
+    minions.add(new Minion(game, 147.5*n,91*n, left));
+    minions.add(new Minion(game, 150.5*n,91*n, left));
+    minions.add(new Minion(game, 153.5*n,91*n, left));
+
+    minions.add(new Minion(game, 136.5*n,83*n, right));
+
+    minions.add(new Minion(game, 139.5*n,76*n, left));
+    minions.add(new Minion(game, 150.5*n,72*n, left));
+
+    minions.add(new Minion(game, 166*n,82*n, left));
+
+    minions.add(new Minion(game, 182*n,65*n, left));
+
+    // Level 3 Part II
+    minions.add(new Minion(game, 158.5*n,26*n, right));
+
+    minions.add(new Minion(game, 149.5*n,55*n, right));
+    minions.add(new Minion(game, 152.5*n,55*n, right));
+    minions.add(new Minion(game, 155.5*n,55*n, right));
+
+    minions.add(new Minion(game, 136.5*n,43*n, right));
+
+    minions.add(new Minion(game, 140.5*n,25*n, right));
+    minions.add(new Minion(game, 140.5*n,19*n, right));
+
+    minions.add(new Minion(game, 151.5*n,19*n, left));
+
+    minions.add(new Minion(game, 158.5*n,14*n, left));
+    minions.add(new Minion(game, 165.5*n,11*n, left));
+    minions.add(new Minion(game, 172.5*n,8*n, left));
+
+    this.enemy = new Enemy(game,184*n,5*n);
+    game.add.existing(this.enemy);
+    minions.add(this.enemy);
+  
+    // final boss at (game, 184*n, 5*n, left)
 }
