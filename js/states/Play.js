@@ -221,14 +221,14 @@ function tweenManager(main) {
     //     main.child.jumpAble = true;
     // }
 
-    // //test for end of game
-    // if (main.child.x >200 && main.end ==false){
-    //     game.camera.fade('#000000');
-    //     main.bgm.stop();
-    //     main.nar.stop();
-    //     main.end = true;
-    //     setTimeout(function(){ game.state.start('GameOver'); }, 2000);
-    // }
+    //test for end of game
+    if (main.child.x >200 && main.end ==false){
+        game.camera.fade('#000000');
+        main.bgm.stop();
+        main.nar.stop();
+        main.end = true;
+        setTimeout(function(){ game.state.start('GameOver'); }, 2000);
+    }
 }
 
 function soundManager(main) {
