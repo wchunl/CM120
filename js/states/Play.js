@@ -82,12 +82,12 @@ Play.prototype = {
 
         tutorialOne();
 
-        this.player = new Player(game,160,4000-96);
-        game.add.existing(this.player);
+        // this.player = new Player(game,160,4000-96);
+        // game.add.existing(this.player);
 
-        this.enemy = new Enemy(game,200,4000-110,3);
-        game.add.existing(this.enemy);
-        minions.add(this.enemy);
+        // this.enemy = new Enemy(game,200,4000-110,3);
+        // game.add.existing(this.enemy);
+        // minions.add(this.enemy);
     },
     update: function() {
         soundManager(this); // BGM and narration manager
@@ -247,6 +247,7 @@ function tweenManager(main) {
 
 function soundManager(main) {
 
+
     if (main.soundQueue == 0) {
         main.soundQueue = 1;
         main.bgm = game.add.audio("lvl1_bgm", 1, true);
@@ -274,11 +275,16 @@ function soundManager(main) {
         main.bgm.play();
     }
 
-    // final audio
-    if (this.player != undefined){
-        if(this.player.combat.combatOver==true && this.y<161){
-       //play nar 4 maybe ?
 
+    // final audio
+    if (main.player.combat != undefined){
+        if(main.player.combat.combatOver==true && main.player.y<165&& main.end ==false){
+            main.bgm.stop();
+            main.nar.stop();
+            //play nar 3
+            main.nar = game.add.audio("nar3",2,false);
+            setTimeout(function(){ main.nar.play();}, 500);
+            main.end = true;
         }
     }
     

@@ -86,7 +86,7 @@ Player.prototype.combatManager = function() {
     }
     //wait for nar4 and go to end state after the final battle
     if(this.combat !=undefined){
-        if(this.combat.combatOver==true && this.y<161){
+        if(this.combat.combatOver==true && this.y<165){
             setTimeout(function(){ game.state.start('GameOver')},57000);
         }
     } 
