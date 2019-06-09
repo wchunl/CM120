@@ -296,9 +296,9 @@ function generateMinion (){
 
     minions.add(new Minion(game, 173*n,98*n, left));
 
-    minions.add(new Minion(game, 164*n,93*n, right));
+    minions.add(new Minion(game, 164.5*n,93*n, right));
 
-    minions.add(new Minion(game, 157*n,89*n, right));
+    minions.add(new Minion(game, 157.5*n,89*n, right));
 
     minions.add(new Minion(game, 148.5*n,83*n, right));
 
