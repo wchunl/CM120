@@ -20,7 +20,7 @@ GameOver.prototype = {
         // Switch states if spacebar is pressed
         var spacebar = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         if(spacebar.isDown) {
-            game.state.start('Play');
+            game.state.start('MainMenu');
         }
 
         //ADD "end"

@@ -1,6 +1,7 @@
 // Play State object
 var tween;
 var currentLevel = 0;
+var playerCreated = false;
 // var tutorial2 = false;
 
 var Play = function(game) {
@@ -119,16 +120,19 @@ Play.prototype = {
         if (this.child.y < 2200) {
             this.elevator.body.velocity.y = -200;
         }
+        //transition 1 
         if(this.elevator.y < 1900 && this.elevator.y > 1898){
            //change character
-           this.player = new Player(game, this.child.x, this.child.y - 10);
-           this.child.destroy();
+           this.player = new Player(game, this.child.x, this.child.y);
            game.add.existing(this.player);
-           game.camera.follow(this.player,0.1, 0.1);
+           playerCreated = true;
            game.add.image(0, 1800, "screenBlack");
+    //       game.camera.follow(this.player,0.1, 0.1);
+           game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.05, 0.05);
+           this.child.destroy();
            tutorialTwo();
-
         }
+
         if (this.elevator.y <= 4256 - 32*80) {
             this.elevator.body.velocity.y = -128;
             if (this.elevator.y <= 4128 - 32*80) {
@@ -229,6 +233,8 @@ function tweenManager(main) {
     //     main.end = true;
     //     setTimeout(function(){ game.state.start('GameOver'); }, 2000);
     // }
+
+    
 }
 
 function soundManager(main) {

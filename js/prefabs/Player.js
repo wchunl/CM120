@@ -28,6 +28,7 @@ function Player(game, posx, posy) {
     this.inCombat = false; // currently in combat?
     this.combat; // The current combat object, if any
     this.jumpAble = true; // should the player be able to move jump now?
+    this.trans = false;
 
     // Health
     this.health = 6; // Health variable, 6 = six half hearts (3 full hearts)
@@ -50,6 +51,9 @@ Player.prototype.update = function () {
     this.body.velocity.x = 0;
     this.healthManager();    // Health Manager
     this.combatManager();    // Combat Manager
+    this.fade();
+
+   
 }
 
 Player.prototype.healthManager = function() {
@@ -90,6 +94,13 @@ Player.prototype.createCombat = function(player, enemy) {
     }
 }
 
+Player.prototype.fade = function() {
+     if(this.x>3386.7&& this.trans == false &&playerCreated==true){
+        this.trans = true;
+        game.camera.fade('#000000');
+        setTimeout(function(){ game.camera.resetFX(); }, 6000);
+    }
+}
 
 // Movement manager
 Player.prototype.movementManager = function() {
