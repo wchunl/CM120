@@ -65,6 +65,8 @@ Player.prototype.healthManager = function() {
         case 2: this.h2.frame = 1; break; // heart 2 = empty heart
         case 1: this.h1.frame = 2; break; // heart 1 = half heart
         case 0: game.state.start('GameOver', true, false);
+        //setTimeout(function(){ game.state.start('GameOver', true, false); }, 1000);
+    
          break; // player is dead
         default: // nothing happens
     }
