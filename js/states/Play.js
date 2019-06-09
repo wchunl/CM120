@@ -160,12 +160,11 @@ Play.prototype = {
         }
 
         // end level 2 & start level 3
-        let soundTransition = false;
         if (this.player != undefined && currentLevel === 2 && this.player.x > 32 * 106 && this.player.y > 32 * 29) {
             console.log('Level 2 Completed!');
             currentLevel = 3;
         }
-        if (this.soundQueue === 2 && !this.nar.isPlaying) {
+        if ((currentLevel === 2 || currentLevel === 3) && !this.nar.isPlaying) {
             this.soundQueue = 3;    // Play level 3 narration
         }
 
