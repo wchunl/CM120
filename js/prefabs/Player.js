@@ -64,7 +64,8 @@ Player.prototype.healthManager = function() {
         case 3: this.h2.frame = 2; break; // heart 2 = half heart
         case 2: this.h2.frame = 1; break; // heart 2 = empty heart
         case 1: this.h1.frame = 2; break; // heart 1 = half heart
-        case 0: game.state.start('GameOver', true, false); break; // player is dead
+        case 0: game.state.start('GameOver', true, false);
+         break; // player is dead
         default: // nothing happens
     }
 };
@@ -75,7 +76,6 @@ Player.prototype.combatManager = function() {
     if (!game.physics.arcade.overlap(this, minions, this.createCombat)) {
         this.movementManager();
     }
-
 
     if (this.inCombat && this.combat.combatOver) {
         console.log('destroying combat');
@@ -98,7 +98,7 @@ Player.prototype.fade = function() {
      if(this.x>3386.7&& this.trans == false &&playerCreated==true){
         this.trans = true;
         game.camera.fade('#000000');
-        setTimeout(function(){ game.camera.resetFX(); }, 6000);
+        setTimeout(function(){ game.camera.resetFX(); }, 2500);
     }
 }
 

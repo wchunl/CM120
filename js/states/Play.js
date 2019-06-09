@@ -338,5 +338,7 @@ function generateMinion (){
     minions.add(new Minion(game, 165.5*n,11*n, left));
     minions.add(new Minion(game, 172.5*n,8*n, left));
 
+    this.enemy = new Enemy(game,184*n,5*n);
+    game.add.existing(this.enemy);
     // final boss at (game, 184*n, 5*n, left)
 }

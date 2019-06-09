@@ -17,6 +17,8 @@ GameOver.prototype = {
         
     },
     update: function() {
+        //stop playing all the audio
+        game.sound.stopAll();﻿
         // Switch states if spacebar is pressed
         var spacebar = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         if(spacebar.isDown) {
