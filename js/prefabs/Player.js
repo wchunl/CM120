@@ -82,9 +82,14 @@ Player.prototype.combatManager = function() {
     if (this.inCombat && this.combat.combatOver) {
         console.log('destroying combat');
         this.inCombat = false;
-        // this.moveable = true;
         this.combat.destroy();
     }
+    //wait for nar4 and go to end state after the final battle
+    if(this.combat !=undefined){
+        if(this.combat.combatOver==true && this.y<161){
+            setTimeout(function(){ game.state.start('GameOver')},57000);
+        }
+    } 
 }
 
 Player.prototype.createCombat = function(player, enemy) {

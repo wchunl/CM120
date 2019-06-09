@@ -81,6 +81,13 @@ Play.prototype = {
         txt.fixedToCamera = true;
 
         tutorialOne();
+
+        this.player = new Player(game,160,4000-96);
+        game.add.existing(this.player);
+
+        this.enemy = new Enemy(game,200,4000-110,3);
+        game.add.existing(this.enemy);
+        minions.add(this.enemy);
     },
     update: function() {
         soundManager(this); // BGM and narration manager
@@ -267,6 +274,15 @@ function soundManager(main) {
         main.bgm = game.add.audio("lvl3_bgm", 0.25, true);
         main.bgm.play();
     }
+
+    // final audio
+    if (this.player != undefined){
+        if(this.player.combat.combatOver==true && this.y<161){
+       //play nar 4 maybe ?
+
+        }
+    }
+    
 }
 
 function generateMinion (){
@@ -335,7 +351,7 @@ function generateMinion (){
     minions.add(new Minion(game, 165.5*n,11*n, left, 3));
     minions.add(new Minion(game, 172.5*n,8*n, left, 3));
 
-    this.enemy = new Enemy(game,184*n,5*n);
+    this.enemy = new Enemy(game,184*n,5*n,10);
     game.add.existing(this.enemy);
     minions.add(this.enemy);
   
