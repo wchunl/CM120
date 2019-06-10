@@ -7,6 +7,7 @@ GameOver.prototype = {
     preload: function() {
         console.log('In GameOver');
         this.end = null;
+        game.load.audio('death', ['death.mp3']);
         // preload
     },
     create: function() {
@@ -17,6 +18,9 @@ GameOver.prototype = {
         
         this.audio = game.add.audio('nar3', 1, false);
         this.audio.play();
+
+        this.bgm = game.add.audio("endMusic", 1, false);
+        this.bgm.play();
     },
     update: function() {
         //stop playing all the audio
