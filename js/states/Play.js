@@ -163,6 +163,7 @@ Play.prototype = {
         if (this.player != undefined && currentLevel === 2 && this.player.x > 32 * 106 && this.player.y > 32 * 29) {
             console.log('Level 2 Completed!');
             currentLevel = 3;
+
         }
         //if ((currentLevel === 2 || currentLevel === 3) && !this.nar.isPlaying) {
         //    this.soundQueue = 3;    // Play level 3 narration
@@ -268,7 +269,8 @@ function soundManager(main) {
             main.nar.play();
     }
 
-    if (main.soundQueue == 3) {
+    //if (main.soundQueue == 3) {
+    if (currentLevel === 3) {
         main.soundQueue = 4;
         main.bgm.stop();
         main.bgm = game.add.audio("lvl3_bgm", 0.25, true);
