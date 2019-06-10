@@ -12,12 +12,11 @@ GameOver.prototype = {
         // preload
     },
     create: function() {
+        game.sound.stopAll();
         // Display Game Over text
-   //     game.add.text(16,16, 'Game Over!', { fontSize: '32px', fill: '#fff' });
-    // game.add.text(16,56, 'Final Score: ' + this.score, { fontSize: '32px', fill: '#fff' });
         setTimeout(function(){ game.add.text(330,340, 'Press [Space] to Replay', { font: 'MedievalSharp', fontSize: '32px', fill: '#fff' });}, 4000);
         
-        
+
         this.bgm = game.add.audio('endMusic', 1, false);
         this.bgm.play();
     },
