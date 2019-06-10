@@ -19,7 +19,7 @@ GameOver.prototype = {
         this.audio = game.add.audio('nar3', 1, false);
         this.audio.play();
 
-        this.audio = game.add.audio("endMusic", 1, false);
+        this.audio = game.add.audio('endMusic', 1, false);
         this.audio.play();
     },
     update: function() {
