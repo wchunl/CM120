@@ -139,6 +139,8 @@ function sourcesPressed() {
     addSource("Male Death 1.ogg, from scorpion67890 (https://freesound.org/people/scorpion67890/)", 4);
     addSource("8-bit Hurt1.aif from timgormly (https://freesound.org/people/timgormly/)", 5);
     addSource("Stab, Metal Knife in Lettuce A.wav, from InspectorJ (https://freesound.org/people/InspectorJ/)", 6);
+    addSource("Background (https://www.pexels.com/photo/abstract-ancient-antique-art-235985/)", 7);
+    addSource("Character (https://assetstore.unity.com/packages/2d/characters/pixel-art-bandit-pack-104130)", 8);
 }
 
 function addSource(text, line_nr) {

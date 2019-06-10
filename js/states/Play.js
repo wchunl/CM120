@@ -160,7 +160,7 @@ Play.prototype = {
         }
 
         // end level 2 & start level 3
-        if (this.player != undefined && currentLevel === 2 && this.player.x > 32 * 106 && this.player.y > 32 * 29) {
+        if (this.player != undefined && currentLevel === 2 && this.player.x > 32 * 104 && this.player.y > 32 * 112) {
             console.log('Level 2 Completed!');
             currentLevel = 3;
         }
