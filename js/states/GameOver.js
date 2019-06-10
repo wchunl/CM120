@@ -7,8 +7,8 @@ GameOver.prototype = {
     preload: function() {
         console.log('In GameOver');
         this.end = null;
-        game.load.audio('death', ['death.mp3']);
-        game.load.audio('endMusic', ['Game Over Music.mp3']);
+        // game.load.audio('death', ['death.mp3']);
+        // game.load.audio('endMusic', ['Game Over Music.mp3']);
         // preload
     },
     create: function() {
@@ -17,19 +17,17 @@ GameOver.prototype = {
     // game.add.text(16,56, 'Final Score: ' + this.score, { fontSize: '32px', fill: '#fff' });
         setTimeout(function(){ game.add.text(330,340, 'Press [Space] to Replay', { font: 'MedievalSharp', fontSize: '32px', fill: '#fff' });}, 4000);
         
-        this.audio = game.add.audio('nar3', 1, false);
-        this.audio.play();
-
-        this.audio = game.add.audio('endMusic', 1, false);
-        this.audio.play();
+        
+        this.bgm = game.add.audio('endMusic', 1, false);
+        this.bgm.play();
     },
     update: function() {
         //stop playing all the audio
-        game.sound.stopAll();
         // Switch states if spacebar is pressed
         var spacebar = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
         if(spacebar.isDown) {
             game.state.start('MainMenu');
+            game.sound.stopAll();
         }
 
 

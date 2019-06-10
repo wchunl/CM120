@@ -54,6 +54,8 @@ MainMenu.prototype = {
         game.load.audio('lvl1_bgm'      , 'part1music.mp3');
         game.load.audio('lvl2_bgm'      , 'part2music.mp3');
         game.load.audio('lvl3_bgm'      , 'part3music.mp3');
+        game.load.audio('lvl3_bgm'      , 'part3music.mp3');
+        game.load.audio('endMusic'       , 'Game Over Music.mp3');
 
         // Narrations
         game.load.audio('nar1', 'nar1.mp3');
