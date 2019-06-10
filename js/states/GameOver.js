@@ -8,6 +8,7 @@ GameOver.prototype = {
         console.log('In GameOver');
         this.end = null;
         game.load.audio('death', ['death.mp3']);
+        game.load.audio('endMusic'      , 'Game Over Music.mp3');
         // preload
     },
     create: function() {
