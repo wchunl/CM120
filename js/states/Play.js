@@ -270,7 +270,7 @@ function soundManager(main) {
     }
 
     //if (main.soundQueue == 3) {
-    if (currentLevel === 3) {
+    if (currentLevel === 3 && main.soundQueue == 2) {
         main.soundQueue = 4;
         main.bgm.stop();
         main.bgm = game.add.audio("lvl3_bgm", 0.25, true);
