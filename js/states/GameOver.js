@@ -19,8 +19,8 @@ GameOver.prototype = {
         this.audio = game.add.audio('nar3', 1, false);
         this.audio.play();
 
-        this.bgm = game.add.audio("endMusic", 1, false);
-        this.bgm.play();
+        this.audio = game.add.audio("endMusic", 1, false);
+        this.audio.play();
     },
     update: function() {
         //stop playing all the audio
