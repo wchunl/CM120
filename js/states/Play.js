@@ -277,16 +277,18 @@ function soundManager(main) {
 
 
     // final audio
-    if (main.player.combat != undefined){
-        if(main.player.combat.combatOver==true && main.player.y<165&& main.end ==false){
-            main.bgm.stop();
-            main.nar.stop();
-            //play nar 3
-            main.nar = game.add.audio("nar3",2,false);
-            setTimeout(function(){ main.nar.play();}, 500);
-            main.end = true;
+    if(main.player!=undefined){
+        if (main.player.combat != undefined){
+            if(main.player.combat.combatOver==true && main.player.y<165&& main.end ==false){
+                main.bgm.stop();
+                main.nar.stop();
+                //play nar 3
+                main.nar = game.add.audio("nar3",2,false);
+                setTimeout(function(){ main.nar.play();}, 500);
+                main.end = true;
+            }
         }
-    }
+   }
     
 }
 
